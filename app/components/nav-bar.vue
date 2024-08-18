@@ -1,6 +1,7 @@
 <script setup lang="ts">
   const router = useRouter()
-  console.log(router.getRoutes())
+  const routes = router.getRoutes()
+  console.log(routes)
 </script>
 
 <template>
