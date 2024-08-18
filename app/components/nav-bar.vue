@@ -10,18 +10,17 @@
 
 <template>
   <nav class="flex justify-end space-x-2 mx-3">
-    <ULink
-      active-class="font-semibold"
-      class="hover:underline"
-      to="/"
-      >Home</ULink
+    <template
+      v-for="item in navBarItems"
+      :key="item.path"
     >
-    <div>|</div>
-    <ULink
-      class="hover:underline"
-      active-class="font-semibold"
-      to="/about"
-      >About</ULink
-    >
+      <ULink
+        active-class="font-semibold"
+        class="hover:underline"
+        :to="item.path"
+        >{{ item.meta.title }}</ULink
+      >
+      <div>|</div>
+    </template>
   </nav>
 </template>
