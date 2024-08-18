@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  definePageMeta({
+    showInNavBar: false,
+    requiresAuth: false,
+    title: '404 - Not Found',
+    layout: 'no-nav',
+  })
+</script>
 
 <template>
   <div class="flex flex-col items-center justify-center h-screen">
