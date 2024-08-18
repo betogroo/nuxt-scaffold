@@ -3,6 +3,7 @@
     showInNavBar: true,
     requiresAuth: true,
     title: 'Home',
+    order: 0,
   })
 </script>
 
