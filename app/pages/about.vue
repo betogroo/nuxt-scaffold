@@ -1,6 +1,6 @@
 <script setup lang="ts">
   definePageMeta({
-    showInNavBar: true,
+    //showInNavBar: true,
     requiresAuth: true,
     title: 'About',
   })

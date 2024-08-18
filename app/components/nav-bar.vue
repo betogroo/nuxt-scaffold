@@ -1,7 +1,11 @@
 <script setup lang="ts">
   const router = useRouter()
   const routes = router.getRoutes()
-  console.log(routes)
+
+  const navBarItems = routes.filter(
+    (item) => item.meta && item.meta.showInNavBar,
+  )
+  console.log(navBarItems)
 </script>
 
 <template>
