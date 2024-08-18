@@ -45,5 +45,6 @@ export default withNuxt({
         },
       },
     ],
+    'no-multiple-template-root': 'warn',
   },
 })
