@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const router = useRouter()
+  console.log(router.getRoutes())
+</script>
 
 <template>
   <nav class="flex justify-end space-x-2 mx-3">
