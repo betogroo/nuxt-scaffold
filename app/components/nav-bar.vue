@@ -11,7 +11,7 @@
 <template>
   <nav class="flex justify-end space-x-2 mx-3">
     <template
-      v-for="item in navBarItems"
+      v-for="(item, i) in navBarItems"
       :key="item.path"
     >
       <ULink
@@ -20,7 +20,7 @@
         :to="item.path"
         >{{ item.meta.title }}</ULink
       >
-      <div>|</div>
+      <div v-if="i < navBarItems.length - 1">|</div>
     </template>
   </nav>
 </template>
