@@ -45,6 +45,6 @@ export default withNuxt({
         },
       },
     ],
-    'no-multiple-template-root': 'warn',
+    'vue/no-multiple-template-root': 'off',
   },
 })
