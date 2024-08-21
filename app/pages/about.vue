@@ -1,18 +1,39 @@
 <script setup lang="ts">
+  import { useCounterStore } from '~/store/useCounterStore'
   definePageMeta({
     showInNavBar: true,
     requiresAuth: true,
     title: 'About',
     order: 1,
   })
+
+  const store = useCounterStore()
 </script>
 
 <template>
-  <h1 class="font-semibold text-3xl my-4">About</h1>
-  <p class="text-justify">
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta recusandae
-    atque ratione magnam, deleniti distinctio expedita, dolorum ab explicabo eum
-    ut reprehenderit quaerat consequuntur animi sunt, odio laboriosam
-    temporibus! Sint!
-  </p>
+  <section>
+    <h1 class="font-semibold text-3xl my-4">About</h1>
+    <p class="text-justify">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta recusandae
+      atque ratione magnam, deleniti distinctio expedita, dolorum ab explicabo
+      eum ut reprehenderit quaerat consequuntur animi sunt, odio laboriosam
+      temporibus! Sint!
+    </p>
+  </section>
+  <UDivider class="my-6" />
+  <section>
+    <h1>Pinia Test</h1>
+    <p class="text-justify">
+      Caso possa ver o número
+      <span class="text-2xl font-semibold">{{ store.displayNumber }}</span>
+      significa que o Pinia está funcionando, já que manteve o valor mesmo
+      trocando de página. Retorne para o
+      <ULink
+        class="hover:underline font-semibold"
+        to="modules/counter"
+        >/contador</ULink
+      >
+      e confirme se éo mesmo número.
+    </p>
+  </section>
 </template>
