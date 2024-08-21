@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import useCounter from '~/composable/useCounter'
+  import { useCounterStore } from '~/store/useCounterStore'
 
   definePageMeta({
     showInNavBar: true,
@@ -8,7 +8,9 @@
     order: 2,
   })
 
-  const { displayNumber, plus, minus, reset, disabled } = useCounter()
+  const store = useCounterStore()
+  const { displayNumber, isDisabled } = storeToRefs(store)
+  const { increaseValue, decreaseValue } = store
 </script>
 
 <template>
@@ -19,27 +21,28 @@
       <div class="mx-auto text-8xl">{{ displayNumber }}</div>
       <div class="flex justify-between space-x-3 m-6">
         <UButton
-          :color="disabled ? 'gray' : 'red'"
-          :disabled="disabled"
+          :color="isDisabled ? 'gray' : 'red'"
+          :disabled="isDisabled"
           icon="i-heroicons:minus-16-solid"
           size="xl"
           square
           variant="solid"
-          @click="minus"
+          @click="decreaseValue"
         />
         <UButton
           icon="i-heroicons:plus-16-solid"
           size="xl"
           square
           variant="outline"
-          @click="plus"
+          @click="increaseValue"
         />
       </div>
       <div class="flex flex-col w-full px-2">
         <UButton
           block
           color="red"
-          @click="reset"
+          :disabled="isDisabled"
+          @click="store.$reset"
           >Reset</UButton
         >
         <div class="mt-4">
