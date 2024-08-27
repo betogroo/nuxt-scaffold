@@ -22,7 +22,7 @@
 <template>
   <section>
     <h1 class="page-title">About</h1>
-    <p class="text-justify">
+    <p>
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta recusandae
       atque ratione magnam, deleniti distinctio expedita, dolorum ab explicabo
       eum ut reprehenderit quaerat consequuntur animi sunt, odio laboriosam
@@ -32,9 +32,13 @@
   <UDivider class="my-6" />
   <section>
     <h1 class="page-title">Pinia Test</h1>
-    <p class="text-justify">
+    <p>
       Caso possa ver o número
-      <span class="text-2xl font-semibold">{{ store.displayNumber }}</span>
+      <span
+        v-if="store.displayNumber > 0"
+        class="text-2xl font-semibold"
+        >{{ store.displayNumber }}</span
+      >
       significa que o Pinia está funcionando, já que manteve o valor mesmo
       trocando de página. Retorne para o
       <ULink

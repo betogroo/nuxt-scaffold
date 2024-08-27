@@ -6,3 +6,10 @@
     @apply font-semibold text-3xl my-4;
   }
 
+  p {
+    @apply text-justify mb-2;
+  }
+  code {
+    @apply font-semibold;
+  }
+
