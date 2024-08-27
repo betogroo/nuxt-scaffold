@@ -15,6 +15,7 @@
   const openModal = () => {
     modal.open(Modal, {
       title: 'Modal a partir do About',
+      onClose: modal.close,
     })
   }
 </script>
@@ -31,7 +32,7 @@
   </section>
   <UDivider class="my-6" />
   <section>
-    <h1 class="page-title">Pinia Test</h1>
+    <h1 class="page-title">Pinia</h1>
     <p>
       Caso possa ver o número
       <span
