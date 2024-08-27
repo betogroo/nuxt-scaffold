@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Modal } from '#components'
+
   import { useCounterStore } from '~/store/useCounterStore'
   definePageMeta({
     showInNavBar: true,
@@ -8,12 +10,20 @@
   })
 
   const store = useCounterStore()
+  const modal = useModal()
+
+  const openModal = () => {
+    modal.open(Modal, {
+      title: 'Modal a partir do About',
+      onClose: modal.close,
+    })
+  }
 </script>
 
 <template>
   <section>
-    <h1 class="font-semibold text-3xl my-4">About</h1>
-    <p class="text-justify">
+    <h1 class="page-title">About</h1>
+    <p>
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta recusandae
       atque ratione magnam, deleniti distinctio expedita, dolorum ab explicabo
       eum ut reprehenderit quaerat consequuntur animi sunt, odio laboriosam
@@ -22,10 +32,14 @@
   </section>
   <UDivider class="my-6" />
   <section>
-    <h1>Pinia Test</h1>
-    <p class="text-justify">
+    <h1 class="page-title">Pinia</h1>
+    <p>
       Caso possa ver o número
-      <span class="text-2xl font-semibold">{{ store.displayNumber }}</span>
+      <span
+        v-if="store.displayNumber > 0"
+        class="text-2xl font-semibold"
+        >{{ store.displayNumber }}</span
+      >
       significa que o Pinia está funcionando, já que manteve o valor mesmo
       trocando de página. Retorne para o
       <ULink
@@ -35,5 +49,12 @@
       >
       e confirme se éo mesmo número.
     </p>
+  </section>
+  <section>
+    <h1 class="page-title">Teste Modal</h1>
+    <UButton
+      label="Abrir Modal"
+      @click="openModal"
+    />
   </section>
 </template>
