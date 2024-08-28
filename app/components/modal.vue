@@ -1,5 +1,8 @@
 <script setup lang="ts" generic="T">
-  import type { AddFormSchema } from '~/models/form'
+  import { useField, useForm } from 'vee-validate'
+  import { validationFormSchema } from '~/models/form.js'
+  import type { AddForm } from '~/models/form'
+  import type { _padding } from '#tailwind-config/theme'
 
   interface Props {
     title?: string
@@ -7,18 +10,20 @@
   defineProps<Props>()
 
   const $emit = defineEmits<{
-    submit: [state: typeof state]
+    submit: [values: AddForm]
     close: []
   }>()
 
-  const state = ref<AddFormSchema>({
-    name: '',
-    email: '',
+  const { values, handleSubmit, meta, resetForm } = useForm<AddForm>({
+    validationSchema: validationFormSchema,
   })
 
-  const addData = () => {
-    $emit('submit', state)
-  }
+  const { value: name, errorMessage: nameError } = useField<string>('name')
+  const { value: email, errorMessage: emailError } = useField<string>('email')
+
+  const addData = handleSubmit(async () => {
+    $emit('submit', values)
+  })
 
   const close = () => {
     $emit('close')
@@ -27,35 +32,54 @@
 
 <template>
   <UModal width="25">
-    <UCard>
+    <UCard
+      :ui="{
+        header: {
+          padding: 'py-2',
+        },
+      }"
+    >
       <template #header>
-        <h1 class="text-2xl font-semibold">{{ title }}</h1>
+        <div class="flex justify-between items-center">
+          <h1 class="text-2xl font-semibold">{{ title }}</h1>
+          <UButton
+            color="black"
+            icon="mdi-close"
+            size="xs"
+            variant="ghost"
+            @click="close"
+          />
+        </div>
       </template>
-      <UForm
-        :state="state"
-        @submit="addData"
-      >
-        <UFormGroup label="Nome">
-          <UInput v-model="state.name" />
+      <form @submit.prevent="addData">
+        <UFormGroup
+          :error="nameError"
+          label="Nome"
+        >
+          <UInput v-model="name" />
         </UFormGroup>
 
-        <UFormGroup label="Email">
-          <UInput v-model="state.email" />
+        <UFormGroup
+          :error="emailError"
+          label="Email"
+        >
+          <UInput v-model="email" />
         </UFormGroup>
 
         <div class="flex justify-end space-x-4">
           <UButton
+            :disabled="!meta.valid"
             label="Enviar"
             type="submit"
           />
           <UButton
             color="red"
-            label="Fechar"
+            label="Limpar"
             variant="outline"
-            @click="close"
+            @click="resetForm()"
           />
         </div>
-      </UForm>
+      </form>
     </UCard>
   </UModal>
 </template>
