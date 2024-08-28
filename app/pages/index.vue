@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { Modal } from '#components'
-  import type { FormState } from '~/components/modal.vue'
+  import { addFormSchema, type AddFormSchema } from '~/models/form'
 
   definePageMeta({
     showInNavBar: true,
@@ -19,7 +19,9 @@
     })
   }
 
-  const addData = (data: FormState) => {
+  const addData = (data: AddFormSchema) => {
+    const parsedData = addFormSchema.parse(data)
+    console.log(parsedData)
     console.log(data)
   }
 </script>
