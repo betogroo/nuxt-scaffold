@@ -2,6 +2,7 @@
   import { useField, useForm } from 'vee-validate'
   import { validationFormSchema } from '~/models/form.js'
   import type { AddForm } from '~/models/form'
+  import type { _padding } from '#tailwind-config/theme'
 
   interface Props {
     title?: string
@@ -31,10 +32,23 @@
 
 <template>
   <UModal width="25">
-    <UCard>
+    <UCard
+      :ui="{
+        header: {
+          padding: 'py-2',
+        },
+      }"
+    >
       <template #header>
-        <div>
+        <div class="flex justify-between items-center">
           <h1 class="text-2xl font-semibold">{{ title }}</h1>
+          <UButton
+            color="black"
+            icon="mdi-close"
+            size="xs"
+            variant="ghost"
+            @click="close"
+          />
         </div>
       </template>
       <form @submit.prevent="addData">
