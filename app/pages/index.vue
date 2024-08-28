@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { Modal } from '#components'
-  import type { FormState } from '~/components/modal.vue'
+  import type { ZodError } from 'zod'
+  import { addFormSchema, type AddFormSchema } from '~/models/form'
 
   definePageMeta({
     showInNavBar: true,
@@ -19,8 +20,15 @@
     })
   }
 
-  const addData = (data: FormState) => {
-    console.log(data)
+  const addData = (data: AddFormSchema) => {
+    try {
+      const parsedData = addFormSchema.parse(data)
+      console.log(parsedData)
+    } catch (err) {
+      const e = err as ZodError
+
+      console.log(e.errors)
+    }
   }
 </script>
 
