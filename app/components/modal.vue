@@ -1,8 +1,6 @@
 <script setup lang="ts" generic="T">
-  export interface FormState {
-    name: string
-    email: string
-  }
+  import type { AddFormSchema } from '~/models/form'
+
   interface Props {
     title?: string
   }
@@ -13,7 +11,7 @@
     close: []
   }>()
 
-  const state = ref<FormState>({
+  const state = ref<AddFormSchema>({
     name: '',
     email: '',
   })
@@ -44,8 +42,7 @@
         <UFormGroup label="Email">
           <UInput v-model="state.email" />
         </UFormGroup>
-      </UForm>
-      <template #footer>
+
         <div class="flex justify-end space-x-4">
           <UButton
             label="Enviar"
@@ -58,7 +55,7 @@
             @click="close"
           />
         </div>
-      </template>
+      </UForm>
     </UCard>
   </UModal>
 </template>
