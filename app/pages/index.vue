@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { Modal } from '#components'
+  import type { ZodError } from 'zod'
   import { addFormSchema, type AddFormSchema } from '~/models/form'
 
   definePageMeta({
@@ -20,9 +21,14 @@
   }
 
   const addData = (data: AddFormSchema) => {
-    const parsedData = addFormSchema.parse(data)
-    console.log(parsedData)
-    console.log(data)
+    try {
+      const parsedData = addFormSchema.parse(data)
+      console.log(parsedData)
+    } catch (err) {
+      const e = err as ZodError
+
+      console.log(e.errors)
+    }
   }
 </script>
 
