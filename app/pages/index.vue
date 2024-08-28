@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Modal } from '#components'
   import type { ZodError } from 'zod'
-  import { addFormSchema, type AddFormSchema } from '~/models/form'
+  import { addFormSchema, type AddForm } from '~/models/form'
 
   definePageMeta({
     showInNavBar: true,
@@ -15,12 +15,12 @@
   const openModal = () => {
     modal.open(Modal, {
       title: 'Título',
-      onSubmit: (data) => addData(data.value),
+      onSubmit: (data) => addData(data),
       onClose: modal.close,
     })
   }
 
-  const addData = (data: AddFormSchema) => {
+  const addData = (data: AddForm) => {
     try {
       const parsedData = addFormSchema.parse(data)
       console.log(parsedData)

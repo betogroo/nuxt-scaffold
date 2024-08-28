@@ -1,10 +1,11 @@
 import { z } from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
 
 const baseFormSchema = z.object({
   id: z.number().optional(),
   created_at: z.string().optional(),
-  name: z.string().min(1, 'Campo Obrigatório'),
-  email: z.string().email('Email Inválido'),
+  name: z.string().min(8, 'Campo Obrigatório'),
+  email: z.string().min(1, 'Campo Obrigatório').email('Email Inválido'),
 })
 
 export const addFormSchema = baseFormSchema.omit({
@@ -17,7 +18,8 @@ export const editFormSchema = baseFormSchema.partial().extend({
 })
 
 export const viewFormSchema = baseFormSchema
+export const validationFormSchema = toTypedSchema(addFormSchema)
 
-export type AddFormSchema = z.infer<typeof addFormSchema>
-export type EditFormSchema = z.infer<typeof editFormSchema>
-export type ViewFormSchema = z.infer<typeof viewFormSchema>
+export type AddForm = z.infer<typeof addFormSchema>
+export type EditForm = z.infer<typeof editFormSchema>
+export type ViewForm = z.infer<typeof viewFormSchema>
