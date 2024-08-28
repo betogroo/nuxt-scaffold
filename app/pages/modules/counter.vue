@@ -15,11 +15,11 @@
 
 <template>
   <div class="flex h-lvh items-center">
-    <div
-      class="flex flex-col justify-center items-center w-2/4 h-2/4 mx-auto border-2"
+    <UContainer
+      class="bg-gray-50 flex flex-col border-2 border-black border-dashed rounded-xl"
     >
       <div class="mx-auto text-8xl">{{ displayNumber }}</div>
-      <div class="flex justify-between space-x-3 m-6">
+      <div class="flex justify-center space-x-5 m-6">
         <UButton
           :color="isDisabled ? 'gray' : 'red'"
           :disabled="isDisabled"
@@ -45,7 +45,7 @@
           @click="store.$reset"
           >Reset</UButton
         >
-        <div class="mt-4">
+        <div class="text-justify mt-4">
           Vá para
           <ULink
             class="font-semibold hover:underline mb-4"
@@ -55,6 +55,6 @@
           para testar o funcionamento do Pinia
         </div>
       </div>
-    </div>
+    </UContainer>
   </div>
 </template>
