@@ -13,29 +13,15 @@
     close: []
   }>()
 
-  const state = ref<AddForm>({
-    name: '',
-    email: '',
-  })
-
   const { values, handleSubmit, meta, resetForm } = useForm<AddForm>({
     validationSchema: validationFormSchema,
   })
 
-  //const name = useField('name', validationFormSchema)
-  //const email = useField('email', validationFormSchema)
-  const { value: name, errorMessage: nameError } = useField(
-    'name',
-    validationFormSchema,
-  )
-  const { value: email, errorMessage: emailError } = useField('email')
+  const { value: name, errorMessage: nameError } = useField<string>('name')
+  const { value: email, errorMessage: emailError } = useField<string>('email')
 
   const addData = handleSubmit(async () => {
-    state.value = {
-      name: name.value as string,
-      email: email.value as string,
-    }
-    $emit('submit', state.value)
+    $emit('submit', values)
   })
 
   const close = () => {
@@ -47,21 +33,23 @@
   <UModal width="25">
     <UCard>
       <template #header>
-        <h1 class="text-2xl font-semibold">{{ title }}</h1>
+        <div>
+          <h1 class="text-2xl font-semibold">{{ title }}</h1>
+        </div>
       </template>
       <form @submit.prevent="addData">
         <UFormGroup
           :error="nameError"
           label="Nome"
         >
-          <UInput v-model="name as string" />
+          <UInput v-model="name" />
         </UFormGroup>
 
         <UFormGroup
           :error="emailError"
           label="Email"
         >
-          <UInput v-model="email as string" />
+          <UInput v-model="email" />
         </UFormGroup>
 
         <div class="flex justify-end space-x-4">
@@ -79,6 +67,5 @@
         </div>
       </form>
     </UCard>
-    {{ values }}
   </UModal>
 </template>
