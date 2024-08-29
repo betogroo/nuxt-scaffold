@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { Modal } from '#components'
   import type { ZodError } from 'zod'
   import { addFormSchema, type AddForm } from '~/models/form'
 
@@ -10,19 +9,18 @@
     order: 0,
   })
 
-  const modal = useModal()
-
+  const formModal = ref(false)
   const openModal = () => {
-    modal.open(Modal, {
-      title: 'Título',
-      onSubmit: (data) => addData(data),
-      onClose: modal.close,
-    })
+    formModal.value = true
+  }
+  const closeModal = () => {
+    formModal.value = false
   }
 
   const addData = (data: AddForm) => {
     try {
       const parsedData = addFormSchema.parse(data)
+      closeModal()
       console.log(parsedData)
     } catch (err) {
       const e = err as ZodError
@@ -62,8 +60,11 @@
     <p>
       Clicando no botão abaixo um modal será aberto, com um formulário. Ele
       simula um formulário de cadastro, e as funções necessárias para o cadastro
-      estarão em <code>/index.vue</code>, ou em qualquer outro local desde que
-      seja importada.
+      estarão em <code>/index.vue</code>, ou em um composable desde que seja
+      importada. O formulário está com validação, utilizando o
+      <code class="text-green-700"> vee-validate + zod </code>, e não permite o
+      cadastro enquanto não cumprir todas as regras de validação. A final, o
+      modal é fechado.
     </p>
     <p>
       Na página
@@ -73,8 +74,18 @@
         >/about</ULink
       >
       o mesmo modal é chamado, porém, sem a função que simula o formulário,
-      apenas para mostrar o comportamento padrão do componente.
+      apenas para mostrar o comportamento padrão do componente, utilizando o
+      composable <code class="text-green-700">useModal()</code>
     </p>
+    <AppModal
+      v-model="formModal"
+      title="Formulário Modal"
+    >
+      <FormUser
+        ref="form-user"
+        @on-submit="addData"
+      />
+    </AppModal>
     <UButton
       label="Abrir Modal"
       @click="openModal"
