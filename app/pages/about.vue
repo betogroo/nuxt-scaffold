@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Modal } from '#components'
+  import { AppModal } from '#components'
 
   import { useCounterStore } from '~/store/useCounterStore'
   definePageMeta({
@@ -13,8 +13,8 @@
   const modal = useModal()
 
   const openModal = () => {
-    modal.open(Modal, {
-      title: 'Modal a partir do About',
+    modal.open(AppModal, {
+      title: 'Modal useModal()',
       onClose: modal.close,
     })
   }
