@@ -8,12 +8,17 @@
 
   const { values, handleSubmit, meta, resetForm } = useForm<AddForm>({
     validationSchema: validationFormSchema,
+    initialValues: {
+      name: 'lllllllllllll',
+      email: 'lllllllllll@ll.com',
+    },
   })
 
   const { value: name, errorMessage: nameError } = useField<string>('name')
   const { value: email, errorMessage: emailError } = useField<string>('email')
 
   const addData = handleSubmit(async () => {
+    //$emit('onSubmit', { name: 'dddd', email: 'emam' })
     $emit('onSubmit', values)
   })
 </script>

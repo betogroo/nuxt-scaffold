@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { ZodError } from 'zod'
-  import { addFormSchema, type AddForm } from '~/models/form'
+  import type { AddForm } from '~/models/form'
+  const { handleError } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -9,7 +9,7 @@
     order: 0,
   })
 
-  const { delay } = useHelpers()
+  const { addUser, fakeUsers } = useRegistration()
 
   const formModal = ref(false)
   const openModal = () => {
@@ -19,17 +19,24 @@
     formModal.value = false
   }
 
-  const addData = async (data: AddForm) => {
+  const addData = async (user: AddForm) => {
     try {
-      const parsedData = addFormSchema.parse(data)
-      await delay(2000, 'Testing addData')
+      await addUser(user)
+      console.log('Usuário Cadastrado - Index.vue')
       closeModal()
-      console.log(parsedData)
     } catch (err) {
-      const e = err as ZodError
-      console.log(e.errors)
+      const e = err as Error
+      const error = handleError(e)
+      console.error(error)
     }
   }
+
+  watch(
+    () => fakeUsers.value,
+    (newValue) => {
+      console.log('Mudança detectada em fakeUsers:', newValue)
+    },
+  )
 </script>
 
 <template>
@@ -83,14 +90,34 @@
       v-model="formModal"
       title="Formulário Modal"
     >
-      <FormUser
-        ref="form-user"
-        @on-submit="addData"
-      />
+      <FormUser @on-submit="addData" />
     </AppModal>
     <UButton
+      :color="formModal ? 'red' : 'primary'"
       label="Abrir Modal"
+      :loading="formModal"
       @click="openModal"
     />
+    <div v-if="fakeUsers.length">
+      <h2 class="text-xl">Usuários ({{ fakeUsers.length }})</h2>
+      <ul>
+        <template v-if="formModal">
+          <li
+            v-for="user in fakeUsers"
+            :key="user.email"
+          >
+            <USkeleton class="bg-red-200 h-4 w-[250px] my-2" />
+          </li>
+        </template>
+        <template v-else>
+          <li
+            v-for="user in fakeUsers"
+            :key="user.email"
+          >
+            {{ `${user.name}: ${user.email}` }}
+          </li>
+        </template>
+      </ul>
+    </div>
   </section>
 </template>
