@@ -9,6 +9,8 @@
     order: 0,
   })
 
+  const { delay } = useHelpers()
+
   const formModal = ref(false)
   const openModal = () => {
     formModal.value = true
@@ -17,14 +19,14 @@
     formModal.value = false
   }
 
-  const addData = (data: AddForm) => {
+  const addData = async (data: AddForm) => {
     try {
       const parsedData = addFormSchema.parse(data)
+      await delay(2000, 'Testing addData')
       closeModal()
       console.log(parsedData)
     } catch (err) {
       const e = err as ZodError
-
       console.log(e.errors)
     }
   }
