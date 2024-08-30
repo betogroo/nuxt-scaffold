@@ -22,7 +22,9 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.5.0",
     "@nuxt/ui": "^2.18.4",
-    "@pinia/nuxt": "^0.5.3"
+    "@pinia/nuxt": "^0.5.3",
+    "@types/uuid": "^10.0.0",
+    "uuid": "^10.0.0"
   },
   "overrides": {
     "vue": "latest"
