@@ -3,8 +3,10 @@ import { addFormSchema, type AddForm } from '~/models/form'
 const { delay } = useHelpers()
 
 const fakeUsers = ref<AddForm[]>([])
+const isPending = ref<boolean>(false)
 const useRegistration = () => {
   const addUser = async (data: AddForm) => {
+    isPending.value = true
     console.log('Simulando um cadastro')
     await delay(2000, 'Testing addData')
     try {
@@ -16,9 +18,11 @@ const useRegistration = () => {
     } catch (err) {
       const e = err as ZodError
       throw e
+    } finally {
+      isPending.value = false
     }
   }
-  return { addUser, fakeUsers }
+  return { addUser, fakeUsers, isPending }
 }
 
 export default useRegistration
