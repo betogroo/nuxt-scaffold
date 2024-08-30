@@ -9,7 +9,7 @@
     order: 0,
   })
 
-  const { addUser, fakeUsers } = useRegistration()
+  const { addUser, fakeUsers, isPending } = useRegistration()
 
   const formModal = ref(false)
   const openModal = () => {
@@ -90,7 +90,10 @@
       v-model="formModal"
       title="Formulário Modal"
     >
-      <FormUser @on-submit="addData" />
+      <FormUser
+        :is-pending="isPending"
+        @on-submit="addData"
+      />
     </AppModal>
     <UButton
       :color="formModal ? 'red' : 'primary'"

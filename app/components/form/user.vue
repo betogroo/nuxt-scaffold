@@ -2,6 +2,14 @@
   import { useField, useForm } from 'vee-validate'
   import { validationFormSchema } from '~/models/form.js'
   import type { AddForm } from '~/models/form'
+
+  interface Props {
+    isPending?: boolean
+  }
+  withDefaults(defineProps<Props>(), {
+    isPending: false,
+  })
+
   const $emit = defineEmits<{
     onSubmit: [values: AddForm]
   }>()
@@ -43,6 +51,7 @@
       <UButton
         :disabled="!meta.valid"
         label="Enviar"
+        :loading="isPending"
         type="submit"
       />
       <UButton
