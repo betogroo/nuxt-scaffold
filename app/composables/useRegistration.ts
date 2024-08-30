@@ -1,5 +1,10 @@
 import type { ZodError } from 'zod'
-import { addFormSchema, type AddForm, type ViewForm } from '~/models/form'
+import {
+  addFormSchema,
+  viewFormSchema,
+  type AddForm,
+  type ViewForm,
+} from '~/models/form'
 const { delay, getRandomUUID } = useHelpers()
 
 const fakeUsers = ref<ViewForm[]>([])
@@ -9,15 +14,18 @@ const useRegistration = () => {
     isPending.value = true
     console.log('Simulando um cadastro')
     await delay(2000, 'Testing addData')
+
     try {
-      const parsedData = addFormSchema.parse(data)
-      if (!parsedData) throw Error('Não foi possível cadastrar')
       //throw new Error('Erro simulado no cadastro')
-      fakeUsers.value.push({
+      const parsedData = addFormSchema.parse(data)
+      const parsedFakedUser = viewFormSchema.parse({
         ...parsedData,
         id: getRandomUUID(),
         created_at: new Date().toISOString(),
       })
+      /* if (!parsedData || !parsedFakedUser)
+        throw Error('Não foi possível cadastrar') */
+      fakeUsers.value.push(parsedFakedUser)
       console.log(parsedData, 'enviado ao db', fakeUsers.value)
     } catch (err) {
       const e = err as ZodError
