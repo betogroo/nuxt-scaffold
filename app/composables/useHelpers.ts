@@ -1,10 +1,15 @@
 import { ZodError } from 'zod'
+import { v4 as uuid } from 'uuid'
 //import { PostgrestError } from '@supabase/supabase-js'
 const useHelpers = () => {
   type CustomError = {
     type: 'validation' | 'database' | 'unknown'
     message: string
     details?: string[]
+  }
+
+  const getRandomUUID = () => {
+    return uuid()
   }
 
   const handleError = (err: unknown): CustomError => {
@@ -44,7 +49,7 @@ const useHelpers = () => {
     if (msg) console.log(`${msg} - ${time}ms delay`)
     return new Promise((resolve) => setTimeout(resolve, time))
   }
-  return { delay, handleError }
+  return { delay, handleError, getRandomUUID }
 }
 
 export default useHelpers

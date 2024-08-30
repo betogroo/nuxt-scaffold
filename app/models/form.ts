@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 
 const baseFormSchema = z.object({
-  id: z.number().optional(),
+  id: z.string().uuid().optional(),
   created_at: z.string().optional(),
   name: z.string().min(8, 'Campo Obrigatório'),
   email: z.string().min(1, 'Campo Obrigatório').email('Email Inválido'),
@@ -14,7 +14,7 @@ export const addFormSchema = baseFormSchema.omit({
 })
 
 export const editFormSchema = baseFormSchema.partial().extend({
-  id: z.number(),
+  id: z.string().uuid(),
 })
 
 export const viewFormSchema = baseFormSchema
