@@ -30,13 +30,6 @@
       console.error(error)
     }
   }
-
-  watch(
-    () => fakeUsers.value,
-    (newValue) => {
-      console.log('Mudança detectada em fakeUsers:', newValue)
-    },
-  )
 </script>
 
 <template>
