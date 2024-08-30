@@ -98,20 +98,30 @@
       <h2 class="text-xl">Usuários ({{ fakeUsers.length }})</h2>
       <ul>
         <template v-if="formModal">
-          <li
+          <template
             v-for="user in fakeUsers"
             :key="user.email"
           >
-            <USkeleton class="bg-red-200 h-4 w-[250px] my-2" />
-          </li>
+            <li>
+              <USkeleton class="bg-red-200 h-4 w-[350px] my-2" />
+            </li>
+            <li>
+              <USkeleton class="bg-red-200 h-4 w-[250px] my-2" />
+            </li>
+          </template>
         </template>
         <template v-else>
-          <li
+          <template
             v-for="user in fakeUsers"
             :key="user.email"
           >
-            {{ `${user.name}: ${user.email}` }}
-          </li>
+            <li>
+              {{ `${user.id} (${user.created_at})` }}
+            </li>
+            <li>
+              {{ ` ${user.name}: ${user.email}` }}
+            </li>
+          </template>
         </template>
       </ul>
     </div>
