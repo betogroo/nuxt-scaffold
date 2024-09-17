@@ -3,11 +3,15 @@
 
   interface Props {
     item: ViewForm
+    isPending: boolean
   }
-  const props = defineProps<Props>()
 
-  const handleDelete = () => {
-    console.log(props.item.id)
+  defineProps<Props>()
+  const $emit = defineEmits<{
+    'handle-delete': [id: string]
+  }>()
+  const handleDelete = (id: string) => {
+    $emit('handle-delete', id)
   }
 </script>
 
@@ -26,6 +30,7 @@
           <UButton
             color="red"
             icon="mdi-delete"
+            :loading="isPending"
             variant="link"
             @click="handleDelete"
           />

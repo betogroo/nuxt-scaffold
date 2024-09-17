@@ -9,7 +9,8 @@
     order: 0,
   })
 
-  const { addUser, fakeUsers, isPending } = useRegistration()
+  const { addUser, deleteUser, fakeUsers, isPending, pendingItemId } =
+    useRegistration()
 
   const formModal = ref(false)
   const openModal = () => {
@@ -87,7 +88,7 @@
         title="Formulário Modal"
       >
         <FormUser
-          :is-pending="isPending"
+          :is-pending="isPending === 'addingUser'"
           @on-submit="addData"
         />
       </AppModal>
@@ -105,7 +106,7 @@
       title="Usuários"
     >
       <ul>
-        <template v-if="isPending">
+        <template v-if="isPending === 'addingUser'">
           <template
             v-for="user in fakeUsers"
             :key="user.email"
@@ -122,7 +123,11 @@
           <AppList
             v-for="user in fakeUsers"
             :key="user.id"
+            :is-pending="
+              isPending === 'deletingUser' && pendingItemId === user.id
+            "
             :item="user"
+            @handle-delete="deleteUser(user.id!)"
           />
         </template>
       </ul>
