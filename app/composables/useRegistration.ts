@@ -22,6 +22,7 @@ const fakeUsers = ref<ViewForm[]>([
   },
 ])
 const isPending = ref<string | null>(null)
+const pendingItemId = ref<string | -1>(-1)
 const createFakeUser = (formData: AddForm) => {
   return viewFormSchema.parse({
     ...formData,
@@ -52,6 +53,7 @@ const useRegistration = () => {
 
   const deleteUser = async (id: string) => {
     isPending.value = 'deletingUser'
+    pendingItemId.value = id
     console.log('Simulando a exclusão do item')
     await delay(2000, 'Testing deleteUser')
     try {
@@ -64,7 +66,7 @@ const useRegistration = () => {
       isPending.value = null
     }
   }
-  return { addUser, deleteUser, fakeUsers, isPending }
+  return { addUser, deleteUser, fakeUsers, isPending, pendingItemId }
 }
 
 export default useRegistration

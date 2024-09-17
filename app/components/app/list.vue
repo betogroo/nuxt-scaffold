@@ -3,6 +3,7 @@
 
   interface Props {
     item: ViewForm
+    isPending: boolean
   }
 
   defineProps<Props>()
@@ -29,6 +30,7 @@
           <UButton
             color="red"
             icon="mdi-delete"
+            :loading="isPending"
             variant="link"
             @click="handleDelete"
           />

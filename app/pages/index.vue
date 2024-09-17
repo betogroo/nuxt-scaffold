@@ -9,7 +9,8 @@
     order: 0,
   })
 
-  const { addUser, deleteUser, fakeUsers, isPending } = useRegistration()
+  const { addUser, deleteUser, fakeUsers, isPending, pendingItemId } =
+    useRegistration()
 
   const formModal = ref(false)
   const openModal = () => {
@@ -122,6 +123,9 @@
           <AppList
             v-for="user in fakeUsers"
             :key="user.id"
+            :is-pending="
+              isPending === 'deletingUser' && pendingItemId === user.id
+            "
             :item="user"
             @handle-delete="deleteUser(user.id!)"
           />
