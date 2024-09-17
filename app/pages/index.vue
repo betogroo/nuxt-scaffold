@@ -9,7 +9,7 @@
     order: 0,
   })
 
-  const { addUser, fakeUsers, isPending } = useRegistration()
+  const { addUser, deleteUser, fakeUsers, isPending } = useRegistration()
 
   const formModal = ref(false)
   const openModal = () => {
@@ -123,6 +123,7 @@
             v-for="user in fakeUsers"
             :key="user.id"
             :item="user"
+            @handle-delete="deleteUser(user.id!)"
           />
         </template>
       </ul>

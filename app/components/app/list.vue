@@ -4,10 +4,13 @@
   interface Props {
     item: ViewForm
   }
-  const props = defineProps<Props>()
 
-  const handleDelete = () => {
-    console.log(props.item.id)
+  defineProps<Props>()
+  const $emit = defineEmits<{
+    'handle-delete': [id: string]
+  }>()
+  const handleDelete = (id: string) => {
+    $emit('handle-delete', id)
   }
 </script>
 
