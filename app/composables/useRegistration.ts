@@ -21,7 +21,7 @@ const fakeUsers = ref<ViewForm[]>([
     email: 'kkkkkkkkk@ll.com',
   },
 ])
-const isPending = ref<boolean>(false)
+const isPending = ref<string | null>(null)
 const createFakeUser = (formData: AddForm) => {
   return viewFormSchema.parse({
     ...formData,
@@ -32,7 +32,7 @@ const createFakeUser = (formData: AddForm) => {
 
 const useRegistration = () => {
   const addUser = async (data: AddForm) => {
-    isPending.value = true
+    isPending.value = 'addingUser'
     console.log('Simulando um cadastro')
     await delay(2000, 'Testing addUser')
 
@@ -46,12 +46,12 @@ const useRegistration = () => {
       const e = err as ZodError
       throw e
     } finally {
-      isPending.value = false
+      isPending.value = null
     }
   }
 
   const deleteUser = async (id: string) => {
-    isPending.value = true
+    isPending.value = 'deletingUser'
     console.log('Simulando a exclusão do item')
     await delay(2000, 'Testing deleteUser')
     try {
@@ -61,7 +61,7 @@ const useRegistration = () => {
       const e = err as Error
       console.log(e)
     } finally {
-      isPending.value = false
+      isPending.value = null
     }
   }
   return { addUser, deleteUser, fakeUsers, isPending }

@@ -87,7 +87,7 @@
         title="Formulário Modal"
       >
         <FormUser
-          :is-pending="isPending"
+          :is-pending="isPending === 'addingUser'"
           @on-submit="addData"
         />
       </AppModal>
@@ -105,7 +105,7 @@
       title="Usuários"
     >
       <ul>
-        <template v-if="isPending">
+        <template v-if="isPending === 'addingUser'">
           <template
             v-for="user in fakeUsers"
             :key="user.email"
