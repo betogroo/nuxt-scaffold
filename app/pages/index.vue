@@ -19,7 +19,7 @@
   }
 
   onMounted(() => {
-    fakeUsers.value = genFakeUsers()
+    fakeUsers.value = genFakeUsers(5000)
   })
 
   const addData = async (user: AddForm) => {

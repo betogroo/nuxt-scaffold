@@ -15,9 +15,13 @@ const useHelpers = () => {
   }
 
   const genFakeUser = (): ViewForm => {
+    const firstName = faker.person.firstName()
+    const lastName = faker.person.lastName()
+    const fullName = faker.person.fullName({ firstName, lastName })
+    const email = faker.internet.email({ firstName, lastName })
     return {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
+      name: fullName,
+      email: email,
       id: faker.string.uuid(),
       created_at: faker.date.recent().toISOString(),
     }
