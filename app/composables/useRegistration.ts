@@ -6,20 +6,8 @@ import {
 } from '~/models/form'
 const { delay, getRandomUUID } = useHelpers()
 
-const fakeUsers = ref<ViewForm[]>([
-  {
-    id: '124325c3-3ab0-4510-aedd-372e31354091',
-    created_at: '2024-09-17T18:46:46.033Z',
-    name: 'lllllllllllll',
-    email: 'lllllllllll@ll.com',
-  },
-  {
-    id: '4125e3d0-17d1-402c-afe9-562c278f47f8',
-    created_at: '2024-09-17T18:46:58.830Z',
-    name: 'kkkkkkkkk',
-    email: 'kkkkkkkkk@ll.com',
-  },
-])
+const fakeUsers = ref<ViewForm[]>([])
+
 const isPending = reactive({
   addUser: false,
   deleteUser: false,

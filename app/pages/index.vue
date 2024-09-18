@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { AddForm } from '~/models/form'
-  const { handleError } = useHelpers()
+  const { handleError, genFakeUsers } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -10,7 +10,6 @@
   })
 
   const { addUser, deleteUser, fakeUsers, isPending } = useRegistration()
-
   const formModal = ref(false)
   const openModal = () => {
     formModal.value = true
@@ -18,6 +17,10 @@
   const closeModal = () => {
     formModal.value = false
   }
+
+  onMounted(() => {
+    fakeUsers.value = genFakeUsers()
+  })
 
   const addData = async (user: AddForm) => {
     try {
@@ -113,6 +116,7 @@
   <section>
     <AppCard
       v-if="fakeUsers.length"
+      subtitle="Lista de usuários geradas apenas para testes"
       title="Usuários"
     >
       <ul>
