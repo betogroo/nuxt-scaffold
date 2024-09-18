@@ -1,5 +1,7 @@
 import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
+import { fakerPT_BR as faker } from '@faker-js/faker'
+import type { ViewForm } from '~/models/form'
 //import { PostgrestError } from '@supabase/supabase-js'
 const useHelpers = () => {
   type CustomError = {
@@ -10,6 +12,26 @@ const useHelpers = () => {
 
   const getRandomUUID = () => {
     return uuid()
+  }
+
+  const genFakeUser = (): ViewForm => {
+    const firstName = faker.person.firstName()
+    const lastName = faker.person.lastName()
+    const fullName = faker.person.fullName({ firstName, lastName })
+    const email = faker.internet.email({ firstName, lastName })
+    return {
+      name: fullName,
+      email: email,
+      id: faker.string.uuid(),
+      created_at: faker.date.recent().toISOString(),
+    }
+  }
+  const genFakeUsers = (fakeUsersAmount: number = 10): ViewForm[] => {
+    const fakeUsers: ViewForm[] = []
+    for (let index = 0; index < fakeUsersAmount; index++) {
+      fakeUsers.push(genFakeUser())
+    }
+    return fakeUsers
   }
 
   const handleError = (err: unknown): CustomError => {
@@ -49,7 +71,7 @@ const useHelpers = () => {
     if (msg) console.log(`${msg} - ${time}ms delay`)
     return new Promise((resolve) => setTimeout(resolve, time))
   }
-  return { delay, handleError, getRandomUUID }
+  return { delay, handleError, getRandomUUID, genFakeUser, genFakeUsers }
 }
 
 export default useHelpers

@@ -2,10 +2,12 @@
   import { useField, useForm } from 'vee-validate'
   import { validationFormSchema } from '~/models/form.js'
   import type { AddForm } from '~/models/form'
+  import { fakerPT_BR as faker } from '@faker-js/faker'
 
   interface Props {
     isPending?: boolean
   }
+
   withDefaults(defineProps<Props>(), {
     isPending: false,
   })
@@ -16,9 +18,10 @@
 
   const { values, handleSubmit, meta, resetForm } = useForm<AddForm>({
     validationSchema: validationFormSchema,
+    // fake pre-filled form
     initialValues: {
-      name: 'lllllllllllll',
-      email: 'lllllllllll@ll.com',
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
     },
   })
 
