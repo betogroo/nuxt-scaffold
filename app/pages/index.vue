@@ -9,8 +9,7 @@
     order: 0,
   })
 
-  const { addUser, deleteUser, fakeUsers, isPending, pendingItemId } =
-    useRegistration()
+  const { addUser, deleteUser, fakeUsers, isPending } = useRegistration()
 
   const formModal = ref(false)
   const openModal = () => {
@@ -24,6 +23,17 @@
     try {
       await addUser(user)
       console.log('Usuário Cadastrado - Index.vue')
+      closeModal()
+    } catch (err) {
+      const e = err as Error
+      const error = handleError(e)
+      console.error(error)
+    }
+  }
+  const deleteData = async (id: string) => {
+    try {
+      await deleteUser(id)
+      console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
@@ -88,7 +98,7 @@
         title="Formulário Modal"
       >
         <FormUser
-          :is-pending="isPending === 'addingUser'"
+          :is-pending="isPending.addUser"
           @on-submit="addData"
         />
       </AppModal>
@@ -106,7 +116,7 @@
       title="Usuários"
     >
       <ul>
-        <template v-if="isPending === 'addingUser'">
+        <template v-if="isPending.addUser">
           <template
             v-for="user in fakeUsers"
             :key="user.email"
@@ -124,10 +134,10 @@
             v-for="user in fakeUsers"
             :key="user.id"
             :is-pending="
-              isPending === 'deletingUser' && pendingItemId === user.id
+              isPending.deleteUser && isPending.pendingItemId === user.id
             "
             :item="user"
-            @handle-delete="deleteUser(user.id!)"
+            @handle-delete="deleteData(user.id!)"
           />
         </template>
       </ul>

@@ -1,4 +1,3 @@
-import type { ZodError } from 'zod'
 import {
   addFormSchema,
   viewFormSchema,
@@ -21,8 +20,11 @@ const fakeUsers = ref<ViewForm[]>([
     email: 'kkkkkkkkk@ll.com',
   },
 ])
-const isPending = ref<string | null>(null)
-const pendingItemId = ref<string | -1>(-1)
+const isPending = reactive({
+  addUser: false,
+  deleteUser: false,
+  pendingItemId: null as string | null,
+})
 const createFakeUser = (formData: AddForm) => {
   return viewFormSchema.parse({
     ...formData,
@@ -33,40 +35,38 @@ const createFakeUser = (formData: AddForm) => {
 
 const useRegistration = () => {
   const addUser = async (data: AddForm) => {
-    isPending.value = 'addingUser'
-    console.log('Simulando um cadastro')
+    isPending.addUser = true
     await delay(2000, 'Testing addUser')
-
     try {
       //throw new Error('Erro simulado no cadastro')
       const parsedFormData = addFormSchema.parse(data)
       const parsedFakedUser = createFakeUser(parsedFormData)
-      fakeUsers.value.push(parsedFakedUser)
+      fakeUsers.value = [...fakeUsers.value, parsedFakedUser]
       console.log(parsedFormData, 'enviado ao db:', fakeUsers.value)
     } catch (err) {
-      const e = err as ZodError
+      const e = err
       throw e
     } finally {
-      isPending.value = null
+      isPending.addUser = false
     }
   }
 
   const deleteUser = async (id: string) => {
-    isPending.value = 'deletingUser'
-    pendingItemId.value = id
-    console.log('Simulando a exclusão do item')
+    //throw new Error('Erro simulado ao deletar')
+    isPending.deleteUser = true
+    isPending.pendingItemId = id
     await delay(2000, 'Testing deleteUser')
     try {
       console.log(id)
       fakeUsers.value = fakeUsers.value.filter((item) => item.id !== id)
     } catch (err) {
-      const e = err as Error
-      console.log(e)
+      const e = err
+      throw e
     } finally {
-      isPending.value = null
+      isPending.deleteUser = false
     }
   }
-  return { addUser, deleteUser, fakeUsers, isPending, pendingItemId }
+  return { addUser, deleteUser, fakeUsers, isPending }
 }
 
 export default useRegistration
