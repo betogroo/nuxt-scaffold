@@ -62,7 +62,7 @@
         Na página
         <ULink
           class="hover:underline font-semibold"
-          to="/contador"
+          to="/modules/counter"
           >/contador</ULink
         >
         há um pequeno app para contar, onde clicando no + uma unidade é
