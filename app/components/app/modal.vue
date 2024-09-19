@@ -14,8 +14,13 @@
   >
     <UCard
       :ui="{
+        strategy: 'override',
         header: {
-          padding: 'py-2',
+          padding: 'py-2 px-2',
+        },
+        divide: 'divide-none',
+        footer: {
+          padding: 'pa-0 ma-0',
         },
       }"
     >
