@@ -1,12 +1,12 @@
 <script setup lang="ts"></script>
 
 <template>
-  <UContainer>
-    <header>
-      <NavBar />
-    </header>
-    <main>
+  <header>
+    <NavBar />
+  </header>
+  <main>
+    <UContainer class="pt-8">
       <slot />
-    </main>
-  </UContainer>
+    </UContainer>
+  </main>
 </template>

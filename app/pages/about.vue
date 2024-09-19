@@ -22,33 +22,34 @@
 
 <template>
   <section>
-    <h1 class="page-title">About</h1>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta recusandae
-      atque ratione magnam, deleniti distinctio expedita, dolorum ab explicabo
-      eum ut reprehenderit quaerat consequuntur animi sunt, odio laboriosam
-      temporibus! Sint!
-    </p>
+    <AppCard title="About">
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta
+        recusandae atque ratione magnam, deleniti distinctio expedita, dolorum
+        ab explicabo eum ut reprehenderit quaerat consequuntur animi sunt, odio
+        laboriosam temporibus! Sint!
+      </p>
+    </AppCard>
   </section>
-  <UDivider class="my-6" />
   <section>
-    <h1 class="page-title">Pinia</h1>
-    <p>
-      Caso possa ver o número
-      <span
-        v-if="store.displayNumber > 0"
-        class="text-2xl font-semibold"
-        >{{ store.displayNumber }}</span
-      >
-      significa que o Pinia está funcionando, já que manteve o valor mesmo
-      trocando de página. Retorne para o
-      <ULink
-        class="hover:underline font-semibold"
-        to="modules/counter"
-        >/contador</ULink
-      >
-      e confirme se éo mesmo número.
-    </p>
+    <AppCard title="Pinia">
+      <p>
+        Caso possa ver o número
+        <span
+          v-if="store.displayNumber > 0"
+          class="text-2xl font-semibold"
+          >{{ store.displayNumber }}</span
+        >
+        significa que o Pinia está funcionando, já que manteve o valor mesmo
+        trocando de página. Retorne para o
+        <ULink
+          class="hover:underline font-semibold"
+          to="modules/counter"
+          >/contador</ULink
+        >
+        e confirme se éo mesmo número.
+      </p>
+    </AppCard>
   </section>
   <section>
     <h1 class="page-title">Teste Modal</h1>
