@@ -2,7 +2,6 @@ import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import type { ViewForm } from '~/models/form'
-//import { PostgrestError } from '@supabase/supabase-js'
 const useHelpers = () => {
   type CustomError = {
     type: 'validation' | 'database' | 'unknown'
@@ -10,10 +9,7 @@ const useHelpers = () => {
     details?: string[]
   }
 
-  const getRandomUUID = () => {
-    return uuid()
-  }
-
+  const getRandomUUID = (): string => uuid()
   const genFakeUser = (): ViewForm => {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
@@ -27,11 +23,7 @@ const useHelpers = () => {
     }
   }
   const genFakeUsers = (fakeUsersAmount: number = 10): ViewForm[] => {
-    const fakeUsers: ViewForm[] = []
-    for (let index = 0; index < fakeUsersAmount; index++) {
-      fakeUsers.push(genFakeUser())
-    }
-    return fakeUsers
+    return Array.from({ length: fakeUsersAmount }, () => genFakeUser())
   }
 
   const handleError = (err: unknown): CustomError => {
