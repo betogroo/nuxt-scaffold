@@ -7,6 +7,7 @@ import {
 const { delay, getRandomUUID } = useHelpers()
 
 const fakeUsers = ref<ViewForm[]>([])
+const isDevelopment = () => process.env.NODE_ENV !== 'production'
 
 const isPending = reactive({
   addUser: false,
@@ -24,7 +25,7 @@ const createFakeUser = (formData: AddForm) => {
 const useRegistration = () => {
   const addUser = async (data: AddForm) => {
     isPending.addUser = true
-    await delay(2000, 'Testing addUser')
+    if (isDevelopment()) await delay(2000, 'Testing addUser')
     try {
       //throw new Error('Erro simulado no cadastro')
       const parsedFormData = addFormSchema.parse(data)
@@ -40,12 +41,12 @@ const useRegistration = () => {
   }
 
   const deleteUser = async (id: string) => {
+    console.log(isDevelopment)
     //throw new Error('Erro simulado ao deletar')
     isPending.deleteUser = true
     isPending.pendingItemId = id
-    await delay(2000, 'Testing deleteUser')
+    if (isDevelopment()) await delay(2000, 'Testing deleteUser')
     try {
-      console.log(id)
       fakeUsers.value = fakeUsers.value.filter((item) => item.id !== id)
     } catch (err) {
       const e = err
