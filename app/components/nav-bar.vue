@@ -20,7 +20,7 @@
           active-class="font-semibold"
           class="hover:underline"
           :to="item.path"
-          >{{ item.meta.title }}</ULink
+          >{{ item.meta.title || 'Sem Título' }}</ULink
         >
 
         <div v-if="i < navBarItems.length - 1">|</div>
