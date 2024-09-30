@@ -49,7 +49,7 @@ const useRegistration = () => {
     try {
       fakeUsers.value = fakeUsers.value.filter((item) => item.id !== id)
     } catch (err) {
-      const e = err
+      const e = err as Error
       throw e
     } finally {
       isPending.deleteUser = false

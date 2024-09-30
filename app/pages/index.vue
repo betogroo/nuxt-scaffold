@@ -22,6 +22,8 @@
     fakeUsers.value = genFakeUsers(5)
   })
 
+  const toast = useToast()
+
   const addData = async (user: AddForm) => {
     try {
       await addUser(user)
@@ -151,6 +153,21 @@
             </TransitionGroup>
           </template>
         </ul>
+      </AppCard>
+    </section>
+    <section>
+      <AppCard title="Notification">
+        <p>
+          Clique no Botão abaixo para simular uma notificação utilizando o
+          componente
+          <code class="text-green-700">UNotifications</code> juntamente com o
+          composable <code class="text-green-700">useToast()</code>
+        </p>
+        <UButton
+          :color="formModal ? 'red' : 'primary'"
+          label="Testar Toast"
+          @click="toast.add({ title: 'Testando UNotification' })"
+        />
       </AppCard>
     </section>
   </div>
