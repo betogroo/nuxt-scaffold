@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { AddForm } from '~/models/form'
-  const { handleError, genFakeUsers } = useHelpers()
+  const { handleError, genFakeUsers, showToast } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -27,24 +27,26 @@
   const addData = async (user: AddForm) => {
     try {
       await addUser(user)
-      toast.add({ title: 'Usuário Cadastrado - Index.vue' })
+      showToast('success', 'Cadastrado com sucesso')
       console.log('Usuário Cadastrado - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
+      showToast('error', error.message)
       console.error(error)
     }
   }
   const deleteData = async (id: string) => {
     try {
       await deleteUser(id)
-      toast.add({ title: 'Usuário Excluído - Index.vue' })
+      showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
+      showToast('error', error.message)
       console.error(error)
     }
   }
