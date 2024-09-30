@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { AddForm } from '~/models/form'
-  const { handleError, genFakeUsers } = useHelpers()
+  const { handleError, genFakeUsers, showToast } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -22,25 +22,31 @@
     fakeUsers.value = genFakeUsers(5)
   })
 
+  const toast = useToast()
+
   const addData = async (user: AddForm) => {
     try {
       await addUser(user)
+      showToast('success', 'Cadastrado com sucesso')
       console.log('Usuário Cadastrado - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
+      showToast('error', error.message)
       console.error(error)
     }
   }
   const deleteData = async (id: string) => {
     try {
       await deleteUser(id)
+      showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
+      showToast('error', error.message)
       console.error(error)
     }
   }
@@ -151,6 +157,21 @@
             </TransitionGroup>
           </template>
         </ul>
+      </AppCard>
+    </section>
+    <section>
+      <AppCard title="Notification">
+        <p>
+          Clique no Botão abaixo para simular uma notificação utilizando o
+          componente
+          <code class="text-green-700">UNotifications</code> juntamente com o
+          composable <code class="text-green-700">useToast()</code>
+        </p>
+        <UButton
+          :color="formModal ? 'red' : 'primary'"
+          label="Testar Toast"
+          @click="toast.add({ title: 'Testando UNotification' })"
+        />
       </AppCard>
     </section>
   </div>
