@@ -27,6 +27,7 @@
   const addData = async (user: AddForm) => {
     try {
       await addUser(user)
+      toast.add({ title: 'Usuário Cadastrado - Index.vue' })
       console.log('Usuário Cadastrado - Index.vue')
       closeModal()
     } catch (err) {
@@ -38,6 +39,7 @@
   const deleteData = async (id: string) => {
     try {
       await deleteUser(id)
+      toast.add({ title: 'Usuário Excluído - Index.vue' })
       console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
