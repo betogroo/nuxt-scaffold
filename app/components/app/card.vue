@@ -2,8 +2,14 @@
   interface Props {
     title: string
     subtitle?: string
+    ring?: string
+    loading?: boolean
   }
-  defineProps<Props>()
+  withDefaults(defineProps<Props>(), {
+    ring: 'green',
+    subtitle: '',
+    loading: false,
+  })
 </script>
 
 <template>
@@ -12,7 +18,7 @@
     :ui="{
       strategy: 'override',
       divide: 'divide-none',
-      ring: 'ring-1 ring-green-500 dark:ring-green-800',
+      ring: `ring-1 ring-${ring}-500 dark:ring-${ring}-800`,
       header: { padding: 'px-2 pt-4 pb-2' },
       body: { padding: 'px-2' },
       footer: { padding: 'px-2 pb-4' },
