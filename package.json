@@ -12,6 +12,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    
     "@vee-validate/zod": "^4.13.2",
     "nuxt": "^3.12.4",
     "pinia": "^2.2.2",

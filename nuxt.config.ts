@@ -7,7 +7,12 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@pinia/nuxt',
+    '@nuxtjs/supabase',
+  ],
 
   css: ['~/assets/css/main.css'],
   app: {
