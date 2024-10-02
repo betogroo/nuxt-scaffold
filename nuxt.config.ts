@@ -6,13 +6,11 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  supabase: {
+    redirect: false,
+  },
 
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@pinia/nuxt',
-    '@nuxtjs/supabase',
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@nuxtjs/supabase'],
 
   css: ['~/assets/css/main.css'],
   app: {

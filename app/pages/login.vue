@@ -8,17 +8,35 @@
   })
 
   const { delay, showToast } = useHelpers()
+  const supabase = useSupabaseClient()
+  const email = ref<string>('')
 
   const success = ref(false)
   const isPending = ref(false)
 
-  const handleSubmit = async () => {
-    console.log('click')
+  const handleLogin = async () => {
     isPending.value = true
-    await delay(3000)
-    showToast('success', 'Email Enviado', 1500)
-    await delay(1500)
-    success.value = true
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.value,
+        options: {
+          emailRedirectTo: 'http://localhost:3000',
+        },
+      })
+      await delay(3000)
+      if (!error) {
+        showToast('success', 'Email Enviado', 1500)
+        await delay(1500)
+        success.value = true
+      }
+    } catch (err) {
+      const e = err as Error
+      showToast('error', 'Erro ao Autenticar')
+      console.log(e)
+    } finally {
+      isPending.value = false
+    }
+
     isPending.value = false
   }
 </script>
@@ -33,7 +51,7 @@
       :title="success ? 'Email Enviado' : 'Login'"
       ><form
         v-if="!success"
-        @submit.prevent="handleSubmit"
+        @submit.prevent="handleLogin"
       >
         <UFormGroup
           help="Você receberá um link para o acesso."
@@ -42,6 +60,7 @@
           size="2xs"
         >
           <UInput
+            v-model="email"
             icon="mdi-email-outline"
             placeholder="email.exemplo.com.br"
             size="md"
