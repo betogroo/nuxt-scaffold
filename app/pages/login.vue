@@ -6,6 +6,7 @@
     layout: 'no-nav',
     order: 5,
   })
+  useRedirectIfAuthenticated()
 
   const { delay, showToast } = useHelpers()
   const supabase = useSupabaseClient()
@@ -20,7 +21,7 @@
       const { error } = await supabase.auth.signInWithOtp({
         email: email.value,
         options: {
-          emailRedirectTo: 'http://localhost:3000',
+          emailRedirectTo: 'http://localhost:3000/confirm',
         },
       })
       await delay(3000)
