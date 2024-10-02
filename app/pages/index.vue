@@ -176,7 +176,7 @@
     </section>
   </div>
 </template>
-<style scoped>
+<style type="css" scoped>
   /* Defina as classes de transição */
   .fade-red-enter-active,
   .fade-red-leave-active {

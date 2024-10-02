@@ -5,6 +5,18 @@
   const navBarItems = routes
     .filter((item) => item.meta && item.meta.showInNavBar)
     .sort((a, b) => (a.meta.order ?? 10) - (b.meta.order ?? 10))
+
+  const user = useSupabaseUser()
+
+  watch(
+    user,
+    (user) => {
+      if (user) {
+        console.log('Logged In')
+      }
+    },
+    { immediate: true },
+  )
 </script>
 
 <template>
@@ -25,6 +37,10 @@
 
         <div v-if="i < navBarItems.length - 1">|</div>
       </template>
+      <div v-if="user">
+        |
+        <ULink>Sair</ULink>
+      </div>
     </div>
   </nav>
 </template>
