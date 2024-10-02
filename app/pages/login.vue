@@ -1,9 +1,10 @@
 <script setup lang="ts">
   definePageMeta({
-    showInNavBar: false,
+    showInNavBar: true,
     requiresAuth: true,
     title: 'Login',
     layout: 'no-nav',
+    order: 5,
   })
 
   const { delay, showToast } = useHelpers()
@@ -18,6 +19,7 @@
     showToast('success', 'Email Enviado', 1500)
     await delay(1500)
     success.value = true
+    isPending.value = false
   }
 </script>
 
@@ -27,6 +29,7 @@
   >
     <AppCard
       class="w-72 lg:w-96"
+      ring="green"
       :title="success ? 'Email Enviado' : 'Login'"
       ><form
         v-if="!success"
