@@ -2,7 +2,7 @@
   const { delay } = useHelpers()
 
   await delay(3000)
-  useRedirectIfAuthenticated()
+  useUserStatus('/')
 </script>
 
 <template>

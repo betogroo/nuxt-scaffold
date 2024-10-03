@@ -1,12 +1,11 @@
 <script setup lang="ts">
   definePageMeta({
-    showInNavBar: true,
+    showInNavBar: false,
     requiresAuth: true,
     title: 'Login',
     layout: 'no-nav',
-    order: 5,
   })
-  useRedirectIfAuthenticated()
+  useUserStatus('/')
 
   const { delay, showToast } = useHelpers()
   const supabase = useSupabaseClient()
