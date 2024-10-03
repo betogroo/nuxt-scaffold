@@ -1,18 +1,11 @@
 <script setup lang="ts">
   import type { DropdownItem } from '#ui/types'
-  const router = useRouter()
-  const routes = router.getRoutes()
-  const supabase = useSupabaseClient()
 
   const { user } = useUserStatus()
+  const { handleLogout } = useAuth()
+  const { navBarItems } = useNavigation()
 
-  const navBarItems = routes
-    .filter((item) => item.meta && item.meta.showInNavBar)
-    .sort((a, b) => (a.meta.order ?? 10) - (b.meta.order ?? 10))
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-  }
+  console.log(user.value)
 
   const items: DropdownItem[][] = [
     [

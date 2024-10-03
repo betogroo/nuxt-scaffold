@@ -7,38 +7,8 @@
   })
   useUserStatus('/')
 
-  const { delay, showToast } = useHelpers()
-  const supabase = useSupabaseClient()
+  const { success, isPending, handleLogin } = useAuth()
   const email = ref<string>('')
-
-  const success = ref(false)
-  const isPending = ref(false)
-
-  const handleLogin = async () => {
-    isPending.value = true
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: email.value,
-        options: {
-          emailRedirectTo: 'http://localhost:3000/confirm',
-        },
-      })
-      await delay(3000)
-      if (!error) {
-        showToast('success', 'Email Enviado', 1500)
-        await delay(1500)
-        success.value = true
-      }
-    } catch (err) {
-      const e = err as Error
-      showToast('error', 'Erro ao Autenticar')
-      console.log(e)
-    } finally {
-      isPending.value = false
-    }
-
-    isPending.value = false
-  }
 </script>
 
 <template>
@@ -51,7 +21,7 @@
       :title="success ? 'Email Enviado' : 'Login'"
       ><form
         v-if="!success"
-        @submit.prevent="handleLogin"
+        @submit.prevent="handleLogin(email)"
       >
         <UFormGroup
           help="Você receberá um link para o acesso."
