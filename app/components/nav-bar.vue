@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { DropdownItem } from '#ui/types'
   const router = useRouter()
   const routes = router.getRoutes()
   const supabase = useSupabaseClient()
@@ -10,8 +11,33 @@
     .sort((a, b) => (a.meta.order ?? 10) - (b.meta.order ?? 10))
 
   const handleLogout = async () => {
-    supabase.auth.signOut()
+    await supabase.auth.signOut()
   }
+
+  const items: DropdownItem[][] = [
+    [
+      {
+        label: user.value?.email || '',
+        slot: 'account',
+        disabled: true,
+      },
+    ],
+    [
+      {
+        label: 'Settings',
+        icon: 'i-heroicons-cog-8-tooth',
+        click: () => console.log('Link to settings in the future'),
+      },
+      {
+        label: 'Sign out',
+        icon: 'i-heroicons-arrow-left-on-rectangle',
+        click: async () => {
+          await handleLogout()
+          return navigateTo('/login')
+        },
+      },
+    ],
+  ]
 </script>
 
 <template>
@@ -39,12 +65,17 @@
         to="/login"
         >Login</ULink
       >
-      <UAvatar
+      <UDropdown
         v-else
-        alt="Avatar"
-        size="xs"
-        src="https://avatars.githubusercontent.com/u/739984?v=4"
-      />
+        :items="items"
+        :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
+      >
+        <UAvatar
+          alt="Avatar"
+          size="xs"
+          src="https://avatars.githubusercontent.com/u/739984?v=4"
+        />
+      </UDropdown>
     </div>
   </nav>
 </template>
