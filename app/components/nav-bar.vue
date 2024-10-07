@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { DropdownItem } from '#ui/types'
 
-  const { user } = await useUserStatus()
+  const { user } = useUserStatus()
   const { handleLogout } = useAuth()
   const { navBarItems } = useNavigation()
 
