@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <div>
+  <UContainer>
     <section>
       <AppCard title="About">
         <p>
@@ -59,5 +59,5 @@
         @click="openModal"
       />
     </section>
-  </div>
+  </UContainer>
 </template>

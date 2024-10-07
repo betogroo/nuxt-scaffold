@@ -53,7 +53,7 @@
 </script>
 
 <template>
-  <div>
+  <UContainer>
     <section>
       <AppCard title="Home">
         <p>
@@ -174,7 +174,7 @@
         />
       </AppCard>
     </section>
-  </div>
+  </UContainer>
 </template>
 <style type="css" scoped>
   /* Defina as classes de transição */
