@@ -1,11 +1,7 @@
-import {
-  addFormSchema,
-  viewFormSchema,
-  type AddForm,
-  type ViewForm,
-} from '~/models/form'
+import type { AddUser, ViewUser } from '~/types'
+import { addUserSchema, viewUserSchema } from '~/types'
 
-const fakeUsers = ref<ViewForm[]>([])
+const fakeUsers = ref<ViewUser[]>([])
 const isDevelopment = () => process.env.NODE_ENV !== 'production'
 
 const isPending = reactive({
@@ -16,14 +12,14 @@ const isPending = reactive({
 
 const useRegistration = () => {
   const { delay, getRandomUUID } = useHelpers()
-  const addUser = async (data: AddForm) => {
+  const addUser = async (data: AddUser) => {
     isPending.addUser = true
     if (isDevelopment()) {
       await delay(2000, 'Testing addUser')
       //throw new Error('Erro simulado no cadastro')
     }
     try {
-      const parsedFormData = addFormSchema.parse(data)
+      const parsedFormData = addUserSchema.parse(data)
       const parsedFakedUser = createFakeUser(parsedFormData)
       fakeUsers.value = [...fakeUsers.value, parsedFakedUser]
       console.log(parsedFormData, 'enviado ao db:', fakeUsers.value)
@@ -51,8 +47,8 @@ const useRegistration = () => {
       isPending.deleteUser = false
     }
   }
-  const createFakeUser = (formData: AddForm) => {
-    return viewFormSchema.parse({
+  const createFakeUser = (formData: AddUser) => {
+    return viewUserSchema.parse({
       ...formData,
       id: getRandomUUID(),
       created_at: new Date().toISOString(),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { AddForm } from '~/models/form'
+  import type { AddUser } from '~/types'
   const { handleError, genFakeUsers, showToast } = useHelpers()
 
   definePageMeta({
@@ -24,7 +24,7 @@
 
   const toast = useToast()
 
-  const addData = async (user: AddForm) => {
+  const addData = async (user: AddUser) => {
     try {
       await addUser(user)
       showToast('success', 'Cadastrado com sucesso')
