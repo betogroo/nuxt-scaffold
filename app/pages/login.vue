@@ -7,8 +7,9 @@
   })
   useUserStatus('/')
 
-  const { success, isPending, handleLogin } = useAuth()
-  const email = ref<string>('')
+  const { isPending, handleLogin } = useAuth()
+  const email = ref<string>('luizhumberto@gmail.com')
+  const password = ref<string>('123456')
 </script>
 
 <template>
@@ -18,13 +19,9 @@
     <AppCard
       class="w-72 lg:w-96"
       ring="green"
-      :title="success ? 'Email Enviado' : 'Login'"
-      ><form
-        v-if="!success"
-        @submit.prevent="handleLogin(email)"
-      >
+      title="Login"
+      ><form @submit.prevent="handleLogin(email, password)">
         <UFormGroup
-          help="Você receberá um link para o acesso."
           label="Email"
           required
           size="2xs"
@@ -36,6 +33,19 @@
             size="md"
           />
         </UFormGroup>
+        <UFormGroup
+          label="Senha"
+          required
+          size="2xs"
+        >
+          <UInput
+            v-model="password"
+            icon="mdi-lock-outline"
+            placeholder="Digite sua senha"
+            size="md"
+            type="password"
+          />
+        </UFormGroup>
         <div class="flex justify-end">
           <UButton
             icon="mdi-login"
@@ -45,16 +55,6 @@
           >
         </div>
       </form>
-      <div
-        v-else
-        class="text-justify"
-      >
-        <p class="mb-4">
-          Enviamos um email para <strong>rmsil@email.com</strong> com o link
-          para o login.
-        </p>
-        <p><strong>Importante:</strong> O Link expirará em 5 minutos.</p>
-      </div>
     </AppCard>
   </div>
 </template>
