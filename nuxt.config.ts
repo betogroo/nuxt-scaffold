@@ -6,8 +6,15 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+
   supabase: {
-    redirect: false,
+    redirectOptions: {
+      exclude: ['/about'],
+      cookieRedirect: true,
+      callback: '/confirm',
+    },
+
+    redirect: true,
   },
 
   modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@nuxtjs/supabase'],

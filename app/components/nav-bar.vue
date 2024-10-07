@@ -1,22 +1,39 @@
 <script setup lang="ts">
-  const router = useRouter()
-  const routes = router.getRoutes()
+  import type { DropdownItem } from '#ui/types'
 
-  const navBarItems = routes
-    .filter((item) => item.meta && item.meta.showInNavBar)
-    .sort((a, b) => (a.meta.order ?? 10) - (b.meta.order ?? 10))
+  const { user } = useUserStatus()
+  const { handleLogout } = useAuth()
+  const { navBarItems } = useNavigation()
 
-  const user = useSupabaseUser()
-
-  watch(
-    user,
-    (user) => {
-      if (user) {
-        console.log('Logged In')
-      }
-    },
-    { immediate: true },
-  )
+  const items: DropdownItem[][] = [
+    [
+      {
+        label: user.value?.email || '',
+        avatar: {
+          src: 'https://avatars.githubusercontent.com/u/739984?v=4',
+        },
+        slot: 'account',
+        click: () => console.log('Link to profile in the future'),
+      },
+    ],
+    [
+      {
+        label: 'Settings',
+        icon: 'i-heroicons-cog-8-tooth',
+        click: () => {
+          return navigateTo('/settings')
+        },
+      },
+      {
+        label: 'Sign out',
+        icon: 'i-heroicons-arrow-left-on-rectangle',
+        click: async () => {
+          await handleLogout()
+          return navigateTo('/login')
+        },
+      },
+    ],
+  ]
 </script>
 
 <template>
@@ -25,7 +42,7 @@
   >
     <div class="flex justify-end items-center space-x-2 px-3">
       <template
-        v-for="(item, i) in navBarItems"
+        v-for="item in navBarItems"
         :key="item.path"
       >
         <ULink
@@ -35,12 +52,26 @@
           >{{ item.meta.title || 'Sem Título' }}</ULink
         >
 
-        <div v-if="i < navBarItems.length - 1">|</div>
+        <div>|</div>
       </template>
-      <div v-if="user">
-        |
-        <ULink>Sair</ULink>
-      </div>
+
+      <ULink
+        v-if="!user"
+        class="hover:underline"
+        to="/login"
+        >Login</ULink
+      >
+      <UDropdown
+        v-else
+        :items="items"
+        :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
+      >
+        <UAvatar
+          alt="Avatar"
+          size="xs"
+          src="https://avatars.githubusercontent.com/u/739984?v=4"
+        />
+      </UDropdown>
     </div>
   </nav>
 </template>

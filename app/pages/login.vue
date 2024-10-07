@@ -1,44 +1,15 @@
 <script setup lang="ts">
   definePageMeta({
-    showInNavBar: true,
+    showInNavBar: false,
     requiresAuth: true,
     title: 'Login',
     layout: 'no-nav',
-    order: 5,
   })
+  useUserStatus('/')
 
-  const { delay, showToast } = useHelpers()
-  const supabase = useSupabaseClient()
-  const email = ref<string>('')
-
-  const success = ref(false)
-  const isPending = ref(false)
-
-  const handleLogin = async () => {
-    isPending.value = true
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: email.value,
-        options: {
-          emailRedirectTo: 'http://localhost:3000',
-        },
-      })
-      await delay(3000)
-      if (!error) {
-        showToast('success', 'Email Enviado', 1500)
-        await delay(1500)
-        success.value = true
-      }
-    } catch (err) {
-      const e = err as Error
-      showToast('error', 'Erro ao Autenticar')
-      console.log(e)
-    } finally {
-      isPending.value = false
-    }
-
-    isPending.value = false
-  }
+  const { isPending, handleLogin } = useAuth()
+  const email = ref<string>('luizhumberto@gmail.com')
+  const password = ref<string>('123456')
 </script>
 
 <template>
@@ -48,13 +19,9 @@
     <AppCard
       class="w-72 lg:w-96"
       ring="green"
-      :title="success ? 'Email Enviado' : 'Login'"
-      ><form
-        v-if="!success"
-        @submit.prevent="handleLogin"
-      >
+      title="Login"
+      ><form @submit.prevent="handleLogin(email, password)">
         <UFormGroup
-          help="Você receberá um link para o acesso."
           label="Email"
           required
           size="2xs"
@@ -66,6 +33,19 @@
             size="md"
           />
         </UFormGroup>
+        <UFormGroup
+          label="Senha"
+          required
+          size="2xs"
+        >
+          <UInput
+            v-model="password"
+            icon="mdi-lock-outline"
+            placeholder="Digite sua senha"
+            size="md"
+            type="password"
+          />
+        </UFormGroup>
         <div class="flex justify-end">
           <UButton
             icon="mdi-login"
@@ -75,16 +55,6 @@
           >
         </div>
       </form>
-      <div
-        v-else
-        class="text-justify"
-      >
-        <p class="mb-4">
-          Enviamos um email para <strong>rmsil@email.com</strong> com o link
-          para o login.
-        </p>
-        <p><strong>Importante:</strong> O Link expirará em 5 minutos.</p>
-      </div>
     </AppCard>
   </div>
 </template>

@@ -4,7 +4,7 @@
   import { useCounterStore } from '~/store/useCounterStore'
   definePageMeta({
     showInNavBar: true,
-    requiresAuth: true,
+    requiresAuth: false,
     title: 'About',
     order: 1,
   })
