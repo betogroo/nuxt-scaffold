@@ -6,7 +6,14 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+
   supabase: {
+    redirectOptions: {
+      exclude: ['/about'],
+      cookieRedirect: true,
+      callback: '/confirm',
+    },
+
     redirect: true,
   },
 

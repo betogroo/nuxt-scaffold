@@ -25,6 +25,7 @@ const useAuth = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut()
   }
+
   return { isPending, handleLogout, handleLogin }
 }
 

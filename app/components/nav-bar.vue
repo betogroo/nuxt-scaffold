@@ -1,11 +1,9 @@
 <script setup lang="ts">
   import type { DropdownItem } from '#ui/types'
 
-  const { user } = useUserStatus()
+  const { user } = await useUserStatus()
   const { handleLogout } = useAuth()
   const { navBarItems } = useNavigation()
-
-  console.log(user.value)
 
   const items: DropdownItem[][] = [
     [

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-  const { delay } = useHelpers()
-
-  await delay(3000)
   useUserStatus('/')
 </script>
 
