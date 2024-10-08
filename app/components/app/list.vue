@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import type { ViewForm } from '~/models/form'
+  import type { ViewUser } from '~/types'
 
   interface Props {
-    item: ViewForm
+    item: ViewUser
     isPending: boolean
   }
 

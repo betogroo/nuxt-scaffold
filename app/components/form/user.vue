@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import { validationFormSchema } from '~/models/form.js'
-  import type { AddForm } from '~/models/form'
+  import { validationUserSchema } from '~/types'
+  import type { AddUser } from '~/types'
+
   import { fakerPT_BR as faker } from '@faker-js/faker'
 
   interface Props {
@@ -13,11 +14,11 @@
   })
 
   const $emit = defineEmits<{
-    onSubmit: [values: AddForm]
+    onSubmit: [values: AddUser]
   }>()
 
-  const { values, handleSubmit, meta, resetForm } = useForm<AddForm>({
-    validationSchema: validationFormSchema,
+  const { values, handleSubmit, meta, resetForm } = useForm<AddUser>({
+    validationSchema: validationUserSchema,
     // fake pre-filled form
     initialValues: {
       name: faker.person.fullName(),
