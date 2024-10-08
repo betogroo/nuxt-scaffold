@@ -1,7 +1,7 @@
 import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
-import type { ViewForm } from '~/models/form'
+import type { ViewUser } from '~/types'
 
 const useHelpers = () => {
   const toast = useToast()
@@ -12,7 +12,7 @@ const useHelpers = () => {
   }
 
   const getRandomUUID = (): string => uuid()
-  const genFakeUser = (): ViewForm => {
+  const genFakeUser = (): ViewUser => {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
     const fullName = faker.person.fullName({ firstName, lastName })
@@ -24,7 +24,7 @@ const useHelpers = () => {
       created_at: faker.date.recent().toISOString(),
     }
   }
-  const genFakeUsers = (fakeUsersAmount: number = 10): ViewForm[] => {
+  const genFakeUsers = (fakeUsersAmount: number = 10): ViewUser[] => {
     return Array.from({ length: fakeUsersAmount }, () => genFakeUser())
   }
 
