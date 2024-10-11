@@ -46,11 +46,38 @@ const useAuth = () => {
       isPending.value = false
     }
   }
+  const resendEmailConfirmation = async (email: string) => {
+    isPending.value = true
+    try {
+      await delay(3000)
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email,
+      })
+
+      if (error) throw error
+      showToast('success', `Um link de confirmação foi enviado para ${email}`)
+    } catch (err) {
+      const e = err as Error
+
+      showToast('error', 'Erro ao Cadastrar')
+      console.log(e)
+    } finally {
+      isPending.value = false
+    }
+  }
   const handleLogout = async () => {
     await supabase.auth.signOut()
   }
 
-  return { isPending, success, handleLogout, handleLogin, handleSignUp }
+  return {
+    isPending,
+    success,
+    handleLogout,
+    handleLogin,
+    handleSignUp,
+    resendEmailConfirmation,
+  }
 }
 
 export default useAuth
