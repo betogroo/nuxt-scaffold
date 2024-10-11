@@ -7,8 +7,13 @@
   })
   useUserStatus('/')
 
-  const { isPending, success, handleSignUp, resendEmailConfirmation } =
-    useAuth()
+  const {
+    isPending,
+    success,
+    handleSignUp,
+    remainingTime,
+    resendEmailConfirmation,
+  } = useAuth()
   const email = ref<string>('')
   const password = ref<string>('')
 </script>
@@ -67,6 +72,7 @@
         </p>
         <p>Aguarde alguns instantes, por favor.</p>
         <UButton
+          :disabled="remainingTime > 0"
           :loading="isPending"
           @click="resendEmailConfirmation(success)"
           >Reenviar</UButton

@@ -2,7 +2,19 @@ const useAuth = () => {
   const supabase = useSupabaseClient()
   const isPending = ref(false)
   const success = ref<string | false>(false)
+  const remainingTime = ref(90)
+  const intervalId = ref<ReturnType<typeof setInterval> | null>(null)
   const { delay, showToast } = useHelpers()
+
+  const startCountdown = () => {
+    intervalId.value = setInterval(() => {
+      if (remainingTime.value > 0) {
+        remainingTime.value--
+      } else if (intervalId.value !== null) {
+        clearInterval(intervalId.value)
+      }
+    }, 1000)
+  }
 
   const handleLogin = async (email: string, password: string) => {
     isPending.value = true
@@ -37,6 +49,7 @@ const useAuth = () => {
         'success',
         `Um link de confirmação foi enviado para ${data.user?.email}`,
       )
+      startCountdown()
       success.value = data.user?.email || 'cadastrado'
     } catch (err) {
       const e = err as Error
@@ -48,6 +61,7 @@ const useAuth = () => {
   }
   const resendEmailConfirmation = async (email: string) => {
     isPending.value = true
+    startCountdown()
     try {
       await delay(3000)
       const { error } = await supabase.auth.resend({
@@ -56,6 +70,7 @@ const useAuth = () => {
       })
 
       if (error) throw error
+
       showToast('success', `Um link de confirmação foi enviado para ${email}`)
     } catch (err) {
       const e = err as Error
@@ -76,6 +91,7 @@ const useAuth = () => {
     handleLogout,
     handleLogin,
     handleSignUp,
+    remainingTime,
     resendEmailConfirmation,
   }
 }
