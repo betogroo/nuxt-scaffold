@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 
   supabase: {
     redirectOptions: {
-      exclude: ['/about'],
+      exclude: ['/about', '/signup'],
       cookieRedirect: true,
       callback: '/confirm',
     },

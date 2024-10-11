@@ -8,8 +8,8 @@
   useUserStatus('/')
 
   const { isPending, handleLogin } = useAuth()
-  const email = ref<string>('luizhumberto@gmail.com')
-  const password = ref<string>('123456')
+  const email = ref<string>('')
+  const password = ref<string>('')
 </script>
 
 <template>
@@ -20,7 +20,10 @@
       class="w-72 lg:w-96"
       ring="green"
       title="Login"
-      ><form @submit.prevent="handleLogin(email, password)">
+      ><form
+        class="mb-3"
+        @submit.prevent="handleLogin(email, password)"
+      >
         <UFormGroup
           label="Email"
           required
@@ -55,6 +58,9 @@
           >
         </div>
       </form>
+      <div>
+        Ainda não é cadastrado? <ULink to="/signup">Clique aqui!</ULink>
+      </div>
     </AppCard>
   </div>
 </template>
