@@ -8,6 +8,14 @@ const baseUserSchema = z.object({
   email: z.string().min(1, 'Campo Obrigatório').email('Email Inválido'),
 })
 
+export const userCredencialSchema = baseUserSchema
+  .pick({
+    email: true,
+  })
+  .extend({
+    password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
+  })
+
 export const addUserSchema = baseUserSchema.omit({
   id: true,
   created_at: true,
@@ -19,3 +27,4 @@ export const editUserSchema = baseUserSchema.partial().extend({
 
 export const viewUserSchema = baseUserSchema
 export const validationUserSchema = toTypedSchema(addUserSchema)
+export const validationCredencial = toTypedSchema(userCredencialSchema)
