@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import type { UserCredencial } from '~/types'
+  import { useField, useForm } from 'vee-validate'
+  import { validationCredencial } from '~/types'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: false,
@@ -6,7 +9,6 @@
     layout: 'no-nav',
   })
   useUserStatus('/')
-
   const {
     isPending,
     success,
@@ -14,8 +16,23 @@
     remainingTime,
     resendEmailConfirmation,
   } = useAuth()
-  const email = ref<string>('')
-  const password = ref<string>('')
+  const userCredencial = ref<UserCredencial>({
+    email: '',
+    password: '',
+  })
+
+  const { values, handleSubmit, meta } = useForm<UserCredencial>({
+    validationSchema: validationCredencial,
+    initialValues: userCredencial.value,
+  })
+
+  const { value: email, errorMessage: emailError } = useField<string>('email')
+  const { value: password, errorMessage: passwordError } =
+    useField<string>('password')
+
+  const signup = handleSubmit(async () => {
+    handleSignUp(values)
+  })
 </script>
 
 <template>
@@ -28,8 +45,9 @@
       title="Cadastro"
     >
       <div v-if="!success">
-        <form @submit.prevent="handleSignUp(email, password)">
+        <form @submit.prevent="signup">
           <UFormGroup
+            :error="emailError"
             label="Email"
             required
             size="2xs"
@@ -42,6 +60,7 @@
             />
           </UFormGroup>
           <UFormGroup
+            :error="passwordError"
             label="Senha"
             required
             size="2xs"
@@ -56,6 +75,7 @@
           </UFormGroup>
           <div class="flex justify-end">
             <UButton
+              :disabled="!meta.valid"
               icon="mdi-account-plus-outline"
               :loading="isPending"
               type="submit"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { UserCredencial } from '~/types'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
@@ -8,8 +9,10 @@
   useUserStatus('/')
 
   const { isPending, handleLogin } = useAuth()
-  const email = ref<string>('')
-  const password = ref<string>('')
+  const userCredencial = ref<UserCredencial>({
+    email: '',
+    password: '',
+  })
 </script>
 
 <template>
@@ -22,7 +25,7 @@
       title="Login"
       ><form
         class="mb-3"
-        @submit.prevent="handleLogin(email, password)"
+        @submit.prevent="handleLogin(userCredencial)"
       >
         <UFormGroup
           label="Email"
@@ -30,7 +33,7 @@
           size="2xs"
         >
           <UInput
-            v-model="email"
+            v-model="userCredencial.email"
             icon="mdi-email-outline"
             placeholder="email.exemplo.com.br"
             size="md"
@@ -42,7 +45,7 @@
           size="2xs"
         >
           <UInput
-            v-model="password"
+            v-model="userCredencial.password"
             icon="mdi-lock-outline"
             placeholder="Digite sua senha"
             size="md"
