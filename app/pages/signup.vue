@@ -33,6 +33,7 @@
       <div v-if="!success">
         <FormCredencial
           :is-pending="isPending"
+          type="signup"
           @on-submit="signup"
         />
         <div>Já é cadastrado? <ULink to="/login">Faça Login</ULink></div>

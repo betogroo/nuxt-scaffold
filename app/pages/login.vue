@@ -26,6 +26,7 @@
     >
       <FormCredencial
         :is-pending="isPending"
+        type="login"
         @on-submit="login"
       />
       <div>

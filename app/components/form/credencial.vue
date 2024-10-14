@@ -1,18 +1,23 @@
 <script setup lang="ts">
-  import type { UserCredencial } from '~/types'
+  import type { UserCredencial, CredencialType } from '~/types'
   import { useField, useForm } from 'vee-validate'
   import { validationCredencial } from '~/types'
 
   interface Props {
+    type: CredencialType
     isPending?: boolean
   }
-  withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<Props>(), {
     isPending: false,
   })
 
   const $emit = defineEmits<{
     'on-submit': [values: UserCredencial]
   }>()
+
+  const { type, isPending } = toRefs(props)
+
+  const label = ref(type.value === 'login' ? 'Login' : 'Cadastrar')
 
   const userCredencial = ref<UserCredencial>({
     email: '',
@@ -66,10 +71,10 @@
       <UButton
         :disabled="!meta.valid"
         icon="mdi-account-plus-outline"
+        :label="label"
         :loading="isPending"
         type="submit"
-        >Cadastrar</UButton
-      >
+      />
     </div>
   </form>
 </template>

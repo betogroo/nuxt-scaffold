@@ -8,6 +8,8 @@ const baseUserSchema = z.object({
   email: z.string().min(1, 'Campo Obrigatório').email('Email Inválido'),
 })
 
+export const credencialTypeSchema = z.enum(['login', 'signup'])
+
 export const userCredencialSchema = baseUserSchema
   .pick({
     email: true,
