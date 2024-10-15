@@ -22,6 +22,7 @@
   const userCredencial = ref<UserCredencial>({
     email: '',
     password: '',
+    passwordConfirm: '',
   })
 
   const { values, handleSubmit, meta } = useForm<UserCredencial>({
@@ -32,6 +33,8 @@
   const { value: email, errorMessage: emailError } = useField<string>('email')
   const { value: password, errorMessage: passwordError } =
     useField<string>('password')
+  const { value: passwordConfirm, errorMessage: passwordConfirmError } =
+    useField<string>('passwordConfirm')
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values)
@@ -61,6 +64,21 @@
     >
       <UInput
         v-model="password"
+        icon="mdi-lock-outline"
+        placeholder="Digite sua senha"
+        size="md"
+        type="password"
+      />
+    </UFormGroup>
+    <UFormGroup
+      v-if="type === 'signup'"
+      :error="passwordConfirmError"
+      label="Confirme a senha"
+      required
+      size="2xs"
+    >
+      <UInput
+        v-model="passwordConfirm"
         icon="mdi-lock-outline"
         placeholder="Digite sua senha"
         size="md"
