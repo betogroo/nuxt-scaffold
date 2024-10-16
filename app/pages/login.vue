@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { UserLogin } from '~/types'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
@@ -8,8 +9,10 @@
   useUserStatus('/')
 
   const { isPending, handleLogin } = useAuth()
-  const email = ref<string>('')
-  const password = ref<string>('')
+
+  const login = async (credential: UserLogin) => {
+    await handleLogin(credential)
+  }
 </script>
 
 <template>
@@ -20,44 +23,12 @@
       class="w-72 lg:w-96"
       ring="green"
       title="Login"
-      ><form
-        class="mb-3"
-        @submit.prevent="handleLogin(email, password)"
-      >
-        <UFormGroup
-          label="Email"
-          required
-          size="2xs"
-        >
-          <UInput
-            v-model="email"
-            icon="mdi-email-outline"
-            placeholder="email.exemplo.com.br"
-            size="md"
-          />
-        </UFormGroup>
-        <UFormGroup
-          label="Senha"
-          required
-          size="2xs"
-        >
-          <UInput
-            v-model="password"
-            icon="mdi-lock-outline"
-            placeholder="Digite sua senha"
-            size="md"
-            type="password"
-          />
-        </UFormGroup>
-        <div class="flex justify-end">
-          <UButton
-            icon="mdi-login"
-            :loading="isPending"
-            type="submit"
-            >Login</UButton
-          >
-        </div>
-      </form>
+    >
+      <FormCredencial
+        :is-pending="isPending"
+        type="login"
+        @on-submit="login"
+      />
       <div>
         Ainda não é cadastrado? <ULink to="/signup">Clique aqui!</ULink>
       </div>

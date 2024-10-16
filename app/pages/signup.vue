@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { UserSignup } from '~/types'
+
   definePageMeta({
     showInNavBar: false,
     requiresAuth: false,
@@ -6,7 +8,6 @@
     layout: 'no-nav',
   })
   useUserStatus('/')
-
   const {
     isPending,
     success,
@@ -14,8 +15,10 @@
     remainingTime,
     resendEmailConfirmation,
   } = useAuth()
-  const email = ref<string>('')
-  const password = ref<string>('')
+
+  const signup = async (credential: UserSignup) => {
+    await handleSignUp(credential)
+  }
 </script>
 
 <template>
@@ -28,41 +31,11 @@
       title="Cadastro"
     >
       <div v-if="!success">
-        <form @submit.prevent="handleSignUp(email, password)">
-          <UFormGroup
-            label="Email"
-            required
-            size="2xs"
-          >
-            <UInput
-              v-model="email"
-              icon="mdi-email-outline"
-              placeholder="email.exemplo.com.br"
-              size="md"
-            />
-          </UFormGroup>
-          <UFormGroup
-            label="Senha"
-            required
-            size="2xs"
-          >
-            <UInput
-              v-model="password"
-              icon="mdi-lock-outline"
-              placeholder="Digite sua senha"
-              size="md"
-              type="password"
-            />
-          </UFormGroup>
-          <div class="flex justify-end">
-            <UButton
-              icon="mdi-account-plus-outline"
-              :loading="isPending"
-              type="submit"
-              >Cadastrar</UButton
-            >
-          </div>
-        </form>
+        <FormCredencial
+          :is-pending="isPending"
+          type="signup"
+          @on-submit="signup"
+        />
         <div>Já é cadastrado? <ULink to="/login">Faça Login</ULink></div>
       </div>
       <div v-else>

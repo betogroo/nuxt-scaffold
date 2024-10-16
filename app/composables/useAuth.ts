@@ -1,3 +1,9 @@
+import {
+  userLoginSchema,
+  userSignupSchema,
+  type UserLogin,
+  type UserSignup,
+} from '~/types'
 const useAuth = () => {
   const supabase = useSupabaseClient()
   const isPending = ref(false)
@@ -16,10 +22,13 @@ const useAuth = () => {
     }, 1000)
   }
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (credencial: UserLogin) => {
     isPending.value = true
+
     try {
       await delay(3000)
+      const parsedData = userLoginSchema.parse(credencial)
+      const { email, password } = parsedData
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -27,7 +36,7 @@ const useAuth = () => {
       if (error) throw error
     } catch (err) {
       const e = err as Error
-      showToast('error', 'Erro ao Autenticar')
+      showToast('error', e.message || 'Erro ao Autenticar')
       console.log(e)
     } finally {
       isPending.value = false
@@ -36,10 +45,12 @@ const useAuth = () => {
     isPending.value = false
   }
 
-  const handleSignUp = async (email: string, password: string) => {
+  const handleSignUp = async (credencial: UserSignup) => {
     isPending.value = true
     try {
       await delay(3000)
+      const parsedData = userSignupSchema.parse(credencial)
+      const { email, password } = parsedData
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -53,7 +64,7 @@ const useAuth = () => {
       success.value = data.user?.email || 'cadastrado'
     } catch (err) {
       const e = err as Error
-      showToast('error', 'Erro ao Cadastrar')
+      showToast('error', e.message || 'Erro ao cadastrar.')
       console.log(e)
     } finally {
       isPending.value = false
