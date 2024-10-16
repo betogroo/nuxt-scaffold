@@ -4,8 +4,9 @@ import {
   type UserLogin,
   type UserSignup,
 } from '~/types'
+import type { Database, Tables } from '~/types/supabase'
 const useAuth = () => {
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient<Database>()
   const isPending = ref(false)
   const success = ref<string | false>(false)
   const remainingTime = ref(90)
@@ -20,6 +21,22 @@ const useAuth = () => {
         clearInterval(intervalId.value)
       }
     }, 1000)
+  }
+
+  const profile = ref<Tables<'profiles'>[]>()
+  const testProfile = async () => {
+    isPending.value = true
+    try {
+      const { data, error } = await supabase.from('profiles').select('*')
+      if (error) throw error
+      if (data) profile.value = data
+    } catch (err) {
+      const e = err as Error
+
+      console.log(e)
+    } finally {
+      isPending.value = false
+    }
   }
 
   const handleLogin = async (credencial: UserLogin) => {
@@ -104,6 +121,8 @@ const useAuth = () => {
     handleSignUp,
     remainingTime,
     resendEmailConfirmation,
+    testProfile,
+    profile,
   }
 }
 
