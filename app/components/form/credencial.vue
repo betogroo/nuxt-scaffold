@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import type { UserCredencial, CredencialType } from '~/types'
+  import type { UserLogin, UserSignup, CredencialType } from '~/types'
   import { useField, useForm } from 'vee-validate'
-  import { validationCredencial } from '~/types'
+  import { validationLogin, validationSignup } from '~/types'
 
   interface Props {
     type: CredencialType
@@ -12,21 +12,22 @@
   })
 
   const $emit = defineEmits<{
-    'on-submit': [values: UserCredencial]
+    'on-submit': [values: UserSignup | UserLogin]
   }>()
 
   const { type, isPending } = toRefs(props)
 
   const label = ref(type.value === 'login' ? 'Login' : 'Cadastrar')
 
-  const userCredencial = ref<UserCredencial>({
+  const userCredencial = ref<UserSignup | UserLogin>({
     email: '',
     password: '',
     passwordConfirm: '',
   })
 
-  const { values, handleSubmit, meta } = useForm<UserCredencial>({
-    validationSchema: validationCredencial,
+  const { values, handleSubmit, meta } = useForm<UserLogin | UserSignup>({
+    validationSchema:
+      type.value === 'login' ? validationLogin : validationSignup,
     initialValues: userCredencial.value,
   })
 

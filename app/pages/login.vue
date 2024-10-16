@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { UserCredencial } from '~/types'
+  import type { UserLogin } from '~/types'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
@@ -10,7 +10,7 @@
 
   const { isPending, handleLogin } = useAuth()
 
-  const login = async (credential: UserCredencial) => {
+  const login = async (credential: UserLogin) => {
     await handleLogin(credential)
   }
 </script>

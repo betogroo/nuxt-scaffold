@@ -1,4 +1,9 @@
-import { userCredencialSchema, type UserCredencial } from '~/types'
+import {
+  userLoginSchema,
+  userSignupSchema,
+  type UserLogin,
+  type UserSignup,
+} from '~/types'
 const useAuth = () => {
   const supabase = useSupabaseClient()
   const isPending = ref(false)
@@ -17,12 +22,12 @@ const useAuth = () => {
     }, 1000)
   }
 
-  const handleLogin = async (credencial: UserCredencial) => {
+  const handleLogin = async (credencial: UserLogin) => {
     isPending.value = true
 
     try {
       await delay(3000)
-      const parsedData = userCredencialSchema.parse(credencial)
+      const parsedData = userLoginSchema.parse(credencial)
       const { email, password } = parsedData
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -40,11 +45,11 @@ const useAuth = () => {
     isPending.value = false
   }
 
-  const handleSignUp = async (credencial: UserCredencial) => {
+  const handleSignUp = async (credencial: UserSignup) => {
     isPending.value = true
     try {
       await delay(3000)
-      const parsedData = userCredencialSchema.parse(credencial)
+      const parsedData = userSignupSchema.parse(credencial)
       const { email, password } = parsedData
       const { data, error } = await supabase.auth.signUp({
         email,

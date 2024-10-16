@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { UserCredencial } from '~/types'
+  import type { UserSignup } from '~/types'
 
   definePageMeta({
     showInNavBar: false,
@@ -16,7 +16,7 @@
     resendEmailConfirmation,
   } = useAuth()
 
-  const signup = async (credential: UserCredencial) => {
+  const signup = async (credential: UserSignup) => {
     await handleSignUp(credential)
   }
 </script>

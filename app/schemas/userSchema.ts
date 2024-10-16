@@ -10,12 +10,26 @@ const baseUserSchema = z.object({
 
 export const credencialTypeSchema = z.enum(['login', 'signup'])
 
-export const userCredencialSchema = baseUserSchema
+export const userLoginSchema = baseUserSchema
   .pick({
     email: true,
   })
   .extend({
     password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
+  })
+
+export const userSignupSchema = z
+  .object({
+    passwordConfirm: z
+      .string()
+      .min(1, 'É necessário confirmar a senha')
+      .min(6, 'A confirmação deve ter no mínimo 6 dígitos')
+      .optional(),
+  })
+  .merge(userLoginSchema)
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'As senhas devem ser idênticas',
+    path: ['passwordConfirm'],
   })
 
 export const addUserSchema = baseUserSchema.omit({
@@ -28,5 +42,8 @@ export const editUserSchema = baseUserSchema.partial().extend({
 })
 
 export const viewUserSchema = baseUserSchema
+
 export const validationUserSchema = toTypedSchema(addUserSchema)
-export const validationCredencial = toTypedSchema(userCredencialSchema)
+
+export const validationLogin = toTypedSchema(userLoginSchema)
+export const validationSignup = toTypedSchema(userSignupSchema)
