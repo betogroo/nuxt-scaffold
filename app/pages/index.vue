@@ -10,6 +10,7 @@
   })
 
   const { addUser, deleteUser, fakeUsers, isPending } = useRegistration()
+  const { profile, testProfile } = useAuth()
   const formModal = ref(false)
   const openModal = () => {
     formModal.value = true
@@ -18,8 +19,9 @@
     formModal.value = false
   }
 
-  onMounted(() => {
+  onMounted(async () => {
     fakeUsers.value = genFakeUsers(5)
+    await testProfile()
   })
 
   const toast = useToast()
@@ -172,6 +174,11 @@
           label="Testar Toast"
           @click="toast.add({ title: 'Testando UNotification' })"
         />
+      </AppCard>
+    </section>
+    <section>
+      <AppCard title="Profiles">
+        {{ profile }}
       </AppCard>
     </section>
   </UContainer>

@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "gen-types": "npx supabase gen types typescript --project-id ononpdjuwjkqsfewrtoy > ./app/types/supabase.d.ts && npx supabase-to-zod --input ./app/types/supabase.d.ts --output ./app/schemas/supabaseSchema.ts",
+    "gen-zod": "npx supabase-to-zod --input ./app/types/supabase.d.ts --output ./app/schemas/supabaseSchema.ts"
   },
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.0",
@@ -26,6 +28,7 @@
     "@nuxt/ui": "^2.18.4",
     "@pinia/nuxt": "^0.5.3",
     "@types/uuid": "^10.0.0",
+    "supabase-to-zod": "^1.0.7",
     "uuid": "^10.0.0"
   },
   "overrides": {
