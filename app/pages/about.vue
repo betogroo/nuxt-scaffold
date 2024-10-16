@@ -4,7 +4,7 @@
   import { useCounterStore } from '~/store/useCounterStore'
   definePageMeta({
     showInNavBar: true,
-    requiresAuth: true,
+    requiresAuth: false,
     title: 'About',
     order: 1,
   })
@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <div>
+  <UContainer>
     <section>
       <AppCard title="About">
         <p>
@@ -59,5 +59,5 @@
         @click="openModal"
       />
     </section>
-  </div>
+  </UContainer>
 </template>

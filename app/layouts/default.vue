@@ -4,9 +4,7 @@
   <header>
     <NavBar />
   </header>
-  <main>
-    <UContainer class="pt-8">
-      <slot />
-    </UContainer>
+  <main class="pt-8">
+    <slot />
   </main>
 </template>

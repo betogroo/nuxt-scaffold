@@ -3,5 +3,8 @@ export default defineAppConfig({
     formGroup: {
       container: 'my-2',
     },
+    card: {
+      divide: 'divide-none',
+    },
   },
 })

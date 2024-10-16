@@ -1,8 +1,10 @@
 import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
-import type { ViewForm } from '~/models/form'
+import type { ViewUser } from '~/types'
+
 const useHelpers = () => {
+  const toast = useToast()
   type CustomError = {
     type: 'validation' | 'database' | 'unknown'
     message: string
@@ -10,7 +12,7 @@ const useHelpers = () => {
   }
 
   const getRandomUUID = (): string => uuid()
-  const genFakeUser = (): ViewForm => {
+  const genFakeUser = (): ViewUser => {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
     const fullName = faker.person.fullName({ firstName, lastName })
@@ -22,7 +24,7 @@ const useHelpers = () => {
       created_at: faker.date.recent().toISOString(),
     }
   }
-  const genFakeUsers = (fakeUsersAmount: number = 10): ViewForm[] => {
+  const genFakeUsers = (fakeUsersAmount: number = 10): ViewUser[] => {
     return Array.from({ length: fakeUsersAmount }, () => genFakeUser())
   }
 
@@ -63,7 +65,32 @@ const useHelpers = () => {
     if (msg) console.log(`${msg} - ${time}ms delay`)
     return new Promise((resolve) => setTimeout(resolve, time))
   }
-  return { delay, handleError, getRandomUUID, genFakeUser, genFakeUsers }
+
+  const showToast = (
+    type: 'success' | 'error',
+    title: string,
+    timeout = 1500,
+  ): void => {
+    const color = type === 'success' ? 'green' : 'red'
+    const icon =
+      type === 'success'
+        ? 'i-heroicons-check-circle'
+        : 'i-heroicons-exclamation-circle'
+    toast.add({
+      color,
+      title,
+      icon,
+      timeout,
+    })
+  }
+  return {
+    delay,
+    handleError,
+    getRandomUUID,
+    genFakeUser,
+    genFakeUsers,
+    showToast,
+  }
 }
 
 export default useHelpers

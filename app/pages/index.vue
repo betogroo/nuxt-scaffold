@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { AddForm } from '~/models/form'
-  const { handleError, genFakeUsers } = useHelpers()
+  import type { AddUser } from '~/types'
+  const { handleError, genFakeUsers, showToast } = useHelpers()
 
   definePageMeta({
     showInNavBar: true,
@@ -22,32 +22,38 @@
     fakeUsers.value = genFakeUsers(5)
   })
 
-  const addData = async (user: AddForm) => {
+  const toast = useToast()
+
+  const addData = async (user: AddUser) => {
     try {
       await addUser(user)
+      showToast('success', 'Cadastrado com sucesso')
       console.log('Usuário Cadastrado - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
+      showToast('error', error.message)
       console.error(error)
     }
   }
   const deleteData = async (id: string) => {
     try {
       await deleteUser(id)
+      showToast('success', 'Excluído com sucesso')
       console.log('Usuário Excluído - Index.vue')
       closeModal()
     } catch (err) {
       const e = err as Error
       const error = handleError(e)
+      showToast('error', error.message)
       console.error(error)
     }
   }
 </script>
 
 <template>
-  <div>
+  <UContainer>
     <section>
       <AppCard title="Home">
         <p>
@@ -153,9 +159,24 @@
         </ul>
       </AppCard>
     </section>
-  </div>
+    <section>
+      <AppCard title="Notification">
+        <p>
+          Clique no Botão abaixo para simular uma notificação utilizando o
+          componente
+          <code class="text-green-700">UNotifications</code> juntamente com o
+          composable <code class="text-green-700">useToast()</code>
+        </p>
+        <UButton
+          :color="formModal ? 'red' : 'primary'"
+          label="Testar Toast"
+          @click="toast.add({ title: 'Testando UNotification' })"
+        />
+      </AppCard>
+    </section>
+  </UContainer>
 </template>
-<style scoped>
+<style type="css" scoped>
   /* Defina as classes de transição */
   .fade-red-enter-active,
   .fade-red-leave-active {

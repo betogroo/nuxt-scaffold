@@ -7,7 +7,17 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
+  supabase: {
+    redirectOptions: {
+      exclude: ['/about', '/signup'],
+      cookieRedirect: true,
+      callback: '/confirm',
+    },
+
+    redirect: true,
+  },
+
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@nuxtjs/supabase'],
 
   css: ['~/assets/css/main.css'],
   app: {
