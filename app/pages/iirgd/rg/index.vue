@@ -1,7 +1,9 @@
 <script setup lang="ts">
+  import { useDocumentDemand } from '#imports'
   import type { DocumentDemandInsert } from '~/types'
   const { handleError, showToast } = useHelpers()
-  const { demands, fetchDocumentDemands } = useDocumentDemand()
+  const { demands, fetchDocumentDemands, isPending, addDocumentDemand } =
+    useDocumentDemand()
   const newRgModal = ref(false)
   const openModal = () => {
     newRgModal.value = true
@@ -13,7 +15,6 @@
   onMounted(async () => {
     await fetchDocumentDemands()
   })
-  const { addDocumentDemand, isPending } = useDocumentDemand()
   const submitDocumentDemand = async (documentDemand: DocumentDemandInsert) => {
     try {
       const newDocumentDemand = await addDocumentDemand(documentDemand)
@@ -62,12 +63,19 @@
 
     <div>
       <ul>
-        <li
-          v-for="demand in demands"
-          :key="demand.id"
-        >
-          {{ demand.document_number }}
+        <li v-if="isPending">
+          <USkeleton class="h-8 w-72 my-1" />
+          <USkeleton class="h-8 w-96 my-1" />
+          <USkeleton class="h-8 w-48 my-1" />
         </li>
+        <template v-else>
+          <li
+            v-for="demand in demands"
+            :key="demand.id"
+          >
+            {{ demand.document_number }}
+          </li>
+        </template>
       </ul>
     </div>
   </UContainer>
