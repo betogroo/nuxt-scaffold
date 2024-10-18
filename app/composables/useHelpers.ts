@@ -66,6 +66,8 @@ const useHelpers = () => {
     return new Promise((resolve) => setTimeout(resolve, time))
   }
 
+  const isDevelopment = () => process.env.NODE_ENV !== 'production'
+
   const showToast = (
     type: 'success' | 'error',
     title: string,
@@ -90,6 +92,7 @@ const useHelpers = () => {
     genFakeUser,
     genFakeUsers,
     showToast,
+    isDevelopment,
   }
 }
 
