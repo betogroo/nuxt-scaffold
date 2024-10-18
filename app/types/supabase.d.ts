@@ -9,6 +9,68 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      document_demand: {
+        Row: {
+          created_at: string | null
+          document_number: string
+          id: number
+          status: Database["public"]["Enums"]["demand_status"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          document_number: string
+          id?: number
+          status?: Database["public"]["Enums"]["demand_status"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          document_number?: string
+          id?: number
+          status?: Database["public"]["Enums"]["demand_status"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      document_status_history: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          document_demand_id: number
+          id: number
+          new_status: Database["public"]["Enums"]["demand_status"]
+          old_status: Database["public"]["Enums"]["demand_status"]
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          document_demand_id: number
+          id?: number
+          new_status: Database["public"]["Enums"]["demand_status"]
+          old_status: Database["public"]["Enums"]["demand_status"]
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          document_demand_id?: number
+          id?: number
+          new_status?: Database["public"]["Enums"]["demand_status"]
+          old_status?: Database["public"]["Enums"]["demand_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_status_history_document_demand_id_fkey"
+            columns: ["document_demand_id"]
+            isOneToOne: false
+            referencedRelation: "document_demand"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           id: string
@@ -35,7 +97,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      demand_status: "new" | "consulted" | "released" | "issued" | "error"
     }
     CompositeTypes: {
       [_ in never]: never
