@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { UserLogin } from '~/types'
+  const { showToast, handleError } = useHelpers()
   definePageMeta({
     showInNavBar: false,
     requiresAuth: true,
@@ -11,7 +12,13 @@
   const { isPending, handleLogin } = useAuth()
 
   const login = async (credential: UserLogin) => {
-    await handleLogin(credential)
+    try {
+      await handleLogin(credential)
+    } catch (error) {
+      const err = handleError(error)
+      console.error(err)
+      showToast('error', 'Usuário ou Senha incorretos')
+    }
   }
 </script>
 
@@ -25,7 +32,7 @@
       title="Login"
     >
       <FormCredencial
-        :is-pending="isPending"
+        :is-pending="isPending.isLoading && isPending.action === 'handleLogin'"
         type="login"
         @on-submit="login"
       />

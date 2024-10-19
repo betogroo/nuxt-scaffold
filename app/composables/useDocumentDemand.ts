@@ -8,8 +8,7 @@ const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
   const supabase = useSupabaseClient<Database>()
-  const { delay, isDevelopment } = useHelpers()
-  const { isPending, setPendingState } = usePending()
+  const { delay, isDevelopment, isPending, setPendingState } = useHelpers()
 
   const fetchDocumentDemands = async () => {
     return setPendingState(async () => {
@@ -24,7 +23,7 @@ const useDocumentDemand = () => {
         const parsedData = documentsDemandRowSchema.parse(data)
         demands.value = parsedData
       }
-    })
+    }, 'fetchDocumentDemands')
   }
 
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
@@ -43,7 +42,7 @@ const useDocumentDemand = () => {
       if (error) throw error
       console.log(newDocumentDemand)
       if (newDocumentDemand) return newDocumentDemand
-    })
+    }, 'addDocumentDemand')
   }
 
   return { addDocumentDemand, fetchDocumentDemands, isPending, demands }

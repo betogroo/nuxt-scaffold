@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { UserSignup } from '~/types'
+  const { showToast, handleError } = useHelpers()
 
   definePageMeta({
     showInNavBar: false,
@@ -17,7 +18,12 @@
   } = useAuth()
 
   const signup = async (credential: UserSignup) => {
-    await handleSignUp(credential)
+    try {
+      await handleSignUp(credential)
+    } catch (error) {
+      const err = handleError(error)
+      showToast('error', err.message)
+    }
   }
 </script>
 
@@ -32,7 +38,9 @@
     >
       <div v-if="!success">
         <FormCredencial
-          :is-pending="isPending"
+          :is-pending="
+            isPending.isLoading && isPending.action === 'handleSignUp'
+          "
           type="signup"
           @on-submit="signup"
         />
@@ -46,7 +54,10 @@
         <p>Aguarde alguns instantes, por favor.</p>
         <UButton
           :disabled="remainingTime > 0"
-          :loading="isPending"
+          :loading="
+            isPending.isLoading &&
+            isPending.action === 'resendEmailConfirmation'
+          "
           @click="resendEmailConfirmation(success)"
           >Reenviar</UButton
         >

@@ -1,4 +1,6 @@
 export * from './user'
 export * from './documentDemand'
+export * from '~/types/helpers'
 export * from '../schemas/userSchema'
 export * from '../schemas/documentDemandSchema'
+export * from '../schemas/helpersSchema'
