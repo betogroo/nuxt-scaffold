@@ -3,7 +3,7 @@ import { addUserSchema, viewUserSchema } from '~/types'
 
 const fakeUsers = ref<ViewUser[]>([])
 const isDevelopment = () => process.env.NODE_ENV !== 'production'
-const { isPending, setPendingState } = usePending()
+const { isPending, setPendingState } = useHelpers()
 
 const useRegistration = () => {
   const { delay, getRandomUUID } = useHelpers()

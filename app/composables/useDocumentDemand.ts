@@ -8,8 +8,7 @@ const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
   const supabase = useSupabaseClient<Database>()
-  const { delay, isDevelopment } = useHelpers()
-  const { isPending, setPendingState } = usePending()
+  const { delay, isDevelopment, isPending, setPendingState } = useHelpers()
 
   const fetchDocumentDemands = async () => {
     return setPendingState(async () => {
