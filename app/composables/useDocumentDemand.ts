@@ -24,7 +24,7 @@ const useDocumentDemand = () => {
         const parsedData = documentsDemandRowSchema.parse(data)
         demands.value = parsedData
       }
-    })
+    }, 'fetchDocumentDemands')
   }
 
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
@@ -43,7 +43,7 @@ const useDocumentDemand = () => {
       if (error) throw error
       console.log(newDocumentDemand)
       if (newDocumentDemand) return newDocumentDemand
-    })
+    }, 'addDocumentDemand')
   }
 
   return { addDocumentDemand, fetchDocumentDemands, isPending, demands }

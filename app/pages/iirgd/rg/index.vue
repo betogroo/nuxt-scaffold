@@ -52,7 +52,9 @@
       title="Cadastrar Documento"
     >
       <FormDocumentDemand
-        :is-pending="isPending"
+        :is-pending="
+          isPending.isLoading && isPending.action === 'addDocumentDemand'
+        "
         @on-submit="submitDocumentDemand"
       />
     </AppModal>
@@ -63,7 +65,11 @@
 
     <div>
       <ul>
-        <li v-if="isPending">
+        <li
+          v-if="
+            isPending.isLoading && isPending.action === 'fetchDocumentDemands'
+          "
+        >
           <USkeleton class="h-8 w-72 my-1" />
           <USkeleton class="h-8 w-96 my-1" />
           <USkeleton class="h-8 w-48 my-1" />

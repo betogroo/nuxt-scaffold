@@ -1,10 +1,18 @@
-import { ref } from 'vue'
+import type { PendingState } from '~/types'
 
 const usePending = () => {
-  const isPending = ref(false)
+  const isPending = ref<PendingState>({
+    action: null,
+    itemId: null,
+    isLoading: false,
+  })
   const error = ref()
-  const setPendingState = async <T>(fn: () => Promise<T>): Promise<T> => {
-    isPending.value = true
+  const setPendingState = async <T>(
+    fn: () => Promise<T>,
+    action: string,
+    itemId: number | string | null = null,
+  ): Promise<T> => {
+    isPending.value = { action, itemId, isLoading: true }
     try {
       return await fn() // Executa a função passada como argumento (a operação principal)
     } catch (err) {
@@ -12,7 +20,7 @@ const usePending = () => {
       console.log(err)
       throw err // Propaga o erro, se houver
     } finally {
-      isPending.value = false // Garante que o estado isPending seja atualizado
+      isPending.value = { action: null, itemId: null, isLoading: false }
     }
   }
 

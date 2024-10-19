@@ -110,7 +110,7 @@
           title="Formulário Modal"
         >
           <FormUser
-            :is-pending="isPending.addUser"
+            :is-pending="isPending.isLoading && isPending.action === 'addUser'"
             @on-submit="addData"
           />
         </AppModal>
@@ -129,7 +129,9 @@
         title="Usuários"
       >
         <ul>
-          <template v-if="isPending.addUser">
+          <template
+            v-if="isPending.isLoading && isPending.action === 'addUser'"
+          >
             <template
               v-for="user in fakeUsers"
               :key="user.email"
@@ -151,7 +153,9 @@
                 v-for="user in fakeUsers"
                 :key="user.id"
                 :is-pending="
-                  isPending.deleteUser && isPending.pendingItemId === user.id
+                  isPending.isLoading &&
+                  isPending.action === 'deleteUser' &&
+                  isPending.itemId === user.id
                 "
                 :item="user"
                 @handle-delete="deleteData(user.id!)"
