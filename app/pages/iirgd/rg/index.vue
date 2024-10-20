@@ -79,7 +79,9 @@
             v-for="demand in demands"
             :key="demand.id"
           >
-            {{ demand.document_number }}
+            {{
+              `${demand.document_number} - ${demand.name} - ${demand.status}`
+            }}
           </li>
         </template>
       </ul>

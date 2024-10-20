@@ -21,12 +21,15 @@
     validationSchema: validateDocumentDemand,
     initialValues: {
       document_number: '',
+      name: '',
       user_id: user.value?.id,
     },
   })
 
   const { value: documentNumber, errorMessage: documentNumberError } =
     useField<DocumentDemandInsert['document_number']>('document_number')
+  const { value: name, errorMessage: nameError } =
+    useField<DocumentDemandInsert['name']>('name')
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values)
@@ -41,6 +44,13 @@
       required
     >
       <UInput v-model="documentNumber" />
+    </UFormGroup>
+    <UFormGroup
+      :error="nameError"
+      label="Nome (Como escrito no documento)"
+      required
+    >
+      <UInput v-model="name" />
     </UFormGroup>
     <UButton
       :disabled="!meta.valid"

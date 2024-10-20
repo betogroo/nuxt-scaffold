@@ -12,7 +12,10 @@ const useDocumentDemand = () => {
 
   const fetchDocumentDemands = async () => {
     return setPendingState(async () => {
-      const { data, error } = await supabase.from('document_demand').select('*')
+      const { data, error } = await supabase
+        .from('document_demand')
+        .select('*')
+        .returns<DocumentDemandRow>()
       if (error) throw error
       if (data) {
         const parsedData = documentsDemandRowSchema.parse(data)
@@ -31,7 +34,6 @@ const useDocumentDemand = () => {
         .returns<DocumentDemandRow[]>()
         .single()
       if (error) throw error
-      console.log(newDocumentDemand)
       if (newDocumentDemand) return newDocumentDemand
     }, 'addDocumentDemand')
   }
