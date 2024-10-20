@@ -14,6 +14,11 @@ export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
     .nullable(),
 )
 
+export const demandSiteSchema = z.union([
+  z.literal('1062-9'),
+  z.literal('1342-5'),
+])
+
 export const demandStatusSchema = z.union([
   z.literal('new'),
   z.literal('consulted'),
@@ -27,6 +32,7 @@ export const documentDemandInsertSchema = z.object({
   document_number: z.string(),
   id: z.number().optional(),
   name: z.string().optional(),
+  site: demandSiteSchema,
   status: demandStatusSchema.optional(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string(),
@@ -37,6 +43,7 @@ export const documentDemandUpdateSchema = z.object({
   document_number: z.string().optional(),
   id: z.number().optional(),
   name: z.string().optional(),
+  site: demandSiteSchema.optional(),
   status: demandStatusSchema.optional(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().optional(),
@@ -108,6 +115,7 @@ export const documentDemandRowSchema = z.object({
   document_number: z.string(),
   id: z.number(),
   name: z.string(),
+  site: demandSiteSchema,
   status: demandStatusSchema,
   updated_at: z.string().nullable(),
   user_id: z.string(),

@@ -115,11 +115,19 @@ const useHelpers = () => {
       isPending.value = { action: null, itemId: null, isLoading: false }
     }
   }
+
+  type SelectOption<T> = { name: string; value: T }
+
+  const getOptionName = <T>(value: T, options: SelectOption<T>[]): string => {
+    const option = options.find((option) => option.value === value)
+    return option ? option.name : 'Outros'
+  }
   return {
     isPending,
     delay,
     genFakeUser,
     genFakeUsers,
+    getOptionName,
     getRandomUUID,
     handleError,
     isDevelopment,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useDocumentDemand } from '#imports'
-  import type { DocumentDemandInsert } from '~/types'
-  const { handleError, showToast } = useHelpers()
+  import type { DocumentDemandInsert, SelectOptionsDemandSite } from '~/types'
+  const { handleError, showToast, getOptionName } = useHelpers()
   const { demands, fetchDocumentDemands, isPending, addDocumentDemand } =
     useDocumentDemand()
   const newRgModal = ref(false)
@@ -11,6 +11,17 @@
   const closeModal = () => {
     newRgModal.value = false
   }
+
+  const demandSites: SelectOptionsDemandSite[] = [
+    {
+      name: 'Morro Agudo',
+      value: '1062-9',
+    },
+    {
+      name: 'São Joaquim da Barra',
+      value: '1342-5',
+    },
+  ]
 
   onMounted(async () => {
     await fetchDocumentDemands()
@@ -80,7 +91,9 @@
             :key="demand.id"
           >
             {{
-              `${demand.document_number} - ${demand.name} - ${demand.status}`
+              `${demand.document_number} - ${demand.name} - ${
+                demand.status
+              } ${getOptionName(demand.site, demandSites)}`
             }}
           </li>
         </template>

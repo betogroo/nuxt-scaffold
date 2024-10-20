@@ -27,6 +27,7 @@ const useDocumentDemand = () => {
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
     return setPendingState(async () => {
       const parsedData = documentDemandInsertSchema.parse(data)
+      console.log(parsedData)
       const { data: newDocumentDemand, error } = await supabase
         .from('document_demand')
         .insert(parsedData)
@@ -38,7 +39,12 @@ const useDocumentDemand = () => {
     }, 'addDocumentDemand')
   }
 
-  return { addDocumentDemand, fetchDocumentDemands, isPending, demands }
+  return {
+    addDocumentDemand,
+    fetchDocumentDemands,
+    isPending,
+    demands,
+  }
 }
 
 export default useDocumentDemand

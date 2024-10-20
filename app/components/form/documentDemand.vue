@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
-  import type { DocumentDemandInsert } from '~/types'
+  import type { DocumentDemandInsert, SelectOptionsDemandSite } from '~/types'
   import { validateDocumentDemand } from '~/types'
   interface Props {
     isPending?: boolean
@@ -13,6 +13,18 @@
     'on-submit': [values: DocumentDemandInsert]
   }>()
 
+  const demandSites: SelectOptionsDemandSite[] = [
+    {
+      name: 'Morro Agudo',
+      value: '1062-9',
+    },
+    {
+      name: 'São Joaquim da Barra',
+      value: '1342-5',
+    },
+  ]
+
+  //const demandSite = ref<DocumentDemandInsert['site']>()
   const user = useSupabaseUser()
 
   const { isPending } = toRefs(props)
@@ -30,6 +42,8 @@
     useField<DocumentDemandInsert['document_number']>('document_number')
   const { value: name, errorMessage: nameError } =
     useField<DocumentDemandInsert['name']>('name')
+  const { value: site, errorMessage: siteError } =
+    useField<DocumentDemandInsert['site']>('site')
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values)
@@ -51,6 +65,18 @@
       required
     >
       <UInput v-model="name" />
+    </UFormGroup>
+    <UFormGroup
+      :error="siteError"
+      label="Posto de Identificação"
+      required
+    >
+      <USelect
+        v-model="site"
+        option-attribute="name"
+        :options="demandSites"
+        placeholder="Escolha"
+      />
     </UFormGroup>
     <UButton
       :disabled="!meta.valid"

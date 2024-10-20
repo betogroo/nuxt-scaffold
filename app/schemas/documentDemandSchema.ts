@@ -8,12 +8,18 @@ export const demandStatusSchema = z.union([
   z.literal('issued'),
   z.literal('error'),
 ])
+export const demandSiteSchema = z.union([
+  z.literal('1062-9'),
+  z.literal('1342-5'),
+])
+
 export const documentDemandRowSchema = z.object({
   created_at: z.string().nullable(),
   document_number: z.string(),
   id: z.number(),
   name: z.string().min(1, 'Campo Obrigatório').trim(),
   status: demandStatusSchema,
+  site: demandSiteSchema,
   updated_at: z.string().nullable(),
   user_id: z.string(),
 })
@@ -39,6 +45,7 @@ export const documentDemandInsertSchema = z.object({
       },
     ),
   status: demandStatusSchema.optional(),
+  site: demandSiteSchema,
   updated_at: z.string().optional().nullable(),
   user_id: z.string().uuid(),
 })
