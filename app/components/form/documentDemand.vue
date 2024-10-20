@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { useField, useForm } from 'vee-validate'
   import type { DocumentDemandInsert } from '~/types'
-  import { validateDocumentDemand } from '~/types'
+  import { validateDocumentDemand } from '~/schemas'
+  import { demandSites } from '~/constants'
   interface Props {
     isPending?: boolean
   }
@@ -21,12 +22,20 @@
     validationSchema: validateDocumentDemand,
     initialValues: {
       document_number: '',
+      name: '',
       user_id: user.value?.id,
+      note: '',
     },
   })
 
   const { value: documentNumber, errorMessage: documentNumberError } =
     useField<DocumentDemandInsert['document_number']>('document_number')
+  const { value: name, errorMessage: nameError } =
+    useField<DocumentDemandInsert['name']>('name')
+  const { value: site, errorMessage: siteError } =
+    useField<DocumentDemandInsert['site']>('site')
+  const { value: note, errorMessage: noteError } =
+    useField<DocumentDemandInsert['note']>('note')
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values)
@@ -41,6 +50,31 @@
       required
     >
       <UInput v-model="documentNumber" />
+    </UFormGroup>
+    <UFormGroup
+      :error="nameError"
+      label="Nome (Como escrito no documento)"
+      required
+    >
+      <UInput v-model="name" />
+    </UFormGroup>
+    <UFormGroup
+      :error="siteError"
+      label="Posto de Identificação"
+      required
+    >
+      <USelect
+        v-model="site"
+        option-attribute="name"
+        :options="demandSites"
+        placeholder="Escolha"
+      />
+    </UFormGroup>
+    <UFormGroup
+      :error="noteError"
+      label="Observações"
+    >
+      <UTextarea v-model="note" />
     </UFormGroup>
     <UButton
       :disabled="!meta.valid"

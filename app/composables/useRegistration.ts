@@ -1,18 +1,13 @@
 import type { AddUser, ViewUser } from '~/types'
-import { addUserSchema, viewUserSchema } from '~/types'
+import { addUserSchema, viewUserSchema } from '~/schemas'
 
 const fakeUsers = ref<ViewUser[]>([])
-const isDevelopment = () => process.env.NODE_ENV !== 'production'
-const { isPending, setPendingState } = useHelpers()
 
 const useRegistration = () => {
-  const { delay, getRandomUUID } = useHelpers()
+  const { isPending, setPendingState } = useHelpers()
+  const { getRandomUUID } = useHelpers()
   const addUser = async (data: AddUser) => {
     await setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing addUser')
-        //throw new Error('Erro simulado no cadastro')
-      }
       const parsedFormData = addUserSchema.parse(data)
       const parsedFakedUser = createFakeUser(parsedFormData)
       fakeUsers.value = [...fakeUsers.value, parsedFakedUser]
@@ -23,10 +18,6 @@ const useRegistration = () => {
   const deleteUser = async (id: string) => {
     await setPendingState(
       async () => {
-        if (isDevelopment()) {
-          await delay(2000, 'Testing deleteUser')
-          //throw new Error('Erro simulado ao deletar')
-        }
         fakeUsers.value = fakeUsers.value.filter((item) => item.id !== id)
       },
       'deleteUser',

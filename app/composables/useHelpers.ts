@@ -1,7 +1,7 @@
 import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
-import type { ViewUser, PendingState } from '~/types'
+import type { ViewUser, PendingState, SelectOption } from '~/types'
 
 const useHelpers = () => {
   const toast = useToast()
@@ -68,6 +68,12 @@ const useHelpers = () => {
 
   const isDevelopment = () => process.env.NODE_ENV !== 'production'
 
+  const simulateDelayInDevelopment = async () => {
+    if (isDevelopment()) {
+      await delay(2000, 'Delay for testing...')
+    }
+  }
+
   const showToast = (
     type: 'success' | 'error',
     title: string,
@@ -98,6 +104,7 @@ const useHelpers = () => {
     itemId: number | string | null = null,
   ): Promise<T> => {
     isPending.value = { action, itemId, isLoading: true }
+    await simulateDelayInDevelopment()
     try {
       return await fn() // Executa a função passada como argumento (a operação principal)
     } catch (err) {
@@ -108,16 +115,23 @@ const useHelpers = () => {
       isPending.value = { action: null, itemId: null, isLoading: false }
     }
   }
+
+  const getOptionName = <T>(value: T, options: SelectOption<T>[]): string => {
+    const option = options.find((option) => option.value === value)
+    return option ? option.name : 'Outros'
+  }
   return {
     isPending,
     delay,
-    handleError,
-    getRandomUUID,
     genFakeUser,
     genFakeUsers,
-    showToast,
+    getOptionName,
+    getRandomUUID,
+    handleError,
     isDevelopment,
     setPendingState,
+    showToast,
+    simulateDelayInDevelopment,
   }
 }
 

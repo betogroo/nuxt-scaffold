@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { useDocumentDemand } from '#imports'
   import type { DocumentDemandInsert } from '~/types'
-  const { handleError, showToast } = useHelpers()
+  import { demandSites, demandStatus } from '~/constants'
+  const { handleError, showToast, getOptionName } = useHelpers()
   const { demands, fetchDocumentDemands, isPending, addDocumentDemand } =
     useDocumentDemand()
   const newRgModal = ref(false)
@@ -79,7 +79,12 @@
             v-for="demand in demands"
             :key="demand.id"
           >
-            {{ demand.document_number }}
+            {{
+              `${demand.document_number} - ${demand.name} - ${getOptionName(
+                demand.status,
+                demandStatus,
+              )} ${getOptionName(demand.site, demandSites)} - ${demand.note}`
+            }}
           </li>
         </template>
       </ul>

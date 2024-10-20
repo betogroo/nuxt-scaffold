@@ -1,17 +1,12 @@
-import {
-  userLoginSchema,
-  userSignupSchema,
-  type UserLogin,
-  type UserSignup,
-} from '~/types'
+import type { UserLogin, UserSignup } from '~/types'
+import { userLoginSchema, userSignupSchema } from '~/schemas'
 import type { Database, Tables } from '~/types/supabase'
 const useAuth = () => {
   const supabase = useSupabaseClient<Database>()
   const success = ref<string | false>(false)
   const remainingTime = ref(90)
   const intervalId = ref<ReturnType<typeof setInterval> | null>(null)
-  const { delay, showToast, isPending, setPendingState, isDevelopment } =
-    useHelpers()
+  const { delay, showToast, isPending, setPendingState } = useHelpers()
 
   const startCountdown = () => {
     remainingTime.value = 90
@@ -35,10 +30,6 @@ const useAuth = () => {
 
   const handleLogin = async (credencial: UserLogin) => {
     await setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing handleLogin')
-        //throw new Error('Erro simulado no cadastro')
-      }
       const parsedData = userLoginSchema.parse(credencial)
       const { email, password } = parsedData
       const { error } = await supabase.auth.signInWithPassword({
@@ -51,10 +42,6 @@ const useAuth = () => {
 
   const handleSignUp = async (credencial: UserSignup) => {
     await setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing handleSignUp')
-        //throw new Error('Erro simulado no cadastro')
-      }
       const parsedData = userSignupSchema.parse(credencial)
       const { email, password } = parsedData
       const { data, error } = await supabase.auth.signUp({

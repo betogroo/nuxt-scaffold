@@ -44,6 +44,5 @@ export const editUserSchema = baseUserSchema.partial().extend({
 export const viewUserSchema = baseUserSchema
 
 export const validationUserSchema = toTypedSchema(addUserSchema)
-
 export const validationLogin = toTypedSchema(userLoginSchema)
 export const validationSignup = toTypedSchema(userSignupSchema)

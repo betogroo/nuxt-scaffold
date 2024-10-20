@@ -7,7 +7,7 @@ import type {
   userLoginSchema,
   userSignupSchema,
   viewUserSchema,
-} from '../schemas/userSchema.js'
+} from '~/schemas'
 
 export type AddUser = z.infer<typeof addUserSchema>
 export type EditUser = z.infer<typeof editUserSchema>

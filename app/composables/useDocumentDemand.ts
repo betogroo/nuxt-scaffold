@@ -2,22 +2,21 @@ import { z } from 'zod'
 
 import type { Database } from '~/types/supabase'
 import type { DocumentDemandInsert, DocumentDemandRow } from '~/types'
-import { documentDemandInsertSchema, documentDemandRowSchema } from '~/types'
+import { documentDemandInsertSchema, documentDemandRowSchema } from '~/schemas'
 
 const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
   const supabase = useSupabaseClient<Database>()
-  const { delay, isDevelopment, isPending, setPendingState } = useHelpers()
+  const { isPending, setPendingState } = useHelpers()
 
   const fetchDocumentDemands = async () => {
     return setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing addDocumentDemand')
-        //throw new Error('Erro simulado no cadastro')
-      }
-      const { data, error } = await supabase.from('document_demand').select('*')
-
+      const { data, error } = await supabase
+        .from('document_demand')
+        .select('*')
+        .order('id', { ascending: true })
+        .returns<DocumentDemandRow>()
       if (error) throw error
       if (data) {
         const parsedData = documentsDemandRowSchema.parse(data)
@@ -28,11 +27,8 @@ const useDocumentDemand = () => {
 
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
     return setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing addDocumentDemand')
-        //throw new Error('Erro simulado no cadastro')
-      }
       const parsedData = documentDemandInsertSchema.parse(data)
+      console.log(parsedData)
       const { data: newDocumentDemand, error } = await supabase
         .from('document_demand')
         .insert(parsedData)
@@ -40,12 +36,16 @@ const useDocumentDemand = () => {
         .returns<DocumentDemandRow[]>()
         .single()
       if (error) throw error
-      console.log(newDocumentDemand)
       if (newDocumentDemand) return newDocumentDemand
     }, 'addDocumentDemand')
   }
 
-  return { addDocumentDemand, fetchDocumentDemands, isPending, demands }
+  return {
+    addDocumentDemand,
+    fetchDocumentDemands,
+    isPending,
+    demands,
+  }
 }
 
 export default useDocumentDemand
