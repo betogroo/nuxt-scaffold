@@ -15,6 +15,7 @@ const useDocumentDemand = () => {
       const { data, error } = await supabase
         .from('document_demand')
         .select('*')
+        .order('id', { ascending: true })
         .returns<DocumentDemandRow>()
       if (error) throw error
       if (data) {

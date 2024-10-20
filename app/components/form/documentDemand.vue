@@ -35,6 +35,7 @@
       document_number: '',
       name: '',
       user_id: user.value?.id,
+      note: '',
     },
   })
 
@@ -44,6 +45,8 @@
     useField<DocumentDemandInsert['name']>('name')
   const { value: site, errorMessage: siteError } =
     useField<DocumentDemandInsert['site']>('site')
+  const { value: note, errorMessage: noteError } =
+    useField<DocumentDemandInsert['note']>('note')
 
   const onSubmit = handleSubmit(async () => {
     $emit('on-submit', values)
@@ -77,6 +80,12 @@
         :options="demandSites"
         placeholder="Escolha"
       />
+    </UFormGroup>
+    <UFormGroup
+      :error="noteError"
+      label="Observações"
+    >
+      <UTextarea v-model="note" />
     </UFormGroup>
     <UButton
       :disabled="!meta.valid"

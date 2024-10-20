@@ -22,6 +22,7 @@ export const documentDemandRowSchema = z.object({
   site: demandSiteSchema,
   updated_at: z.string().nullable(),
   user_id: z.string(),
+  note: z.string().nullable(),
 })
 
 export const documentDemandInsertSchema = z.object({
@@ -48,6 +49,7 @@ export const documentDemandInsertSchema = z.object({
   site: demandSiteSchema,
   updated_at: z.string().optional().nullable(),
   user_id: z.string().uuid(),
+  note: z.string().optional(),
 })
 
 export const validateDocumentDemand = toTypedSchema(documentDemandInsertSchema)

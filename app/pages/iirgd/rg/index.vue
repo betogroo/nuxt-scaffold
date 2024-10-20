@@ -93,7 +93,7 @@
             {{
               `${demand.document_number} - ${demand.name} - ${
                 demand.status
-              } ${getOptionName(demand.site, demandSites)}`
+              } ${getOptionName(demand.site, demandSites)} - ${demand.note}`
             }}
           </li>
         </template>
