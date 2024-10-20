@@ -34,7 +34,7 @@ export const documentDemandInsertSchema = z.object({
   name: z
     .string()
     .min(1, 'Campo Obrigatório')
-    .min(2, 'Parte do node deve conter no mínimo duas letras')
+    .min(2, 'Parte do nome deve conter no mínimo duas letras')
     .trim()
     .refine(
       (data) => {

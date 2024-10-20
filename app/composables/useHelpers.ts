@@ -1,7 +1,7 @@
 import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
-import type { ViewUser, PendingState } from '~/types'
+import type { ViewUser, PendingState, SelectOption } from '~/types'
 
 const useHelpers = () => {
   const toast = useToast()
@@ -115,8 +115,6 @@ const useHelpers = () => {
       isPending.value = { action: null, itemId: null, isLoading: false }
     }
   }
-
-  type SelectOption<T> = { name: string; value: T }
 
   const getOptionName = <T>(value: T, options: SelectOption<T>[]): string => {
     const option = options.find((option) => option.value === value)

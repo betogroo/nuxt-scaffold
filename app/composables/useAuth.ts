@@ -1,22 +1,12 @@
-import {
-  userLoginSchema,
-  userSignupSchema,
-  type UserLogin,
-  type UserSignup,
-} from '~/types'
+import type { UserLogin, UserSignup } from '~/types'
+import { userLoginSchema, userSignupSchema } from '~/schemas'
 import type { Database, Tables } from '~/types/supabase'
 const useAuth = () => {
   const supabase = useSupabaseClient<Database>()
   const success = ref<string | false>(false)
   const remainingTime = ref(90)
   const intervalId = ref<ReturnType<typeof setInterval> | null>(null)
-  const {
-    delay,
-    showToast,
-    isPending,
-    setPendingState,
-    simulateDelayInDevelopment,
-  } = useHelpers()
+  const { delay, showToast, isPending, setPendingState } = useHelpers()
 
   const startCountdown = () => {
     remainingTime.value = 90
@@ -32,7 +22,6 @@ const useAuth = () => {
   const profile = ref<Tables<'profiles'>[]>()
   const testProfile = async () => {
     await setPendingState(async () => {
-      await simulateDelayInDevelopment()
       const { data, error } = await supabase.from('profiles').select('*')
       if (error) throw error
       if (data) profile.value = data

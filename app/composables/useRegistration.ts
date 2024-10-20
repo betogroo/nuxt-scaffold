@@ -1,5 +1,5 @@
 import type { AddUser, ViewUser } from '~/types'
-import { addUserSchema, viewUserSchema } from '~/types'
+import { addUserSchema, viewUserSchema } from '~/schemas'
 
 const fakeUsers = ref<ViewUser[]>([])
 
