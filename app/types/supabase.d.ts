@@ -14,6 +14,7 @@ export type Database = {
           created_at: string | null
           document_number: string
           id: number
+          name: string
           status: Database["public"]["Enums"]["demand_status"]
           updated_at: string | null
           user_id: string
@@ -22,6 +23,7 @@ export type Database = {
           created_at?: string | null
           document_number: string
           id?: number
+          name?: string
           status?: Database["public"]["Enums"]["demand_status"]
           updated_at?: string | null
           user_id: string
@@ -30,6 +32,7 @@ export type Database = {
           created_at?: string | null
           document_number?: string
           id?: number
+          name?: string
           status?: Database["public"]["Enums"]["demand_status"]
           updated_at?: string | null
           user_id?: string
