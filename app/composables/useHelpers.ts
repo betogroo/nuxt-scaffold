@@ -68,6 +68,12 @@ const useHelpers = () => {
 
   const isDevelopment = () => process.env.NODE_ENV !== 'production'
 
+  const simulateDelayInDevelopment = async () => {
+    if (isDevelopment()) {
+      await delay(2000, 'Delay for testing...')
+    }
+  }
+
   const showToast = (
     type: 'success' | 'error',
     title: string,
@@ -98,6 +104,7 @@ const useHelpers = () => {
     itemId: number | string | null = null,
   ): Promise<T> => {
     isPending.value = { action, itemId, isLoading: true }
+    await simulateDelayInDevelopment()
     try {
       return await fn() // Executa a função passada como argumento (a operação principal)
     } catch (err) {
@@ -111,13 +118,14 @@ const useHelpers = () => {
   return {
     isPending,
     delay,
-    handleError,
-    getRandomUUID,
     genFakeUser,
     genFakeUsers,
-    showToast,
+    getRandomUUID,
+    handleError,
     isDevelopment,
     setPendingState,
+    showToast,
+    simulateDelayInDevelopment,
   }
 }
 

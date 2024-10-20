@@ -8,16 +8,11 @@ const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
   const supabase = useSupabaseClient<Database>()
-  const { delay, isDevelopment, isPending, setPendingState } = useHelpers()
+  const { isPending, setPendingState } = useHelpers()
 
   const fetchDocumentDemands = async () => {
     return setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing addDocumentDemand')
-        //throw new Error('Erro simulado no cadastro')
-      }
       const { data, error } = await supabase.from('document_demand').select('*')
-
       if (error) throw error
       if (data) {
         const parsedData = documentsDemandRowSchema.parse(data)
@@ -28,10 +23,6 @@ const useDocumentDemand = () => {
 
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
     return setPendingState(async () => {
-      if (isDevelopment()) {
-        await delay(2000, 'Testing addDocumentDemand')
-        //throw new Error('Erro simulado no cadastro')
-      }
       const parsedData = documentDemandInsertSchema.parse(data)
       const { data: newDocumentDemand, error } = await supabase
         .from('document_demand')
