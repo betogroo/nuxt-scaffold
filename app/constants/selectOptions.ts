@@ -1,4 +1,9 @@
-import type { SelectOption, DemandSite, DemandStatus } from '~/types'
+import type {
+  SelectOption,
+  DemandSite,
+  DemandStatus,
+  DemandType,
+} from '~/types'
 
 export const demandSites: SelectOption<DemandSite>[] = [
   {
@@ -31,5 +36,36 @@ export const demandStatus: SelectOption<DemandStatus>[] = [
   {
     name: 'Erro',
     value: 'error',
+  },
+]
+
+export const demandTypes: SelectOption<DemandType>[] = [
+  {
+    name: 'Primeira Via CIN',
+    value: '1cin',
+  },
+  {
+    name: 'Segunda Via CIN',
+    value: '2cin',
+  },
+  {
+    name: 'Primeira Via',
+    value: '1v',
+  },
+  {
+    name: 'Segunda Via',
+    value: '2v',
+  },
+  {
+    name: 'Segunda Via Taxa',
+    value: '2v',
+  },
+  {
+    name: 'Primeira Via Entintada',
+    value: '1ve',
+  },
+  {
+    name: 'Segunda Via Entintada',
+    value: '2ve',
   },
 ]

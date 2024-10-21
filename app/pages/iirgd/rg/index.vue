@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { DocumentDemandInsert } from '~/types'
-  import { demandSites, demandStatus } from '~/constants'
+  import { demandSites, demandStatus, demandTypes } from '~/constants'
   const { handleError, showToast, getOptionName } = useHelpers()
   const { demands, fetchDocumentDemands, isPending, addDocumentDemand } =
     useDocumentDemand()
@@ -83,7 +83,10 @@
               `${demand.document_number} - ${demand.name} - ${getOptionName(
                 demand.status,
                 demandStatus,
-              )} ${getOptionName(demand.site, demandSites)} - ${demand.note}`
+              )} ${getOptionName(demand.site, demandSites)} - ${getOptionName(
+                demand.type,
+                demandTypes,
+              )} - ${demand.note}`
             }}
           </li>
         </template>
