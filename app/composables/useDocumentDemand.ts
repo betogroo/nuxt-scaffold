@@ -25,6 +25,29 @@ const useDocumentDemand = () => {
     }, 'fetchDocumentDemands')
   }
 
+  supabase
+    .channel('document_demands_refresh')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'document_demand',
+      },
+      (event) => {
+        console.log(event)
+        console.log('Vai mudar a tabela')
+        const { new: newDocumentDemands } = event
+        try {
+          const parsedDemand = documentDemandRowSchema.parse(newDocumentDemands)
+          demands.value.push(parsedDemand)
+        } catch (error) {
+          console.error('Erro ao validar a nova demanda:', error)
+        }
+      },
+    )
+    .subscribe()
+
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
     return setPendingState(async () => {
       const parsedData = documentDemandInsertSchema.parse(data)
