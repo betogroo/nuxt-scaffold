@@ -46,6 +46,30 @@ const useDocumentDemand = () => {
         }
       },
     )
+    .on(
+      'postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'document_demand' },
+      (event) => {
+        const { new: updatedDocumentDemand } = event
+        const index = demands.value.findIndex(
+          (demand) => demand.id === updatedDocumentDemand.id,
+        )
+        if (index !== -1) {
+          demands.value[index] = updatedDocumentDemand as DocumentDemandRow
+        }
+      },
+    )
+    .on(
+      'postgres_changes',
+      { event: 'DELETE', schema: 'public', table: 'document_demand' },
+      (event) => {
+        console.log('vai deletar', event.new)
+        const { old: deletedDocumentDemand } = event
+        demands.value = demands.value.filter(
+          (demand) => demand.id !== deletedDocumentDemand.id,
+        )
+      },
+    )
     .subscribe()
 
   const addDocumentDemand = async (data: DocumentDemandInsert) => {
