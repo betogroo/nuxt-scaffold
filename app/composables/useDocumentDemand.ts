@@ -10,6 +10,19 @@ const useDocumentDemand = () => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
 
+  const tableDemandView = computed(() => {
+    const mappedDemands = demands.value.map((item) => {
+      return {
+        ...item,
+        class:
+          item.status === 'new'
+            ? 'bg-red-500/50 dark:bg-red-400/50 animate-pulse'
+            : '',
+      }
+    })
+    return mappedDemands
+  })
+
   const fetchDocumentDemands = async () => {
     return setPendingState(async () => {
       const { data, error } = await supabase
@@ -92,6 +105,7 @@ const useDocumentDemand = () => {
     fetchDocumentDemands,
     isPending,
     demands,
+    tableDemandView,
   }
 }
 

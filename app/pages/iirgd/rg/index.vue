@@ -1,9 +1,15 @@
 <script setup lang="ts">
-  import type { DocumentDemandInsert } from '~/types'
-  import { demandSites, demandStatus, demandTypes } from '~/constants'
+  import type { DocumentDemandInsert, DocumentDemandRow, DemandSite, DemandType, DemandStatus } from '~/types'
+  import { demandSites, demandTypes, demandStatus } from '~/constants'
   const { handleError, showToast, getOptionName } = useHelpers()
-  const { demands, fetchDocumentDemands, isPending, addDocumentDemand } =
-    useDocumentDemand()
+  const {
+    demands,
+    fetchDocumentDemands,
+    isPending,
+    addDocumentDemand,
+    tableDemandView,
+    
+  } = useDocumentDemand()
   const newRgModal = ref(false)
   const openModal = () => {
     newRgModal.value = true
@@ -31,6 +37,62 @@
       console.error(error)
     }
   }
+
+  const columns = [
+    {
+      key: 'site',
+      label: 'Posto',
+    },
+    {
+      key: 'document_number',
+      label: 'RG',
+    },
+    {
+      key: 'name',
+      label: 'Nome',
+    },
+    {
+      key: 'type',
+      label: 'Tipo',
+    },
+    {
+      key: 'status',
+      label: 'Situação',
+    },
+    {
+      key: 'actions',
+    },
+  ]
+
+  const dropdownItems = (row: DocumentDemandRow) => [
+    [
+      {
+        label: 'Editar',
+        icon: 'i-heroicons-pencil-square-20-solid',
+        click: () => console.log('Edit', row.id),
+      },
+      {
+        label: 'Duplicate',
+        icon: 'i-heroicons-document-duplicate-20-solid',
+      },
+    ],
+    [
+      {
+        label: 'Archive',
+        icon: 'i-heroicons-archive-box-20-solid',
+      },
+      {
+        label: 'Move',
+        icon: 'i-heroicons-arrow-right-circle-20-solid',
+      },
+    ],
+    [
+      {
+        label: 'Delete',
+        icon: 'i-heroicons-trash-20-solid',
+      },
+    ],
+  ]
 </script>
 
 <template>
@@ -63,34 +125,25 @@
       @click="openModal"
     />
 
+   
     <div>
-      <ul>
-        <li
-          v-if="
-            isPending.isLoading && isPending.action === 'fetchDocumentDemands'
-          "
-        >
-          <USkeleton class="h-8 w-72 my-1" />
-          <USkeleton class="h-8 w-96 my-1" />
-          <USkeleton class="h-8 w-48 my-1" />
-        </li>
-        <template v-else>
-          <li
-            v-for="demand in demands"
-            :key="demand.id"
-          >
-            {{
-              `${demand.document_number} - ${demand.name} - ${getOptionName(
-                demand.status,
-                demandStatus,
-              )} ${getOptionName(demand.site, demandSites)} - ${getOptionName(
-                demand.type,
-                demandTypes,
-              )} - ${demand.note}`
-            }}
-          </li>
+      <UTable
+        :columns="columns"
+        :rows="tableDemandView"
+      >
+        <template #site-data="{ getRowData }"> {{ getOptionName<DemandSite>(getRowData(), demandSites) }}</template>
+        <template #type-data="{ getRowData }"> {{ getOptionName<DemandType>(getRowData(), demandTypes) }}</template>
+        <template #status-data="{ getRowData }"> {{ getOptionName<DemandStatus>(getRowData(), demandStatus) }}</template>
+        <template #actions-data="{ row }">
+          <UDropdown :items="dropdownItems(row)">
+            <UButton
+              color="gray"
+              icon="i-heroicons-ellipsis-horizontal-20-solid"
+              variant="ghost"
+            />
+          </UDropdown>
         </template>
-      </ul>
+      </UTable>
     </div>
   </UContainer>
 </template>
