@@ -1,14 +1,18 @@
 <script setup lang="ts">
-  import type { DocumentDemandInsert, DocumentDemandRow, DemandSite, DemandType, DemandStatus } from '~/types'
+  import type {
+    DocumentDemandInsert,
+    DocumentDemandRow,
+    DemandSite,
+    DemandType,
+    DemandStatus,
+  } from '~/types'
   import { demandSites, demandTypes, demandStatus } from '~/constants'
   const { handleError, showToast, getOptionName } = useHelpers()
   const {
-    demands,
     fetchDocumentDemands,
     isPending,
     addDocumentDemand,
     tableDemandView,
-    
   } = useDocumentDemand()
   const newRgModal = ref(false)
   const openModal = () => {
@@ -93,6 +97,32 @@
       },
     ],
   ]
+
+  const selectedDemands = ref([])
+
+  const actions = [
+    [
+      {
+        key: 'completed',
+        label: 'Completed',
+        icon: 'i-heroicons-check',
+        click: () => {
+          console.log(selectedDemands.value)
+        },
+      },
+    ],
+    [
+      {
+        key: 'uncompleted',
+        label: 'In Progress',
+        icon: 'i-heroicons-arrow-path',
+      },
+    ],
+  ]
+  const q = ref('')
+  const filteredDemands = computed(() => {
+    return tableDemandView.value
+  })
 </script>
 
 <template>
@@ -125,15 +155,37 @@
       @click="openModal"
     />
 
-   
-    <div>
-      <UTable
-        :columns="columns"
-        :rows="tableDemandView"
+    <AppCard title="Documentos Cadastrados">
+      <UDropdown
+        v-if="selectedDemands.length > 1"
+        :items="actions"
+        :ui="{ width: 'w-36' }"
       >
-        <template #site-data="{ getRowData }"> {{ getOptionName<DemandSite>(getRowData(), demandSites) }}</template>
-        <template #type-data="{ getRowData }"> {{ getOptionName<DemandType>(getRowData(), demandTypes) }}</template>
-        <template #status-data="{ getRowData }"> {{ getOptionName<DemandStatus>(getRowData(), demandStatus) }}</template>
+        <UButton
+          color="gray"
+          icon="i-heroicons-chevron-down"
+          size="xs"
+          trailing
+        >
+          Marcar como...
+        </UButton>
+      </UDropdown>
+      <UTable
+        v-model="selectedDemands"
+        :columns="columns"
+        :rows="filteredDemands"
+      >
+        <template #site-data="{ getRowData }">
+          {{ getOptionName(getRowData() as DemandSite, demandSites) }}</template
+        >
+        <template #type-data="{ getRowData }">{{
+          getOptionName(getRowData() as DemandType, demandTypes)
+        }}</template>
+
+        <template #status-data="{ getRowData }">{{
+          getOptionName(getRowData() as DemandStatus, demandStatus)
+        }}</template>
+
         <template #actions-data="{ row }">
           <UDropdown :items="dropdownItems(row)">
             <UButton
@@ -142,8 +194,7 @@
               variant="ghost"
             />
           </UDropdown>
-        </template>
-      </UTable>
-    </div>
+        </template> </UTable
+    ></AppCard>
   </UContainer>
 </template>
