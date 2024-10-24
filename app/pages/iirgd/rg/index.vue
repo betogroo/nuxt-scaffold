@@ -119,10 +119,8 @@
       },
     ],
   ]
-  const q = ref('')
-  const filteredDemands = computed(() => {
-    return tableDemandView.value
-  })
+
+  const selectedStatus = ref([])
 </script>
 
 <template>
@@ -156,25 +154,45 @@
     />
 
     <AppCard title="Documentos Cadastrados">
-      <UDropdown
-        v-if="selectedDemands.length > 1"
-        :items="actions"
-        :ui="{ width: 'w-36' }"
-      >
-        <UButton
-          color="gray"
-          icon="i-heroicons-chevron-down"
-          size="xs"
-          trailing
-        >
-          Marcar como...
-        </UButton>
-      </UDropdown>
+      <div class="flex justify-end space-x-2">
+        <div class="flex gap-1.5">
+          <UDropdown
+            v-if="selectedDemands.length > 1"
+            :items="actions"
+            :ui="{ width: 'w-36' }"
+          >
+            <UButton
+              color="gray"
+              icon="i-heroicons-chevron-down"
+              size="xs"
+              trailing
+            >
+              Marcar como...
+            </UButton>
+          </UDropdown>
+        </div>
+        <div class="flex gap-1.5">
+          <USelectMenu
+            v-model="selectedStatus"
+            class="w-40"
+            multiple
+            option-attribute="name"
+            :options="demandStatus"
+            placeholder="Status"
+          />
+        </div>
+      </div>
       <UTable
         v-model="selectedDemands"
         :columns="columns"
-        :rows="filteredDemands"
+        :rows="tableDemandView"
       >
+        <template #empty-state>
+          <UButton
+            icon="mdi-plus"
+            @click="openModal"
+          />
+        </template>
         <template #site-data="{ getRowData }">
           {{ getOptionName(getRowData() as DemandSite, demandSites) }}</template
         >
