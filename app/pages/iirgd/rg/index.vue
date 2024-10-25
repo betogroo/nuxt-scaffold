@@ -97,30 +97,6 @@
       },
     ],
   ]
-
-  const selectedDemands = ref([])
-
-  const actions = [
-    [
-      {
-        key: 'completed',
-        label: 'Completed',
-        icon: 'i-heroicons-check',
-        click: () => {
-          console.log(selectedDemands.value)
-        },
-      },
-    ],
-    [
-      {
-        key: 'uncompleted',
-        label: 'In Progress',
-        icon: 'i-heroicons-arrow-path',
-      },
-    ],
-  ]
-
-  const selectedStatus = ref([])
 </script>
 
 <template>
@@ -155,35 +131,12 @@
 
     <AppCard title="Documentos Cadastrados">
       <div class="flex justify-end space-x-2">
-        <div class="flex gap-1.5">
-          <UDropdown
-            v-if="selectedDemands.length > 1"
-            :items="actions"
-            :ui="{ width: 'w-36' }"
-          >
-            <UButton
-              color="gray"
-              icon="i-heroicons-chevron-down"
-              size="xs"
-              trailing
-            >
-              Marcar como...
-            </UButton>
-          </UDropdown>
-        </div>
-        <div class="flex gap-1.5">
-          <USelectMenu
-            v-model="selectedStatus"
-            class="w-40"
-            multiple
-            option-attribute="name"
-            :options="demandStatus"
-            placeholder="Status"
-          />
+        <div class="flex gap-1.5 bg-red-300">aqui vai o dropdown de filtro</div>
+        <div class="flex gap-1.5 bg-blue-400">
+          Aqui vai o dropdown do status
         </div>
       </div>
       <UTable
-        v-model="selectedDemands"
         :columns="columns"
         :rows="tableDemandView"
       >
