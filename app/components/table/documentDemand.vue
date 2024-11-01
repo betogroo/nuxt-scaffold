@@ -11,6 +11,7 @@
   defineProps<Props>()
 
   const { getOptionName } = useHelpers()
+  const { push } = useRouter()
 
   interface Props {
     title: string
@@ -21,7 +22,18 @@
     console.log('open modal')
   }
 
+  const goToDemand = (id: number) => {
+    push(`rg/${id}`)
+  }
+
   const dropdownItems = (row: DocumentDemandRow) => [
+    [
+      {
+        label: 'Detalhes',
+        icon: 'i-heroicons-document-magnifying-glass',
+        click: () => goToDemand(row.id),
+      },
+    ],
     [
       {
         label: 'Editar',
