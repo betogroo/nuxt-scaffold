@@ -1,13 +1,6 @@
 <script setup lang="ts">
-  import type {
-    DocumentDemandInsert,
-    DocumentDemandRow,
-    DemandSite,
-    DemandType,
-    DemandStatus,
-  } from '~/types'
-  import { demandSites, demandTypes, demandStatus } from '~/constants'
-  const { handleError, showToast, getOptionName } = useHelpers()
+  import type { DocumentDemandInsert } from '~/types'
+  const { handleError, showToast } = useHelpers()
   const {
     fetchDocumentDemands,
     isPending,
@@ -67,36 +60,6 @@
       key: 'actions',
     },
   ]
-
-  const dropdownItems = (row: DocumentDemandRow) => [
-    [
-      {
-        label: 'Editar',
-        icon: 'i-heroicons-pencil-square-20-solid',
-        click: () => console.log('Edit', row.id),
-      },
-      {
-        label: 'Duplicate',
-        icon: 'i-heroicons-document-duplicate-20-solid',
-      },
-    ],
-    [
-      {
-        label: 'Archive',
-        icon: 'i-heroicons-archive-box-20-solid',
-      },
-      {
-        label: 'Move',
-        icon: 'i-heroicons-arrow-right-circle-20-solid',
-      },
-    ],
-    [
-      {
-        label: 'Delete',
-        icon: 'i-heroicons-trash-20-solid',
-      },
-    ],
-  ]
 </script>
 
 <template>
@@ -129,43 +92,10 @@
       @click="openModal"
     />
 
-    <AppCard title="Documentos Cadastrados">
-      <div class="flex justify-end space-x-2">
-        <div class="flex gap-1.5 bg-red-300">aqui vai o dropdown de filtro</div>
-        <div class="flex gap-1.5 bg-blue-400">
-          Aqui vai o dropdown do status
-        </div>
-      </div>
-      <UTable
-        :columns="columns"
-        :rows="tableDemandView"
-      >
-        <template #empty-state>
-          <UButton
-            icon="mdi-plus"
-            @click="openModal"
-          />
-        </template>
-        <template #site-data="{ getRowData }">
-          {{ getOptionName(getRowData() as DemandSite, demandSites) }}</template
-        >
-        <template #type-data="{ getRowData }">{{
-          getOptionName(getRowData() as DemandType, demandTypes)
-        }}</template>
-
-        <template #status-data="{ getRowData }">{{
-          getOptionName(getRowData() as DemandStatus, demandStatus)
-        }}</template>
-
-        <template #actions-data="{ row }">
-          <UDropdown :items="dropdownItems(row)">
-            <UButton
-              color="gray"
-              icon="i-heroicons-ellipsis-horizontal-20-solid"
-              variant="ghost"
-            />
-          </UDropdown>
-        </template> </UTable
-    ></AppCard>
+    <TableDocumentDemand
+      :columns="columns"
+      :rows="tableDemandView"
+      title="Documentos Cadastrados"
+    />
   </UContainer>
 </template>

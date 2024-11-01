@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { Database } from '~/types/supabase'
 import type { DocumentDemandInsert, DocumentDemandRow } from '~/types'
 import { documentDemandInsertSchema, documentDemandRowSchema } from '~/schemas'
-
+import { demandStatusClasses } from '~/constants'
 const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
@@ -14,10 +14,22 @@ const useDocumentDemand = () => {
     const mappedDemands = demands.value.map((item) => {
       return {
         ...item,
-        class:
-          item.status === 'new'
-            ? 'bg-red-500/50 dark:bg-red-400/50 animate-pulse'
-            : '',
+        class: (() => {
+          switch (item.status) {
+            case 'error':
+              return 'bg-red-500/50 dark:bg-red-400/50'
+            case 'consulted':
+              return 'bg-yellow-500/50 dark:bg-yellow-400/50'
+            case 'issued':
+              return 'bg-green-500/50 dark:bg-green-400/50'
+            case 'released':
+              return 'bg-blue-500/50 dark:bg-blue-400/50'
+            case 'new':
+              return 'bg-gray-500/25 dark:bg-gray-400'
+            default:
+              return ''
+          }
+        })(),
       }
     })
     return mappedDemands
