@@ -30,7 +30,7 @@
     [
       {
         label: 'Detalhes',
-        icon: 'i-heroicons-document-magnifying-glass',
+        icon: 'i-heroicons-document-magnifying-glass-20-solid',
         click: () => goToDemand(row.id),
       },
     ],

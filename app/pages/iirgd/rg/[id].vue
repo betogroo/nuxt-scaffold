@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const { params } = useRoute()
+</script>
 
 <template>
-  <div>Detalhes</div>
+  <div>Detalhes da demanda {{ params.id }}</div>
 </template>
