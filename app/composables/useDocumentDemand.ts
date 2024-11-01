@@ -3,7 +3,6 @@ import { z } from 'zod'
 import type { Database } from '~/types/supabase'
 import type { DocumentDemandInsert, DocumentDemandRow } from '~/types'
 import { documentDemandInsertSchema, documentDemandRowSchema } from '~/schemas'
-import { demandStatusClasses } from '~/constants'
 const demands = ref<DocumentDemandRow[]>([])
 const documentsDemandRowSchema = z.array(documentDemandRowSchema)
 const useDocumentDemand = () => {
