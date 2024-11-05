@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { useCounterStore } from '~/store/useCounterStore'
+  import { iconOutline } from '~/constants'
 
   definePageMeta({
     showInNavBar: true,
@@ -22,14 +23,14 @@
       <UButton
         :color="isDisabled ? 'gray' : 'red'"
         :disabled="isDisabled"
-        icon="i-heroicons:minus-16-solid"
+        :icon="iconOutline.minus"
         size="xl"
         square
         variant="solid"
         @click="decreaseValue"
       />
       <UButton
-        icon="i-heroicons:plus-16-solid"
+        :icon="iconOutline.plus"
         size="xl"
         square
         variant="outline"

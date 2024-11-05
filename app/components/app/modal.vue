@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T">
+  import { iconOutline } from '~/constants'
   interface Props {
     title?: string
   }
@@ -29,7 +30,7 @@
           <h1 class="text-2xl font-semibold">{{ title }}</h1>
           <UButton
             color="black"
-            icon="mdi-close"
+            :icon="iconOutline.close"
             size="xs"
             variant="ghost"
             @click="isOpen = false"

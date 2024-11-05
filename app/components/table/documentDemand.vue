@@ -7,7 +7,12 @@
     DemandStatus,
     DocumentDemandRow,
   } from '~/types'
-  import { demandSites, demandTypes, demandStatus } from '~/constants'
+  import {
+    demandSites,
+    demandTypes,
+    demandStatus,
+    iconOutline,
+  } from '~/constants'
   defineProps<Props>()
 
   const { getOptionName } = useHelpers()
@@ -30,28 +35,28 @@
     [
       {
         label: 'Detalhes',
-        icon: 'i-heroicons-document-magnifying-glass-20-solid',
+        icon: iconOutline.details,
         click: () => goToDemand(row.id),
       },
     ],
     [
       {
         label: 'Editar',
-        icon: 'i-heroicons-pencil-square-20-solid',
+        icon: iconOutline.edit,
         click: () => console.log('Edit', row.id),
       },
     ],
     [
       {
         label: 'Arquivar',
-        icon: 'i-heroicons-archive-box-20-solid',
+        icon: iconOutline.archive,
         click: () => console.log('Archive', row.id),
       },
     ],
     [
       {
         label: 'Delete',
-        icon: 'i-heroicons-trash-20-solid',
+        icon: iconOutline.trash,
         click: () => console.log('Delete', row.id),
       },
     ],
@@ -71,7 +76,7 @@
     >
       <template #empty-state>
         <UButton
-          icon="mdi-plus"
+          :icon="iconOutline.plus"
           @click="handleModal"
         />
       </template>
@@ -93,8 +98,8 @@
         >
           <UButton
             color="gray"
-            icon="i-heroicons-ellipsis-horizontal-20-solid"
-            variant="ghost"
+            :icon="iconOutline.ellipsis"
+            variant="link"
           />
         </UDropdown>
       </template>

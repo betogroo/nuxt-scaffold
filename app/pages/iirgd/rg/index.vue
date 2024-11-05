@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { iconOutline } from '~/constants'
   import type { DocumentDemandInsert } from '~/types'
   const { handleError, showToast } = useHelpers()
   const {
@@ -88,7 +89,7 @@
       />
     </AppModal>
     <UButton
-      icon="mdi-plus"
+      :icon="iconOutline.plus"
       @click="openModal"
     />
 

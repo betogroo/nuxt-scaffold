@@ -1,0 +1,18 @@
+export const iconOutline = {
+  email: 'i-line-md-email',
+  password: 'i-ic-outline-lock',
+  user: 'i-ic-outline-person-add',
+  plus: 'i-line-md-plus',
+  minus: 'i-line-md-minus',
+  settings: 'i-bytesize-settings',
+  signOut: 'i-codicon-sign-out',
+  trash: 'i-mdi-garbage-can-outline',
+  close: 'i-line-md-close',
+  archive: 'i-clarity-archive-line',
+  edit: 'i-heroicons-pencil-square',
+  details: 'i-heroicons-document-magnifying-glass',
+  ellipsis: 'i-bitcoin-icons-ellipsis-outline',
+  checkCircle: 'i-simple-line-icons-check',
+  exclamation: 'i-heroicons-outline-exclamation',
+  return: 'i-heroicons:arrow-uturn-left',
+}
