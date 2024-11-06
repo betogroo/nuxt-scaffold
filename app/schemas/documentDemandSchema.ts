@@ -13,6 +13,15 @@ export const demandSiteSchema = z.union([
   z.literal('1342-5'),
 ])
 
+export const demandTypeSchema = z.union([
+  z.literal('1cin'),
+  z.literal('2cin'),
+  z.literal('1v'),
+  z.literal('2v'),
+  z.literal('2vt'),
+  z.literal('1ve'),
+  z.literal('2ve'),
+])
 export const documentDemandRowSchema = z.object({
   created_at: z.string().nullable(),
   document_number: z.string(),
@@ -20,6 +29,7 @@ export const documentDemandRowSchema = z.object({
   name: z.string().min(1, 'Campo Obrigatório').trim(),
   status: demandStatusSchema,
   site: demandSiteSchema,
+  type: demandTypeSchema,
   updated_at: z.string().nullable(),
   user_id: z.string(),
   note: z.string().nullable(),
@@ -47,6 +57,7 @@ export const documentDemandInsertSchema = z.object({
     ),
   status: demandStatusSchema.optional(),
   site: demandSiteSchema,
+  type: demandTypeSchema,
   updated_at: z.string().optional().nullable(),
   user_id: z.string().uuid(),
   note: z.string().optional(),

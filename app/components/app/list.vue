@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { ViewUser } from '~/types'
+  import { iconOutline } from '~/constants'
 
   interface Props {
     item: ViewUser
@@ -29,7 +30,7 @@
         <div>
           <UButton
             color="red"
-            icon="mdi-delete"
+            :icon="iconOutline.trash"
             :loading="isPending"
             variant="link"
             @click="handleDelete"

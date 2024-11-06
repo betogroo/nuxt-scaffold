@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { iconOutline } from '~/constants'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: false,
@@ -14,7 +15,7 @@
     <UButton
       class="mt-6"
       color="black"
-      leading-icon="i-heroicons:arrow-uturn-left-16-solid"
+      :leading-icon="iconOutline.return"
       to="/"
       variant="outline"
       >Voltar</UButton

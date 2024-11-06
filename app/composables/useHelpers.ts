@@ -2,6 +2,7 @@ import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import type { ViewUser, PendingState, SelectOption } from '~/types'
+import { iconOutline } from '~/constants'
 
 const useHelpers = () => {
   const toast = useToast()
@@ -81,9 +82,7 @@ const useHelpers = () => {
   ): void => {
     const color = type === 'success' ? 'green' : 'red'
     const icon =
-      type === 'success'
-        ? 'i-heroicons-check-circle'
-        : 'i-heroicons-exclamation-circle'
+      type === 'success' ? iconOutline.checkCircle : iconOutline.exclamation
     toast.add({
       color,
       title,

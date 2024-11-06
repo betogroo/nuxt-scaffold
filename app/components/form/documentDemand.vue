@@ -2,7 +2,7 @@
   import { useField, useForm } from 'vee-validate'
   import type { DocumentDemandInsert } from '~/types'
   import { validateDocumentDemand } from '~/schemas'
-  import { demandSites } from '~/constants'
+  import { demandSites, demandTypes } from '~/constants'
   interface Props {
     isPending?: boolean
   }
@@ -34,6 +34,8 @@
     useField<DocumentDemandInsert['name']>('name')
   const { value: site, errorMessage: siteError } =
     useField<DocumentDemandInsert['site']>('site')
+  const { value: type, errorMessage: typeError } =
+    useField<DocumentDemandInsert['type']>('type')
   const { value: note, errorMessage: noteError } =
     useField<DocumentDemandInsert['note']>('note')
 
@@ -67,6 +69,18 @@
         v-model="site"
         option-attribute="name"
         :options="demandSites"
+        placeholder="Escolha"
+      />
+    </UFormGroup>
+    <UFormGroup
+      :error="typeError"
+      label="Tipo do Documento"
+      required
+    >
+      <USelect
+        v-model="type"
+        option-attribute="name"
+        :options="demandTypes"
         placeholder="Escolha"
       />
     </UFormGroup>

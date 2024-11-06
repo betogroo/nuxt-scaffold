@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { DropdownItem } from '#ui/types'
+  import { iconOutline } from '~/constants'
 
   const { user } = useUserStatus()
   const { handleLogout } = useAuth()
@@ -19,14 +20,14 @@
     [
       {
         label: 'Settings',
-        icon: 'i-heroicons-cog-8-tooth',
+        icon: iconOutline.settings,
         click: () => {
           return navigateTo('/settings')
         },
       },
       {
         label: 'Sign out',
-        icon: 'i-heroicons-arrow-left-on-rectangle',
+        icon: iconOutline.signOut,
         click: async () => {
           await handleLogout()
           return navigateTo('/login')

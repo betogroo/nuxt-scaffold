@@ -27,14 +27,25 @@ export const demandStatusSchema = z.union([
   z.literal('error'),
 ])
 
+export const demandTypeSchema = z.union([
+  z.literal('1cin'),
+  z.literal('2cin'),
+  z.literal('1v'),
+  z.literal('2v'),
+  z.literal('2vt'),
+  z.literal('1ve'),
+  z.literal('2ve'),
+])
+
 export const documentDemandInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
   document_number: z.string(),
   id: z.number().optional(),
   name: z.string().optional(),
-  note: z.string(),
+  note: z.string().optional().nullable(),
   site: demandSiteSchema,
   status: demandStatusSchema.optional(),
+  type: demandTypeSchema.optional().nullable(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string(),
 })
@@ -47,6 +58,7 @@ export const documentDemandUpdateSchema = z.object({
   note: z.string().optional().nullable(),
   site: demandSiteSchema.optional(),
   status: demandStatusSchema.optional(),
+  type: demandTypeSchema.optional().nullable(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().optional(),
 })
@@ -117,9 +129,10 @@ export const documentDemandRowSchema = z.object({
   document_number: z.string(),
   id: z.number(),
   name: z.string(),
-  site: demandSiteSchema,
   note: z.string().nullable(),
+  site: demandSiteSchema,
   status: demandStatusSchema,
+  type: demandTypeSchema.nullable(),
   updated_at: z.string().nullable(),
   user_id: z.string(),
 })

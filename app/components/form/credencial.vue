@@ -2,6 +2,7 @@
   import { useField, useForm } from 'vee-validate'
   import type { UserLogin, UserSignup, CredencialType } from '~/types'
   import { validationLogin, validationSignup } from '~/schemas'
+  import { iconOutline } from '~/constants'
 
   interface Props {
     type: CredencialType
@@ -52,7 +53,7 @@
     >
       <UInput
         v-model="email"
-        icon="mdi-email-outline"
+        :icon="iconOutline.email"
         placeholder="email.exemplo.com.br"
         size="md"
       />
@@ -65,7 +66,7 @@
     >
       <UInput
         v-model="password"
-        icon="mdi-lock-outline"
+        :icon="iconOutline.password"
         placeholder="Digite sua senha"
         size="md"
         type="password"
@@ -80,7 +81,7 @@
     >
       <UInput
         v-model="passwordConfirm"
-        icon="mdi-lock-outline"
+        :icon="iconOutline.password"
         placeholder="Digite sua senha"
         size="md"
         type="password"
@@ -89,7 +90,7 @@
     <div class="flex justify-end">
       <UButton
         :disabled="!meta.valid"
-        icon="mdi-account-plus-outline"
+        :icon="iconOutline.user"
         :label="label"
         :loading="isPending"
         type="submit"

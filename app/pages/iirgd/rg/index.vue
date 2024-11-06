@@ -1,9 +1,13 @@
 <script setup lang="ts">
+  import { iconOutline } from '~/constants'
   import type { DocumentDemandInsert } from '~/types'
-  import { demandSites, demandStatus } from '~/constants'
-  const { handleError, showToast, getOptionName } = useHelpers()
-  const { demands, fetchDocumentDemands, isPending, addDocumentDemand } =
-    useDocumentDemand()
+  const { handleError, showToast } = useHelpers()
+  const {
+    fetchDocumentDemands,
+    isPending,
+    addDocumentDemand,
+    tableDemandView,
+  } = useDocumentDemand()
   const newRgModal = ref(false)
   const openModal = () => {
     newRgModal.value = true
@@ -31,6 +35,32 @@
       console.error(error)
     }
   }
+
+  const columns = [
+    {
+      key: 'site',
+      label: 'Posto',
+    },
+    {
+      key: 'document_number',
+      label: 'RG',
+    },
+    {
+      key: 'name',
+      label: 'Nome',
+    },
+    {
+      key: 'type',
+      label: 'Tipo',
+    },
+    {
+      key: 'status',
+      label: 'Situação',
+    },
+    {
+      key: 'actions',
+    },
+  ]
 </script>
 
 <template>
@@ -59,35 +89,14 @@
       />
     </AppModal>
     <UButton
-      icon="mdi-plus"
+      :icon="iconOutline.plus"
       @click="openModal"
     />
 
-    <div>
-      <ul>
-        <li
-          v-if="
-            isPending.isLoading && isPending.action === 'fetchDocumentDemands'
-          "
-        >
-          <USkeleton class="h-8 w-72 my-1" />
-          <USkeleton class="h-8 w-96 my-1" />
-          <USkeleton class="h-8 w-48 my-1" />
-        </li>
-        <template v-else>
-          <li
-            v-for="demand in demands"
-            :key="demand.id"
-          >
-            {{
-              `${demand.document_number} - ${demand.name} - ${getOptionName(
-                demand.status,
-                demandStatus,
-              )} ${getOptionName(demand.site, demandSites)} - ${demand.note}`
-            }}
-          </li>
-        </template>
-      </ul>
-    </div>
+    <TableDocumentDemand
+      :columns="columns"
+      :rows="tableDemandView"
+      title="Documentos Cadastrados"
+    />
   </UContainer>
 </template>
