@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import type { ViewUser } from '~/types'
-  import { iconOutline } from '~/constants'
 
   interface Props {
     item: ViewUser

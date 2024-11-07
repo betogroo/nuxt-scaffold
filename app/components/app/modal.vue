@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T">
-  import { iconOutline } from '~/constants'
   interface Props {
     title?: string
   }
