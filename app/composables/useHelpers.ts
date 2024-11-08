@@ -2,7 +2,6 @@ import { ZodError } from 'zod'
 import { v4 as uuid } from 'uuid'
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import type { ViewUser, PendingState, SelectOption } from '~/types'
-import { iconOutline } from '~/constants'
 
 const useHelpers = () => {
   const toast = useToast()
@@ -119,8 +118,11 @@ const useHelpers = () => {
     const option = options.find((option) => option.value === value)
     return option ? option.name : 'Outros'
   }
+
+  const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase() + s.slice(1)
   return {
     isPending,
+    capitalize,
     delay,
     genFakeUser,
     genFakeUsers,

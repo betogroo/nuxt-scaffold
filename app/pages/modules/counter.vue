@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { useCounterStore } from '~/store/useCounterStore'
-  import { iconOutline } from '~/constants'
 
   definePageMeta({
     showInNavBar: true,

@@ -2,7 +2,6 @@
   import { useField, useForm } from 'vee-validate'
   import type { DocumentDemandInsert } from '~/types'
   import { validateDocumentDemand } from '~/schemas'
-  import { demandSites, demandTypes } from '~/constants'
   interface Props {
     isPending?: boolean
   }

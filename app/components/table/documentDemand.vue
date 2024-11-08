@@ -7,12 +7,7 @@
     DemandStatus,
     DocumentDemandRow,
   } from '~/types'
-  import {
-    demandSites,
-    demandTypes,
-    demandStatus,
-    iconOutline,
-  } from '~/constants'
+
   defineProps<Props>()
 
   const { getOptionName } = useHelpers()

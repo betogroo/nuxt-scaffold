@@ -2,7 +2,6 @@
   import { useField, useForm } from 'vee-validate'
   import type { UserLogin, UserSignup, CredencialType } from '~/types'
   import { validationLogin, validationSignup } from '~/schemas'
-  import { iconOutline } from '~/constants'
 
   interface Props {
     type: CredencialType

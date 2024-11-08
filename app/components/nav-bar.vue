@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import type { DropdownItem } from '#ui/types'
-  import { iconOutline } from '~/constants'
 
   const { user } = useUserStatus()
   const { handleLogout } = useAuth()

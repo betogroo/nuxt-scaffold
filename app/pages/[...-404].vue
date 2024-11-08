@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { iconOutline } from '~/constants'
   definePageMeta({
     showInNavBar: false,
     requiresAuth: false,
