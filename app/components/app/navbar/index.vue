@@ -1,38 +1,5 @@
 <script setup lang="ts">
-  import type { DropdownItem } from '~/types'
-  const { user } = useUserStatus()
-  const { handleLogout } = useAuth()
   const { navbar } = useNavbar()
-
-  const items: DropdownItem[][] = [
-    [
-      {
-        label: user.value?.email || '',
-        avatar: {
-          src: 'https://avatars.githubusercontent.com/u/739984?v=4',
-        },
-        slot: 'account',
-        click: () => console.log('Link to profile in the future'),
-      },
-    ],
-    [
-      {
-        label: 'Settings',
-        icon: iconOutline.settings,
-        click: () => {
-          return navigateTo('/settings')
-        },
-      },
-      {
-        label: 'Sign out',
-        icon: iconOutline.signOut,
-        click: async () => {
-          await handleLogout()
-          return navigateTo('/login')
-        },
-      },
-    ],
-  ]
 </script>
 
 <template>
@@ -41,26 +8,26 @@
   >
     <div class="flex justify-end items-center space-x-2 px-3">
       <slot
-        :items="navbar.items"
+        :items="navbar.menu"
         name="menu"
       >
-        <AppNavbarMenu :items="navbar.items" />
+        <AppNavbarMenu :items="navbar.menu" />
       </slot>
 
       <slot
-        :items="items"
+        :items="navbar.dropdown"
         name="user"
-        :user="user"
+        :user="navbar.user"
       >
         <ULink
-          v-if="!user"
+          v-if="!navbar.user"
           class="hover:underline"
           to="/login"
           >Login</ULink
         >
         <UDropdown
           v-else
-          :items="items"
+          :items="navbar.dropdown"
           :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
         >
           <UAvatar
