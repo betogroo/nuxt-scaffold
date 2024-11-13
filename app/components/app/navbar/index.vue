@@ -3,7 +3,7 @@
 
   const { user } = useUserStatus()
   const { handleLogout } = useAuth()
-  const { navBarItems } = useNavigation()
+  const { navbar } = useNavbar()
 
   const items: DropdownItem[][] = [
     [
@@ -42,14 +42,14 @@
   >
     <div class="flex justify-end items-center space-x-2 px-3">
       <template
-        v-for="item in navBarItems"
+        v-for="item in navbar.items"
         :key="item.path"
       >
         <ULink
           active-class="font-semibold"
           class="hover:underline"
           :to="item.path"
-          >{{ item.meta.title || 'Sem Título' }}</ULink
+          >{{ item.title || 'Sem Título' }}</ULink
         >
 
         <div>|</div>
