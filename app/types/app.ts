@@ -1,12 +1,6 @@
 import type { z } from 'zod'
 
-import type {
-  dropdownItemSchema,
-  dropdownActivatorSchema,
-  navbarItemSchema,
-} from '~/schemas'
-
-export type DropdownItem = z.infer<typeof dropdownItemSchema>
-export type DropdownActivatorSchema = z.infer<typeof dropdownActivatorSchema>
+import type { navbarItemSchema } from '~/schemas'
+export type { DropdownItem } from '#ui/types'
 
 export type NavbarItem = z.infer<typeof navbarItemSchema>
