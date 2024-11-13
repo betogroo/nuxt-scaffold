@@ -58,7 +58,7 @@ export const demandTypes: SelectOption<DemandType>[] = [
   },
   {
     name: 'Segunda Via Taxa',
-    value: '2v',
+    value: '2t',
   },
   {
     name: 'Primeira Via Entintada',

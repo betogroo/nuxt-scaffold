@@ -111,7 +111,7 @@ export type Database = {
     Enums: {
       demand_site: '1062-9' | '1342-5'
       demand_status: 'new' | 'consulted' | 'released' | 'issued' | 'error'
-      demand_type: '1cin' | '2cin' | '1v' | '2v' | '2vt' | '1ve' | '2ve'
+      demand_type: '1cin' | '2cin' | '1v' | '2v' | '2t' | '1ve' | '2ve'
     }
     CompositeTypes: {
       [_ in never]: never
