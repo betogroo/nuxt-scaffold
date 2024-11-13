@@ -2,7 +2,7 @@
 
 <template>
   <header>
-    <NavBar />
+    <AppNavbar />
   </header>
   <main class="pt-8">
     <slot />
