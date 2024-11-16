@@ -25,3 +25,5 @@ export const teacherUpdateSchema = z.object({
   availabilities: jsonSchema.optional().nullable(),
   subjects: jsonSchema.optional().nullable(),
 })
+
+export const validateTeacher = toTypedSchema(teacherInsertSchema)
