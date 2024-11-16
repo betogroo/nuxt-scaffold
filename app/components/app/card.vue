@@ -4,17 +4,20 @@
     subtitle?: string
     ring?: string
     loading?: boolean
+    isLink?: boolean
   }
   withDefaults(defineProps<Props>(), {
     ring: 'green',
     subtitle: '',
     loading: false,
+    isLink: false,
   })
 </script>
 
 <template>
   <UCard
     class="my-2"
+    :class="isLink ? 'cursor-pointer' : ''"
     :ui="{
       strategy: 'override',
       divide: 'divide-none',

@@ -16,18 +16,22 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10"
       >
         <AppCard
+          is-link
           title="Professores"
           @click="push('./schedule/teacher')"
         />
         <AppCard
+          is-link
           title="Matérias"
           @click="push('./schedule/subject')"
         />
         <AppCard
+          is-link
           title="Turmas"
           @click="push('./schedule/class')"
         />
         <AppCard
+          is-link
           title="Horários"
           @click="push('./schedule/schedule')"
         />

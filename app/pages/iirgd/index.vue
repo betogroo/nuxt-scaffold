@@ -16,6 +16,7 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-16 mb-10"
       >
         <AppCard
+          is-link
           title="RGs"
           @click="$router.push('/iirgd/rg')"
           >Aqui</AppCard
