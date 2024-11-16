@@ -13,7 +13,7 @@ export const teacherRowSchema = z.object({
 export const teacherInsertSchema = z.object({
   id: z.string().optional(),
   created_at: z.string().optional(),
-  name: z.string(),
+  name: z.string().min(8, 'Campo Obrigatório'),
   availabilities: jsonSchema.optional().nullable(),
   subjects: jsonSchema.optional().nullable(),
 })
