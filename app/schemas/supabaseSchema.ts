@@ -14,6 +14,29 @@ export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
     .nullable(),
 )
 
+export const classesRowSchema = z.object({
+  created_at: z.string(),
+  id: z.string(),
+  name: z.string(),
+  subjects: jsonSchema.nullable(),
+})
+
+export const classesInsertSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string(),
+  subjects: jsonSchema.optional().nullable(),
+})
+
+export const classesUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string().optional(),
+  subjects: jsonSchema.optional().nullable(),
+})
+
+export const classesRelationshipsSchema = z.tuple([])
+
 export const demandSiteSchema = z.union([
   z.literal('1062-9'),
   z.literal('1342-5'),
@@ -32,7 +55,7 @@ export const demandTypeSchema = z.union([
   z.literal('2cin'),
   z.literal('1v'),
   z.literal('2v'),
-  z.literal('2vt'),
+  z.literal('2t'),
   z.literal('1ve'),
   z.literal('2ve'),
 ])
@@ -123,6 +146,109 @@ export const profilesUpdateSchema = z.object({
 })
 
 export const profilesRelationshipsSchema = z.tuple([])
+
+export const schedulesRowSchema = z.object({
+  class_id: z.string().nullable(),
+  created_at: z.string(),
+  day: z.string().nullable(),
+  hour: z.string().nullable(),
+  id: z.string(),
+  subject_id: z.string().nullable(),
+  teacher_id: z.string().nullable(),
+})
+
+export const schedulesInsertSchema = z.object({
+  class_id: z.string().optional().nullable(),
+  created_at: z.string().optional(),
+  day: z.string().optional().nullable(),
+  hour: z.string().optional().nullable(),
+  id: z.string().optional(),
+  subject_id: z.string().optional().nullable(),
+  teacher_id: z.string().optional().nullable(),
+})
+
+export const schedulesUpdateSchema = z.object({
+  class_id: z.string().optional().nullable(),
+  created_at: z.string().optional(),
+  day: z.string().optional().nullable(),
+  hour: z.string().optional().nullable(),
+  id: z.string().optional(),
+  subject_id: z.string().optional().nullable(),
+  teacher_id: z.string().optional().nullable(),
+})
+
+export const schedulesRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal('schedules_class_id_fkey'),
+    columns: z.tuple([z.literal('class_id')]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal('classes'),
+    referencedColumns: z.tuple([z.literal('id')]),
+  }),
+  z.object({
+    foreignKeyName: z.literal('schedules_subject_id_fkey'),
+    columns: z.tuple([z.literal('subject_id')]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal('subjects'),
+    referencedColumns: z.tuple([z.literal('id')]),
+  }),
+  z.object({
+    foreignKeyName: z.literal('schedules_teacher_id_fkey'),
+    columns: z.tuple([z.literal('teacher_id')]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal('teacher'),
+    referencedColumns: z.tuple([z.literal('id')]),
+  }),
+])
+
+export const subjectsRowSchema = z.object({
+  created_at: z.string(),
+  id: z.string(),
+  name: z.string(),
+  workload: z.number().nullable(),
+})
+
+export const subjectsInsertSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string(),
+  workload: z.number().optional().nullable(),
+})
+
+export const subjectsUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string().optional(),
+  workload: z.number().optional().nullable(),
+})
+
+export const subjectsRelationshipsSchema = z.tuple([])
+
+export const teacherRowSchema = z.object({
+  availabilities: jsonSchema.nullable(),
+  created_at: z.string(),
+  id: z.string(),
+  name: z.string(),
+  subjects: jsonSchema.nullable(),
+})
+
+export const teacherInsertSchema = z.object({
+  availabilities: jsonSchema.optional().nullable(),
+  created_at: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string(),
+  subjects: jsonSchema.optional().nullable(),
+})
+
+export const teacherUpdateSchema = z.object({
+  availabilities: jsonSchema.optional().nullable(),
+  created_at: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string().optional(),
+  subjects: jsonSchema.optional().nullable(),
+})
+
+export const teacherRelationshipsSchema = z.tuple([])
 
 export const documentDemandRowSchema = z.object({
   created_at: z.string().nullable(),
