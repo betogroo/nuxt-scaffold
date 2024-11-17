@@ -28,6 +28,7 @@
     "@nuxt/ui": "^2.18.4",
     "@pinia/nuxt": "^0.5.3",
     "@types/uuid": "^10.0.0",
+    "supabase": "^1.219.2",
     "supabase-to-zod": "^1.0.7",
     "uuid": "^10.0.0"
   },

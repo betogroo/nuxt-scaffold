@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { Json } from './../types/supabase.d'
 
 export const pendingStateSchema = z.object({
   action: z.string().nullable(),
@@ -6,7 +7,14 @@ export const pendingStateSchema = z.object({
   isLoading: z.boolean().default(false),
 })
 
-export const tableColumnSchema = z.object({
-  key: z.string().trim(),
-  label: z.string().trim().optional(),
-})
+export const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
+  z
+    .union([
+      z.string(),
+      z.number(),
+      z.boolean(),
+      z.record(z.union([jsonSchema, z.undefined()])),
+      z.array(jsonSchema),
+    ])
+    .nullable(),
+)
