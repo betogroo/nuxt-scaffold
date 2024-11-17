@@ -1,4 +1,3 @@
-//import { z } from 'zod'
 import type { Database } from '~/types/supabase'
 import type { TeacherInsert, TeacherRow } from '~/types'
 import { teacherInsertSchema } from '~/schemas'
