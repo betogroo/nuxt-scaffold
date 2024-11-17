@@ -1,3 +1,5 @@
 export * from './userSchema'
 export * from './documentDemandSchema'
 export * from './helpersSchema'
+export * from './teacherSchema'
+//export * from './appSchema'
