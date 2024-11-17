@@ -14,19 +14,16 @@ export type Database = {
           created_at: string
           id: string
           name: string
-          subjects: Json | null
         }
         Insert: {
           created_at?: string
           id?: string
           name: string
-          subjects?: Json | null
         }
         Update: {
           created_at?: string
           id?: string
           name?: string
-          subjects?: Json | null
         }
         Relationships: []
       }
@@ -126,27 +123,30 @@ export type Database = {
         Row: {
           class_id: string | null
           created_at: string
-          day: string | null
-          hour: string | null
+          day: number | null
+          end_time: string | null
           id: string
+          start_time: string
           subject_id: string | null
           teacher_id: string | null
         }
         Insert: {
           class_id?: string | null
           created_at?: string
-          day?: string | null
-          hour?: string | null
+          day?: number | null
+          end_time?: string | null
           id?: string
+          start_time: string
           subject_id?: string | null
           teacher_id?: string | null
         }
         Update: {
           class_id?: string | null
           created_at?: string
-          day?: string | null
-          hour?: string | null
+          day?: number | null
+          end_time?: string | null
           id?: string
+          start_time?: string
           subject_id?: string | null
           teacher_id?: string | null
         }
@@ -169,7 +169,7 @@ export type Database = {
             foreignKeyName: "schedules_teacher_id_fkey"
             columns: ["teacher_id"]
             isOneToOne: false
-            referencedRelation: "teacher"
+            referencedRelation: "teachers"
             referencedColumns: ["id"]
           },
         ]
@@ -179,43 +179,69 @@ export type Database = {
           created_at: string
           id: string
           name: string
-          workload: number | null
         }
         Insert: {
           created_at?: string
           id?: string
           name: string
-          workload?: number | null
         }
         Update: {
           created_at?: string
           id?: string
           name?: string
-          workload?: number | null
         }
         Relationships: []
       }
-      teacher: {
+      teacher_availability: {
         Row: {
-          availabilities: Json | null
+          created_at: string
+          day_of_week: number
+          end_time: string | null
+          id: string
+          start_time: string | null
+          teacher_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          end_time?: string | null
+          id?: string
+          start_time?: string | null
+          teacher_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          end_time?: string | null
+          id?: string
+          start_time?: string | null
+          teacher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teacher_availability_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "teachers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teachers: {
+        Row: {
           created_at: string
           id: string
           name: string
-          subjects: Json | null
         }
         Insert: {
-          availabilities?: Json | null
           created_at?: string
           id?: string
           name: string
-          subjects?: Json | null
         }
         Update: {
-          availabilities?: Json | null
           created_at?: string
           id?: string
           name?: string
-          subjects?: Json | null
         }
         Relationships: []
       }

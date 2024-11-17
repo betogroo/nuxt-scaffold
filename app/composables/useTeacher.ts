@@ -12,7 +12,7 @@ const useTeacher = () => {
       const parsedData = teacherInsertSchema.parse(data)
       console.log(parsedData)
       const { data: newTeacher, error } = await supabase
-        .from('teacher')
+        .from('teachers')
         .insert(parsedData)
         .select()
         .returns<TeacherRow[]>()
