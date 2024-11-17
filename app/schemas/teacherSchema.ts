@@ -4,7 +4,7 @@ import { z } from 'zod'
 export const nameSchema = z
   .string()
   .min(1, 'Campo Obrigatório')
-  .min(2, 'Parte do nome deve conter no mínimo duas letras')
+  .min(2, TWO_LETTERS_MINIMUM_NAME)
   .trim()
   .refine(
     (data) => {
@@ -12,14 +12,14 @@ export const nameSchema = z
       return words.length >= 2
     },
     {
-      message: 'Deve conter pelo menos o nome e sobrenome',
+      message: MUST_INCLUDE_FIRST_AND_LAST_NAME,
     },
   )
 
 export const teacherRowSchema = z.object({
   id: z.string(),
   created_at: z.string(),
-  name: z.string(),
+  name: nameSchema,
 })
 
 export const teacherInsertSchema = z.object({
