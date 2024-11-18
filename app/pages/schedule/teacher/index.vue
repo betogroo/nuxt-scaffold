@@ -24,7 +24,7 @@
   <div>
     <div>Professores</div>
     <FormTeacher
-      :is-pending="isPending.isLoading && isPending.action === 'addTeacher'"
+      :is-pending="isPending.isLoading && isPending.action === 'add-teachers'"
       @on-submit="handleSubmit"
     />
   </div>

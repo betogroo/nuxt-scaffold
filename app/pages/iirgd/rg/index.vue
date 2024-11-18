@@ -3,7 +3,7 @@
   const { handleError, showToast } = useHelpers()
   const {
     fetchDocumentDemands,
-    isPending,
+    documentDemandPending,
     addDocumentDemand,
     tableDemandView,
   } = useDocumentDemand()
@@ -82,7 +82,8 @@
     >
       <FormDocumentDemand
         :is-pending="
-          isPending.isLoading && isPending.action === 'addDocumentDemand'
+          documentDemandPending.isLoading &&
+          documentDemandPending.action === 'add-document_demand'
         "
         @on-submit="submitDocumentDemand"
       />

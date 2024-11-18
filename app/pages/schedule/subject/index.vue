@@ -21,7 +21,7 @@
   <div>
     <div>Matérias</div>
     <FormSubject
-      :is-pending="isPending.isLoading && isPending.action === 'addSubject'"
+      :is-pending="isPending.isLoading && isPending.action === 'add-subjects'"
       @on-submit="handleSubmit"
     />
   </div>
