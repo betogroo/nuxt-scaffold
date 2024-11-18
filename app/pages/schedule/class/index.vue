@@ -21,7 +21,7 @@
   <div>
     <div>Matérias</div>
     <FormClass
-      :is-pending="isPending.isLoading && isPending.action === 'addClass'"
+      :is-pending="isPending.isLoading && isPending.action === 'add-classes'"
       @on-submit="handleSubmit"
     />
   </div>

@@ -96,7 +96,7 @@ const useDocumentDemand = () => {
     )
     .subscribe()
 
-  const addDocumentDemand = async (data: DocumentDemandInsert) => {
+  /* const addDocumentDemand = async (data: DocumentDemandInsert) => {
     return setPendingState(async () => {
       const parsedData = documentDemandInsertSchema.parse(data)
       console.log(parsedData)
@@ -109,13 +109,21 @@ const useDocumentDemand = () => {
       if (error) throw error
       if (newDocumentDemand) return newDocumentDemand
     }, 'addDocumentDemand')
-  }
+  } */
+
+  const { isPending: documentDemandPending, addInsert: addDocumentDemand } =
+    useInsert<DocumentDemandInsert, DocumentDemandRow>(
+      'document_demand',
+      documentDemandInsertSchema,
+    )
 
   return {
     addDocumentDemand,
+
     fetchDocumentDemands,
-    isPending,
     demands,
+    isPending,
+    documentDemandPending,
     tableDemandView,
   }
 }
