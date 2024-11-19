@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { TeacherInsert } from '~/types'
-  const { addTeacher, isPending } = useTeacher()
+  const { addTeacher, isPending, fetch, fetchedData: teachers } = useTeacher()
+
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (teacher: TeacherInsert) => {
@@ -18,6 +19,9 @@
       console.error(error)
     }
   }
+  onMounted(async () => {
+    await fetch()
+  })
 </script>
 
 <template>
@@ -26,6 +30,11 @@
     <FormTeacher
       :is-pending="isPending.isLoading && isPending.action === 'add-teachers'"
       @on-submit="handleSubmit"
+    />
+    <AppList
+      v-for="teacher in teachers"
+      :key="teacher.id"
+      :item="{ name: teacher.name, email: 'email não cadastrado' }"
     />
   </div>
 </template>

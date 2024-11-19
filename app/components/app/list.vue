@@ -3,7 +3,7 @@
 
   interface Props {
     item: ViewUser
-    isPending: boolean
+    isPending?: boolean
   }
 
   defineProps<Props>()

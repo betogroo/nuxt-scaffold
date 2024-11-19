@@ -1,15 +1,15 @@
 import type { ZodSchema } from 'zod'
 import type { Database, Tables } from '~/types'
 
-const useFetch = <RowType>(tableName: Tables, schema: ZodSchema) => {
+const useGenericFetch = <RowType>(tableName: Tables, schema: ZodSchema) => {
   const supabase = useSupabaseClient<Database>()
   const { isPending, setPendingState } = useHelpers()
-  const fetchedData = ref<RowType>()
+  const fetchedData = ref<RowType[]>([])
 
   const fetch = async () => {
     return setPendingState(async () => {
       const { data: newData, error } = await supabase
-        .from('document_demand')
+        .from(tableName)
         .select('*')
         .order('id', { ascending: true })
         .returns<RowType>()
@@ -23,4 +23,4 @@ const useFetch = <RowType>(tableName: Tables, schema: ZodSchema) => {
   return { isPending, fetchedData, fetch }
 }
 
-export default useFetch
+export default useGenericFetch
