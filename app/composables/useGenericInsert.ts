@@ -7,9 +7,9 @@ const useGenericInsert = <InsertType, RowType>(
   schema: ZodSchema,
 ) => {
   const supabase = useSupabaseClient<Database>()
-  const { isPending, setPendingState } = useHelpers()
+  const { isPending: insertPending, setPendingState } = useHelpers()
 
-  const addData = async (data: InsertType) => {
+  const insertData = async (data: InsertType) => {
     return setPendingState(async () => {
       const parsedData = schema.parse(data)
       const { data: newInsert, error } = await supabase
@@ -22,7 +22,7 @@ const useGenericInsert = <InsertType, RowType>(
       return newInsert
     }, `add-${tableName}`)
   }
-  return { isPending, addData }
+  return { insertPending, insertData }
 }
 
 export default useGenericInsert

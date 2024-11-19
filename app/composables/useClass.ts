@@ -2,12 +2,12 @@ import type { ClassInsert, ClassRow } from '~/types'
 import { classInsertSchema } from '~/schemas'
 
 const useClass = () => {
-  const { isPending, addData: addClass } = useGenericInsert<
+  const { insertPending, insertData: insertClass } = useGenericInsert<
     ClassInsert,
     ClassRow
   >('classes', classInsertSchema)
 
-  return { isPending, addClass }
+  return { insertPending, insertClass }
 }
 
 export default useClass

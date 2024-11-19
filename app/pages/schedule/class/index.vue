@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import type { ClassInsert } from '~/types'
-  const { addClass, isPending } = useClass()
+  const { insertClass, insertPending } = useClass()
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (data: ClassInsert) => {
     try {
-      const newClass = await addClass(data)
+      const newClass = await insertClass(data)
       if (!newClass) throw new Error('Erro ao Adicionar Turma')
       showToast('success', `Turma ${newClass.name} cadastrada com sucesso`)
     } catch (err) {
@@ -21,7 +21,9 @@
   <div>
     <div>Matérias</div>
     <FormClass
-      :is-pending="isPending.isLoading && isPending.action === 'add-classes'"
+      :is-pending="
+        insertPending.isLoading && insertPending.action === 'add-classes'
+      "
       @on-submit="handleSubmit"
     />
   </div>

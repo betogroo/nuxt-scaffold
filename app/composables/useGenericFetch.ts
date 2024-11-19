@@ -3,7 +3,7 @@ import type { Database, Tables } from '~/types'
 
 const useGenericFetch = <RowType>(tableName: Tables, schema: ZodSchema) => {
   const supabase = useSupabaseClient<Database>()
-  const { isPending, setPendingState } = useHelpers()
+  const { isPending: fetchPending, setPendingState } = useHelpers()
   const data = ref<RowType[]>([])
 
   const fetch = async () => {
@@ -20,7 +20,7 @@ const useGenericFetch = <RowType>(tableName: Tables, schema: ZodSchema) => {
       }
     }, `fetch-${tableName}`)
   }
-  return { isPending, data, fetch }
+  return { fetchPending, data, fetch }
 }
 
 export default useGenericFetch

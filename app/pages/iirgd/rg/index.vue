@@ -4,7 +4,7 @@
   const {
     fetchDocumentDemands,
     documentDemandPending,
-    addDocumentDemand,
+    insertDocumentDemand,
     tableDemandView,
   } = useDocumentDemand()
   const newRgModal = ref(false)
@@ -20,7 +20,7 @@
   })
   const submitDocumentDemand = async (documentDemand: DocumentDemandInsert) => {
     try {
-      const newDocumentDemand = await addDocumentDemand(documentDemand)
+      const newDocumentDemand = await insertDocumentDemand(documentDemand)
       if (!newDocumentDemand) throw new Error('aqui deu erro')
       showToast(
         'success',
