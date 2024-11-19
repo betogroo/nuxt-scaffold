@@ -2,7 +2,7 @@
 import type { ZodSchema } from 'zod'
 import type { Database, Tables } from '~/types'
 
-const useInsert = <InsertType, RowType>(
+const useGenericInsert = <InsertType, RowType>(
   tableName: Tables, //ver refatoração
   schema: ZodSchema,
 ) => {
@@ -25,4 +25,4 @@ const useInsert = <InsertType, RowType>(
   return { isPending, addInsert }
 }
 
-export default useInsert
+export default useGenericInsert

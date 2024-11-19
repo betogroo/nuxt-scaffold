@@ -112,7 +112,7 @@ const useDocumentDemand = () => {
   } */
 
   const { isPending: documentDemandPending, addInsert: addDocumentDemand } =
-    useInsert<DocumentDemandInsert, DocumentDemandRow>(
+    useGenericInsert<DocumentDemandInsert, DocumentDemandRow>(
       'document_demand',
       documentDemandInsertSchema,
     )

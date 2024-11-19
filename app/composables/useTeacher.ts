@@ -3,7 +3,7 @@ import type { TeacherInsert, TeacherRow } from '~/types'
 import useGenericFetch from './useGenericFetch'
 
 const useTeacher = () => {
-  const { isPending, addInsert: addTeacher } = useInsert<
+  const { isPending, addInsert: addTeacher } = useGenericInsert<
     TeacherInsert,
     TeacherRow
   >('teachers', teacherInsertSchema)
