@@ -1,4 +1,8 @@
-import { teacherInsertSchema, teacherRowsSchema } from '~/schemas'
+import {
+  teacherInsertSchema,
+  teacherRowsSchema,
+  teacherRowSchema,
+} from '~/schemas'
 import type { TeacherInsert, TeacherRow } from '~/types'
 
 const useTeacher = () => {
@@ -13,7 +17,22 @@ const useTeacher = () => {
     data: teachers,
   } = useGenericFetch<TeacherRow>('teachers', teacherRowsSchema)
 
-  return { insertPending, insertTeacher, fetchPending, fetch, teachers }
+  const {
+    getById,
+    getPending,
+    data: teacher,
+  } = useGenericGet<TeacherRow>('teachers', teacherRowSchema)
+
+  return {
+    insertPending,
+    insertTeacher,
+    fetchPending,
+    fetch,
+    teachers,
+    getById,
+    teacher,
+    getPending,
+  }
 }
 
 export default useTeacher
