@@ -13,6 +13,8 @@ export const subjectRowSchema = z.object({
   name: subjectNameSchema,
 })
 
+export const subjectRowsSchema = z.array(subjectRowSchema)
+
 export const subjectInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.string().optional(),
