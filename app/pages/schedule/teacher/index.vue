@@ -33,10 +33,15 @@
       "
       @on-submit="handleSubmit"
     />
-    <AppList
-      v-for="teacher in teachers"
-      :key="teacher.id"
-      :item="{ name: teacher.name, email: 'email não cadastrado' }"
-    />
+    <ul>
+      <li
+        v-for="teacher in teachers"
+        :key="teacher.id"
+      >
+        <ULink :to="{ name: 'schedule-teacher-id', params: { id: teacher.id } }"
+          >{{ teacher.name }}
+        </ULink>
+      </li>
+    </ul>
   </div>
 </template>
