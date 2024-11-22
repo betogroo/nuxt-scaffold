@@ -1,21 +1,33 @@
 <script setup lang="ts">
   const { params } = useRoute()
-
+  const { validateWithSchema, schemaError } = useSchema()
   const { getById, getDataPending, teacher } = useTeacher()
+  const { handleError } = useHelpers()
 
   onMounted(async () => {
     try {
-      await getById(params.id + '')
+      const parsedId = validateWithSchema(params.id!, uuidSchema)
+      await getById(parsedId)
     } catch (error) {
-      console.log(error)
+      const err = handleError(error)
+      console.log(err)
     }
   })
 </script>
 
 <template>
   <div>
-    <div>Detalhes da demanda {{ params.id }}</div>
-    <div v-if="getDataPending.isLoading"><USkeleton class="h-8" /></div>
-    <div v-else>{{ teacher }}</div>
+    <template v-if="!schemaError">
+      <teacher-details
+        :is-pending="getDataPending.isLoading"
+        :teacher="teacher"
+      />
+    </template>
+    <div v-else>
+      <error-data-invalid
+        :message="schemaError.errors[0]?.message"
+        :title="schemaError.errors[0]?.code"
+      />
+    </div>
   </div>
 </template>
