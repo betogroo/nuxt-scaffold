@@ -1,9 +1,10 @@
 import type { ZodError, ZodSchema } from 'zod'
 
-const schemaError = ref<ZodError>()
+const schemaError = ref<ZodError | false>()
 const useSchema = () => {
   const validateWithSchema = (data: unknown, schema: ZodSchema) => {
     try {
+      schemaError.value = false
       return schema.parse(data)
     } catch (error) {
       console.error('Erro de validação: ', error)
