@@ -18,7 +18,7 @@ export const demandTypeSchema = z.union([
   z.literal('2cin'),
   z.literal('1v'),
   z.literal('2v'),
-  z.literal('2vt'),
+  z.literal('2t'),
   z.literal('1ve'),
   z.literal('2ve'),
 ])

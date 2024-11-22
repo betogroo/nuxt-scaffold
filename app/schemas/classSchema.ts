@@ -12,6 +12,7 @@ export const classRowSchema = z.object({
   id: z.string(),
   name: classNameSchema,
 })
+export const classRowsSchema = z.array(classRowSchema)
 
 export const classInsertSchema = z.object({
   created_at: z.string().optional(),

@@ -1,11 +1,12 @@
 <script setup lang="ts">
   import type { TeacherInsert } from '~/types'
-  const { addTeacher, isPending } = useTeacher()
+  const { insertTeacher, insertPending, fetch, teachers } = useTeacher()
+
   const { showToast, handleError } = useHelpers()
 
   const handleSubmit = async (teacher: TeacherInsert) => {
     try {
-      const newTeacher = await addTeacher(teacher)
+      const newTeacher = await insertTeacher(teacher)
       if (!newTeacher) throw new Error('Erro ao Adicionar Professor')
       showToast(
         'success',
@@ -18,14 +19,29 @@
       console.error(error)
     }
   }
+  onMounted(async () => {
+    await fetch()
+  })
 </script>
 
 <template>
   <div>
     <div>Professores</div>
     <FormTeacher
-      :is-pending="isPending.isLoading && isPending.action === 'add-teachers'"
+      :is-pending="
+        insertPending.isLoading && insertPending.action === 'add-teachers'
+      "
       @on-submit="handleSubmit"
     />
+    <ul>
+      <li
+        v-for="teacher in teachers"
+        :key="teacher.id"
+      >
+        <ULink :to="{ name: 'schedule-teacher-id', params: { id: teacher.id } }"
+          >{{ teacher.name }}
+        </ULink>
+      </li>
+    </ul>
   </div>
 </template>

@@ -17,19 +17,20 @@ export const nameSchema = z
   )
 
 export const teacherRowSchema = z.object({
-  id: z.string(),
+  id: uuidSchema,
   created_at: z.string(),
   name: nameSchema,
 })
+export const teacherRowsSchema = z.array(teacherRowSchema)
 
 export const teacherInsertSchema = z.object({
-  id: z.string().optional(),
+  id: uuidSchema.optional(),
   created_at: z.string().optional(),
   name: nameSchema,
 })
 
 export const teacherUpdateSchema = z.object({
-  id: z.string().optional(),
+  id: uuidSchema.optional(),
   created_at: z.string().optional(),
   name: nameSchema.optional(),
 })
