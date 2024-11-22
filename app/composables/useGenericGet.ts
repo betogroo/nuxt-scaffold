@@ -1,5 +1,6 @@
 import type { ZodSchema } from 'zod'
 import type { Database, Tables } from '~/types'
+const { validateWithSchema } = useSchema()
 
 const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
   const supabase = useSupabaseClient<Database>()
@@ -18,7 +19,8 @@ const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
       if (error) throw error
 
       if (newData) {
-        const parsedData = schema.parse(newData)
+        const parsedData = validateWithSchema(newData, schema)
+
         data.value = parsedData
       }
     }, `get-${tableName}`)
