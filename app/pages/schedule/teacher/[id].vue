@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const { params } = useRoute()
 
-  const { getById, getPending, teacher } = useTeacher()
+  const { getById, getDataPending, teacher } = useTeacher()
 
   onMounted(async () => {
     try {
@@ -15,7 +15,7 @@
 <template>
   <div>
     <div>Detalhes da demanda {{ params.id }}</div>
-    <div v-if="getPending.isLoading"><USkeleton class="h-8" /></div>
+    <div v-if="getDataPending.isLoading"><USkeleton class="h-8" /></div>
     <div v-else>{{ teacher }}</div>
   </div>
 </template>

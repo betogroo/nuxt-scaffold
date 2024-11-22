@@ -19,7 +19,7 @@ const useTeacher = () => {
 
   const {
     getById,
-    getPending,
+    getDataPending,
     data: teacher,
   } = useGenericGet<TeacherRow>('teachers', teacherRowSchema)
 
@@ -31,7 +31,7 @@ const useTeacher = () => {
     teachers,
     getById,
     teacher,
-    getPending,
+    getDataPending,
   }
 }
 

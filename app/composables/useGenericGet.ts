@@ -3,7 +3,7 @@ import type { Database, Tables } from '~/types'
 
 const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
   const supabase = useSupabaseClient<Database>()
-  const { isPending: getPending, setPendingState } = useHelpers()
+  const { isPending: getDataPending, setPendingState } = useHelpers()
   const data = ref<RowType | null>(null)
 
   const getById = async (id: string) => {
@@ -24,7 +24,7 @@ const useGenericGet = <RowType>(tableName: Tables, schema: ZodSchema) => {
     }, `get-${tableName}`)
   }
 
-  return { getPending, getById, data }
+  return { getDataPending, getById, data }
 }
 
 export default useGenericGet
