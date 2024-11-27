@@ -4,15 +4,14 @@
   const { params } = useRoute()
   const { validateWithSchema, schemaError } = useSchema()
   const { getById, getDataPending, teacher } = useTeacher()
-  const { getTeacherAvailability, teacherAvailability } =
+  const { getTimeSlotsWithTeacherAvailability, teacherAvailability } =
     useTeacherAvailability()
   const { handleError } = useHelpers()
   const parsedId = validateWithSchema(params.id!, uuidSchema)
-
   onMounted(async () => {
     try {
       await getById(parsedId)
-      await getTeacherAvailability(parsedId, 1)
+      await getTimeSlotsWithTeacherAvailability(parsedId, 1)
     } catch (error) {
       const err = handleError(error)
       console.log(err)

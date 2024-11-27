@@ -2,55 +2,47 @@ import type {
   Database,
   TeacherAvailabilityInsert,
   TeacherAvailabilityRow,
-  TimeSlotRow,
+  TimeSlotWithTeacherAvailabilityRow,
 } from '~/types'
 import {
   teacherAvailabilityInsertSchema,
   teacherAvailabilityRowsSchema,
-  timeSlotRowsSchema,
+  timeSlotsWithTeacherAvailabilityRowsSchema,
 } from '~/schemas'
 
 const useTeacherAvailability = () => {
   const supabase = useSupabaseClient<Database>()
-  const teacherAvailability = ref<TimeSlotRow[]>([])
+  const teacherAvailability = ref<TimeSlotWithTeacherAvailabilityRow[]>([])
   const { timeSlots, fetchTimeSlots } = useTimeSlots()
+  const { data: availability, getWithFilters } = useGenericGet<
+    TeacherAvailabilityRow[]
+  >('teacher_availability', teacherAvailabilityRowsSchema)
 
-  const getTeacherAvailability = async (
+  const getTimeSlotsWithTeacherAvailability = async (
     teacherId: string,
     dayOfWeek: number,
   ) => {
     await fetchTimeSlots({ column: 'start_time' })
 
-    const { data: availability, getWithFilters } = useGenericGet<
-      TeacherAvailabilityRow[]
-    >('teacher_availability', teacherAvailabilityRowsSchema)
     await getWithFilters({ teacher_id: teacherId, day_of_week: dayOfWeek })
-    console.log(availability.value, timeSlots.value)
 
-    /* const { data: availability, error: availabilityError } = await supabase
-      .from('teacher_availability')
-      .select('id, time_slot_id, is_available')
-      .eq('teacher_id', teacherId)
-      .eq('day_of_week', dayOfWeek)
+    const mergedData: TimeSlotWithTeacherAvailabilityRow[] =
+      timeSlots.value.map((slot) => {
+        if (!availability.value) throw new Error('erro')
+        const availabilityMatch = availability.value.find(
+          (a) => a.time_slot_id === slot.id,
+        )
 
-    if (availabilityError) {
-      console.error('Error fetching teacher availability:', availabilityError)
-      return null
-    } */
-
-    const mergedData: TimeSlotRow[] = timeSlots.value.map((slot) => {
-      if (!availability.value) throw new Error('erro')
-      const availabilityMatch = availability.value.find(
-        (a) => a.time_slot_id === slot.id,
-      )
-
-      return {
-        ...slot,
-        is_available: availabilityMatch ? availabilityMatch.is_available : null,
-        availability_id: availabilityMatch ? availabilityMatch.id : null,
-      }
-    })
-    const parsedData = timeSlotRowsSchema.parse(mergedData)
+        return {
+          ...slot,
+          is_available: availabilityMatch
+            ? availabilityMatch.is_available
+            : null,
+          availability_id: availabilityMatch ? availabilityMatch.id : null,
+        }
+      })
+    const parsedData =
+      timeSlotsWithTeacherAvailabilityRowsSchema.parse(mergedData)
 
     teacherAvailability.value = parsedData
   }
@@ -75,15 +67,9 @@ const useTeacherAvailability = () => {
       },
       (event) => {
         console.log(event)
-        console.log('Vai mudar a tabela')
+        console.log('Vai INSERIR a tabela')
         const { new: newTeacherAvailability } = event
         console.log(newTeacherAvailability)
-        /*  try {
-          const parsedTeacherAvailability = timeSlotRowsSchema.parse(newTeacherAvailability)
-          teacherAvailability.value.push(parsedTeacherAvailability)
-        } catch (error) {
-          console.error('Erro ao validar a nova demanda:', error)
-        } */
       },
     )
     .on(
@@ -92,12 +78,6 @@ const useTeacherAvailability = () => {
       (event) => {
         const { new: newTeacherAvailability } = event
         console.log(newTeacherAvailability)
-        /* const index = demands.value.findIndex(
-          (demand) => demand.id === updatedDocumentDemand.id,
-        )
-        if (index !== -1) {
-          demands.value[index] = updatedDocumentDemand as DocumentDemandRow
-        } */
       },
     )
     .on(
@@ -107,15 +87,12 @@ const useTeacherAvailability = () => {
         console.log('vai deletar', event.new)
         const { old: newTeacherAvailability } = event
         console.log(newTeacherAvailability)
-        /* demands.value = demands.value.filter(
-          (demand) => demand.id !== deletedDocumentDemand.id,
-        ) */
       },
     )
     .subscribe()
 
   return {
-    getTeacherAvailability,
+    getTimeSlotsWithTeacherAvailability,
     teacherAvailability,
     deleteTeacherAvailability,
     insertTeacherAvailability,

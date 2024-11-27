@@ -1,8 +1,7 @@
 <script setup lang="ts">
   //<script setup lang="ts">
-  import type { TableColumn, TimeSlotRow } from '~/types'
+  import type { TableColumn, TimeSlotWithTeacherAvailabilityRow } from '~/types'
   import { teacherAvailabilityInsertSchema } from '~/schemas'
-
   const props = defineProps<Props>()
 
   const { deleteTeacherAvailability, insertTeacherAvailability } =
@@ -11,13 +10,16 @@
   interface Props {
     title: string
     columns: TableColumn[]
-    rows: TimeSlotRow[]
+    rows: TimeSlotWithTeacherAvailabilityRow[]
     teacherId: string
+    //rows: Array<Record<string, unknown>>
   }
-  const toggleAvailability = async (item: TimeSlotRow) => {
+
+  const toggleAvailability = async (
+    item: TimeSlotWithTeacherAvailabilityRow,
+  ) => {
     try {
       if (item.availability_id) {
-        console.log('vai deletar')
         await deleteTeacherAvailability(item.availability_id)
       } else {
         const newData = {
@@ -26,7 +28,7 @@
           day_of_week: 1,
         }
         const parsedInsert = teacherAvailabilityInsertSchema.parse(newData)
-        console.log('vai inserir')
+
         await insertTeacherAvailability(parsedInsert)
       }
     } catch (error) {
