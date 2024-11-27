@@ -20,16 +20,8 @@
 
   const columns: TableColumn[] = [
     {
-      key: 'name',
+      key: 'time',
       label: 'Horário',
-    },
-    {
-      key: 'start_time',
-      label: 'Início', // fazser merge notemplate
-    },
-    {
-      key: 'end_time',
-      label: 'Fim', // fazser merge notemplate
     },
     {
       key: 'availability_id',

@@ -44,6 +44,14 @@
       :rows="rows"
       :ui="{ td: { padding: 'p-1', color: 'text-gray-800' } }"
     >
+      <template #time-data="{ row }">
+        {{
+          `${row.name} - ${row.start_time.substring(
+            0,
+            5,
+          )} às ${row.end_time.substring(0, 5)}`
+        }}
+      </template>
       <template #availability_id-data="{ row }">
         <UButton
           :disabled="row.is_break"
