@@ -9,8 +9,6 @@ import {
   teacherAvailabilityRowsSchema,
   timeSlotRowsSchema,
 } from '~/schemas'
-import useTimeSlots from './useTimeSlots'
-import useGenericDelete from './useGenericDelete'
 
 const useTeacherAvailability = () => {
   const supabase = useSupabaseClient<Database>()
