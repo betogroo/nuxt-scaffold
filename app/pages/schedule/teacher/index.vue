@@ -20,7 +20,7 @@
     }
   }
   onMounted(async () => {
-    await fetch()
+    await fetch({ column: 'name' })
   })
 </script>
 
