@@ -196,26 +196,26 @@ export type Database = {
         Row: {
           created_at: string
           day_of_week: number
-          end_time: string | null
           id: string
-          start_time: string | null
-          teacher_id: string | null
+          is_available: boolean
+          teacher_id: string
+          time_slot_id: number
         }
         Insert: {
           created_at?: string
           day_of_week: number
-          end_time?: string | null
           id?: string
-          start_time?: string | null
-          teacher_id?: string | null
+          is_available?: boolean
+          teacher_id: string
+          time_slot_id: number
         }
         Update: {
           created_at?: string
           day_of_week?: number
-          end_time?: string | null
           id?: string
-          start_time?: string | null
-          teacher_id?: string | null
+          is_available?: boolean
+          teacher_id?: string
+          time_slot_id?: number
         }
         Relationships: [
           {
@@ -223,6 +223,13 @@ export type Database = {
             columns: ["teacher_id"]
             isOneToOne: false
             referencedRelation: "teachers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "teacher_availability_time_slot_id_fkey"
+            columns: ["time_slot_id"]
+            isOneToOne: false
+            referencedRelation: "time_slots"
             referencedColumns: ["id"]
           },
         ]
@@ -242,6 +249,33 @@ export type Database = {
           created_at?: string
           id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      time_slots: {
+        Row: {
+          created_at: string
+          end_time: string
+          id: number
+          is_break: boolean
+          name: string
+          start_time: string
+        }
+        Insert: {
+          created_at?: string
+          end_time: string
+          id?: number
+          is_break?: boolean
+          name: string
+          start_time: string
+        }
+        Update: {
+          created_at?: string
+          end_time?: string
+          id?: number
+          is_break?: boolean
+          name?: string
+          start_time?: string
         }
         Relationships: []
       }
