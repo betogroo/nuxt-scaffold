@@ -52,7 +52,7 @@
           )} às ${row.end_time.substring(0, 5)}`
         }}
       </template>
-      <template #availability_id-data="{ row }">
+      <template #availability-data="{ row }">
         <UButton
           :disabled="row.is_break"
           :icon="
