@@ -24,7 +24,7 @@
       label: 'Horário',
     },
     {
-      key: 'availability_id',
+      key: 'availability',
       label: 'Disponibilidade',
     },
   ]

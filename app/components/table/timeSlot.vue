@@ -56,7 +56,9 @@
         <UButton
           :disabled="row.is_break"
           :icon="
-            row.availability_id ? iconOutline.checkCircle : iconOutline.close
+            row.availability_id && row.is_available
+              ? iconOutline.checkCircle
+              : iconOutline.close
           "
           variant="link"
           @click="toggleAvailability(row)"
