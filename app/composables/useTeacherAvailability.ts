@@ -56,6 +56,28 @@ const useTeacherAvailability = () => {
     TeacherAvailabilityRow
   >('teacher_availability', teacherAvailabilityInsertSchema)
 
+  const { upsertData: teacherAvailabilityUpsert } =
+    useGenericUpsert<TeacherAvailabilityInsert>(
+      'teacher_availability',
+      ['teacher_id', 'day_of_week', 'time_slot_id'],
+      teacherAvailabilityInsertSchema,
+    )
+
+  const toggleAvailability = async (
+    rowData: TimeSlotWithTeacherAvailabilityRow,
+    teacher_id: string,
+  ) => {
+    uuidSchema.parse(teacher_id)
+    const { is_available, id: time_slot_id } = rowData
+    const newData: TeacherAvailabilityInsert = {
+      day_of_week: 1,
+      teacher_id,
+      time_slot_id,
+      is_available: !is_available,
+    }
+    await teacherAvailabilityUpsert(newData)
+  }
+
   supabase
     .channel('teacher_availability_refresh')
     .on(
@@ -96,6 +118,8 @@ const useTeacherAvailability = () => {
     teacherAvailability,
     deleteTeacherAvailability,
     insertTeacherAvailability,
+    toggleAvailability,
+    teacherAvailabilityUpsert,
   }
 }
 
