@@ -12,39 +12,43 @@ import {
 
 const useTeacherAvailability = () => {
   const supabase = useSupabaseClient<Database>()
-  const teacherAvailability = ref<TimeSlotWithTeacherAvailabilityRow[]>([])
+  // const teacherAvailability = ref<TimeSlotWithTeacherAvailabilityRow[]>([])
   const { timeSlots, fetchTimeSlots } = useTimeSlots()
+  const { validateWithSchema } = useSchema()
+
   const { data: availability, getWithFilters } = useGenericGet<
     TeacherAvailabilityRow[]
   >('teacher_availability', teacherAvailabilityRowsSchema)
 
-  const getTimeSlotsWithTeacherAvailability = async (
-    teacherId: string,
-    dayOfWeek: number,
-  ) => {
-    await fetchTimeSlots({ column: 'start_time' })
-
-    await getWithFilters({ teacher_id: teacherId, day_of_week: dayOfWeek })
-
-    const mergedData: TimeSlotWithTeacherAvailabilityRow[] =
-      timeSlots.value.map((slot) => {
-        if (!availability.value) throw new Error('erro')
-        const availabilityMatch = availability.value.find(
+  const teacherAvailability = computed<TimeSlotWithTeacherAvailabilityRow[]>(
+    () => {
+      if (!availability.value || !timeSlots.value) return []
+      return timeSlots.value.map((slot) => {
+        const availabilityMatch = availability.value?.find(
           (a) => a.time_slot_id === slot.id,
         )
 
         return {
           ...slot,
-          is_available: availabilityMatch
-            ? availabilityMatch.is_available
-            : null,
-          availability_id: availabilityMatch ? availabilityMatch.id : null,
+          is_available: availabilityMatch?.is_available ?? null,
+          availability_id: availabilityMatch?.id ?? null,
         }
       })
-    const parsedData =
-      timeSlotsWithTeacherAvailabilityRowsSchema.parse(mergedData)
+    },
+  )
 
-    teacherAvailability.value = parsedData
+  const fetchTimeSlotsWithTeacherAvailability = async (
+    teacherId: string,
+    dayOfWeek: number,
+  ): Promise<void> => {
+    await Promise.all([
+      await fetchTimeSlots({ column: 'start_time' }),
+      await getWithFilters({ teacher_id: teacherId, day_of_week: dayOfWeek }),
+    ])
+    validateWithSchema(
+      teacherAvailability.value,
+      timeSlotsWithTeacherAvailabilityRowsSchema,
+    )
   }
 
   const { deleteDataById: deleteTeacherAvailability } = useGenericDelete(
@@ -67,15 +71,20 @@ const useTeacherAvailability = () => {
     rowData: TimeSlotWithTeacherAvailabilityRow,
     teacher_id: string,
   ) => {
-    uuidSchema.parse(teacher_id)
-    const { is_available, id: time_slot_id } = rowData
-    const newData: TeacherAvailabilityInsert = {
-      day_of_week: 1,
-      teacher_id,
-      time_slot_id,
-      is_available: !is_available,
+    try {
+      validateWithSchema(teacher_id, uuidSchema)
+      uuidSchema.parse(teacher_id)
+      const { is_available, id: time_slot_id } = rowData
+      const newData: TeacherAvailabilityInsert = {
+        day_of_week: 1,
+        teacher_id,
+        time_slot_id,
+        is_available: !is_available,
+      }
+      await teacherAvailabilityUpsert(newData)
+    } catch (error) {
+      console.log(error)
     }
-    await teacherAvailabilityUpsert(newData)
   }
 
   supabase
@@ -114,7 +123,7 @@ const useTeacherAvailability = () => {
     .subscribe()
 
   return {
-    getTimeSlotsWithTeacherAvailability,
+    fetchTimeSlotsWithTeacherAvailability,
     teacherAvailability,
     deleteTeacherAvailability,
     insertTeacherAvailability,

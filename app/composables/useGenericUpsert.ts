@@ -8,10 +8,11 @@ const useGenericUpsert = <InsertType>(
 ) => {
   const supabase = useSupabaseClient<Database>()
   const { isPending: upsertPending, setPendingState } = useHelpers()
+  const { validateWithSchema } = useSchema()
 
   const upsertData = async (data: InsertType) => {
     await setPendingState(async () => {
-      const parsedData = schema.parse(data)
+      const parsedData = validateWithSchema(data, schema)
       const onConflictString = onConflict.join(',')
       await supabase.from(tableName).upsert(parsedData, {
         onConflict: onConflictString,
