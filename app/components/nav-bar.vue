@@ -20,9 +20,7 @@
       {
         label: 'Settings',
         icon: iconOutline.settings,
-        click: () => {
-          return navigateTo('/settings')
-        },
+        click: () => navigateTo('/settings'),
       },
       {
         label: 'Sign out',
