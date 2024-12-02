@@ -1,7 +1,7 @@
 import { subjectInsertSchema, subjectRowsSchema } from '~/schemas'
 import type { SubjectInsert, SubjectRow } from '~/types'
 const useSubject = () => {
-  const { insertPending, insertData: insertSubject } = useGenericInsert<
+  const { insertPending, insert: insertSubject } = useGenericInsert<
     SubjectInsert,
     SubjectRow
   >('subjects', subjectInsertSchema)

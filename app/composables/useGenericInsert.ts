@@ -9,7 +9,7 @@ const useGenericInsert = <InsertType, RowType>(
   const supabase = useSupabaseClient<Database>()
   const { isPending: insertPending, setPendingState } = useHelpers()
 
-  const insertData = async (data: InsertType) => {
+  const insert = async (data: InsertType) => {
     return setPendingState(async () => {
       const parsedData = schema.parse(data)
       const { data: newInsert, error } = await supabase
@@ -22,7 +22,7 @@ const useGenericInsert = <InsertType, RowType>(
       return newInsert
     }, `add-${tableName}`)
   }
-  return { insertPending, insertData }
+  return { insertPending, insert }
 }
 
 export default useGenericInsert

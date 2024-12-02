@@ -6,7 +6,7 @@ import {
 import type { TeacherInsert, TeacherRow } from '~/types'
 
 const useTeacher = () => {
-  const { insertPending, insertData: insertTeacher } = useGenericInsert<
+  const { insertPending, insert: insertTeacher } = useGenericInsert<
     TeacherInsert,
     TeacherRow
   >('teachers', teacherInsertSchema)
