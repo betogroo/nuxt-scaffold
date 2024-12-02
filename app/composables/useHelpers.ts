@@ -111,7 +111,8 @@ const useHelpers = () => {
   ): Promise<T> => {
     const { itemId = null, delay = 0 } = options
     isPending.value = { action, itemId, isLoading: true }
-    await simulateDelayInDevelopment(delay, `Delay de ${delay}ms para testes`)
+    if (delay > 0)
+      await simulateDelayInDevelopment(delay, `Delay de ${delay}ms para testes`)
     try {
       return await fn() // Executa a função passada como argumento (a operação principal)
     } catch (err) {
