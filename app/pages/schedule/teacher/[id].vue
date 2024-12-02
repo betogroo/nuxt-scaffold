@@ -1,11 +1,15 @@
 <script setup lang="ts">
-  import type { TableColumn } from '~/types'
+  import type { TableColumn, TimeSlotWithTeacherAvailabilityRow } from '~/types'
 
   const { params } = useRoute()
   const { validateWithSchema, schemaError } = useSchema()
   const { getById, getDataPending, teacher } = useTeacher()
-  const { fetchTimeSlotsWithTeacherAvailability, teacherAvailability } =
-    useTeacherAvailability()
+  const {
+    fetchTimeSlotsWithTeacherAvailability,
+    teacherAvailability,
+    upsertPending,
+    toggleAvailability,
+  } = useTeacherAvailability()
   const { handleError } = useHelpers()
   const parsedId = validateWithSchema(params.id!, uuidSchema)
   onMounted(async () => {
@@ -17,6 +21,11 @@
       console.log(err)
     }
   })
+  const handleAvailability = async (
+    item: TimeSlotWithTeacherAvailabilityRow,
+  ) => {
+    await toggleAvailability(item, parsedId)
+  }
 
   const columns: TableColumn[] = [
     {
@@ -39,9 +48,11 @@
       />
       <table-time-slot
         :columns="columns"
+        :row-pending="upsertPending"
         :rows="teacherAvailability"
         :teacher-id="parsedId"
         title="Disponibilidades"
+        @handle-availability="handleAvailability"
       />
     </template>
     <div v-else>

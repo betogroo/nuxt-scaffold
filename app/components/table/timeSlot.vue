@@ -1,22 +1,20 @@
 <script setup lang="ts">
-  //<script setup lang="ts">
-  import type { TableColumn, TimeSlotWithTeacherAvailabilityRow } from '~/types'
-  const props = defineProps<Props>()
-
-  const { toggleAvailability } = useTeacherAvailability()
+  import type {
+    PendingState,
+    TableColumn,
+    TimeSlotWithTeacherAvailabilityRow,
+  } from '~/types'
+  defineProps<Props>()
+  const $emit = defineEmits<{
+    handleAvailability: [item: TimeSlotWithTeacherAvailabilityRow]
+  }>()
 
   interface Props {
     title: string
     columns: TableColumn[]
     rows: TimeSlotWithTeacherAvailabilityRow[]
     teacherId: string
-    //rows: Array<Record<string, unknown>>
-  }
-
-  const handleAvailability = async (
-    item: TimeSlotWithTeacherAvailabilityRow,
-  ) => {
-    await toggleAvailability(item, props.teacherId)
+    rowPending: PendingState
   }
 </script>
 
@@ -43,8 +41,13 @@
               ? iconOutline.checkCircle
               : iconOutline.close
           "
+          :loading="
+            rowPending.isLoading &&
+            rowPending.action === 'teacher_availability' &&
+            rowPending.itemId === row.id
+          "
           variant="link"
-          @click="handleAvailability(row)"
+          @click="$emit('handleAvailability', row)"
         />
       </template>
     </UTable>

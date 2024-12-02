@@ -12,7 +12,6 @@ import {
 
 const useTeacherAvailability = () => {
   const supabase = useSupabaseClient<Database>()
-  // const teacherAvailability = ref<TimeSlotWithTeacherAvailabilityRow[]>([])
   const { timeSlots, fetchTimeSlots } = useTimeSlots()
   const { validateWithSchema } = useSchema()
 
@@ -60,7 +59,7 @@ const useTeacherAvailability = () => {
     TeacherAvailabilityRow
   >('teacher_availability', teacherAvailabilityInsertSchema)
 
-  const { upsertData: teacherAvailabilityUpsert } =
+  const { upsertData: teacherAvailabilityUpsert, upsertPending } =
     useGenericUpsert<TeacherAvailabilityInsert>(
       'teacher_availability',
       ['teacher_id', 'day_of_week', 'time_slot_id'],
@@ -81,7 +80,8 @@ const useTeacherAvailability = () => {
         time_slot_id,
         is_available: !is_available,
       }
-      await teacherAvailabilityUpsert(newData)
+      await teacherAvailabilityUpsert(newData, newData.time_slot_id)
+      fetchTimeSlotsWithTeacherAvailability(teacher_id, 1)
     } catch (error) {
       console.log(error)
     }
@@ -129,6 +129,7 @@ const useTeacherAvailability = () => {
     insertTeacherAvailability,
     toggleAvailability,
     teacherAvailabilityUpsert,
+    upsertPending,
   }
 }
 
