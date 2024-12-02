@@ -59,7 +59,7 @@ const useTeacherAvailability = () => {
     TeacherAvailabilityRow
   >('teacher_availability', teacherAvailabilityInsertSchema)
 
-  const { upsertData: teacherAvailabilityUpsert, upsertPending } =
+  const { upsert: teacherAvailabilityUpsert, upsertPending } =
     useGenericUpsert<TeacherAvailabilityInsert>(
       'teacher_availability',
       ['teacher_id', 'day_of_week', 'time_slot_id'],

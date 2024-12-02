@@ -10,7 +10,7 @@ const useGenericUpsert = <InsertType>(
   const { isPending: upsertPending, setPendingState } = useHelpers()
   const { validateWithSchema } = useSchema()
 
-  const upsertData = async (
+  const upsert = async (
     data: InsertType,
     pendingRow?: string | number | undefined,
   ) => {
@@ -27,7 +27,7 @@ const useGenericUpsert = <InsertType>(
     )
   }
 
-  return { upsertData, upsertPending }
+  return { upsert, upsertPending }
 }
 
 export default useGenericUpsert
