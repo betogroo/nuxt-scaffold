@@ -1,22 +1,31 @@
 <script setup lang="ts">
-  import type { TableColumn } from '~/types'
+  import type { TableColumn, TimeSlotWithTeacherAvailabilityRow } from '~/types'
 
   const { params } = useRoute()
   const { validateWithSchema, schemaError } = useSchema()
   const { getById, getDataPending, teacher } = useTeacher()
-  const { getTimeSlotsWithTeacherAvailability, teacherAvailability } =
-    useTeacherAvailability()
+  const {
+    fetchTimeSlotsWithTeacherAvailability,
+    teacherAvailability,
+    upsertPending,
+    toggleAvailability,
+  } = useTeacherAvailability()
   const { handleError } = useHelpers()
   const parsedId = validateWithSchema(params.id!, uuidSchema)
   onMounted(async () => {
     try {
       await getById(parsedId)
-      await getTimeSlotsWithTeacherAvailability(parsedId, 1)
+      await fetchTimeSlotsWithTeacherAvailability(parsedId, 1)
     } catch (error) {
       const err = handleError(error)
       console.log(err)
     }
   })
+  const handleAvailability = async (
+    item: TimeSlotWithTeacherAvailabilityRow,
+  ) => {
+    await toggleAvailability(item, parsedId)
+  }
 
   const columns: TableColumn[] = [
     {
@@ -24,7 +33,7 @@
       label: 'Horário',
     },
     {
-      key: 'availability_id',
+      key: 'availability',
       label: 'Disponibilidade',
     },
   ]
@@ -39,9 +48,11 @@
       />
       <table-time-slot
         :columns="columns"
+        :row-pending="upsertPending"
         :rows="teacherAvailability"
         :teacher-id="parsedId"
         title="Disponibilidades"
+        @handle-availability="handleAvailability"
       />
     </template>
     <div v-else>
