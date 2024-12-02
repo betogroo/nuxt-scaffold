@@ -6,14 +6,14 @@ import {
 import type { TeacherInsert, TeacherRow } from '~/types'
 
 const useTeacher = () => {
-  const { insertPending, insertData: insertTeacher } = useGenericInsert<
+  const { insertPending, insert: insertTeacher } = useGenericInsert<
     TeacherInsert,
     TeacherRow
   >('teachers', teacherInsertSchema)
 
   const {
     fetchPending,
-    fetch,
+    fetch: fetchTeacher,
     data: teachers,
   } = useGenericFetch<TeacherRow>('teachers', teacherRowsSchema)
 
@@ -27,7 +27,7 @@ const useTeacher = () => {
     insertPending,
     insertTeacher,
     fetchPending,
-    fetch,
+    fetchTeacher,
     teachers,
     getById,
     teacher,
