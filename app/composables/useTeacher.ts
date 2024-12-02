@@ -13,7 +13,7 @@ const useTeacher = () => {
 
   const {
     fetchPending,
-    fetch,
+    fetch: fetchTeacher,
     data: teachers,
   } = useGenericFetch<TeacherRow>('teachers', teacherRowsSchema)
 
@@ -27,7 +27,7 @@ const useTeacher = () => {
     insertPending,
     insertTeacher,
     fetchPending,
-    fetch,
+    fetchTeacher,
     teachers,
     getById,
     teacher,
