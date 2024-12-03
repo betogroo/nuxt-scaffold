@@ -101,23 +101,58 @@ export type Database = {
           },
         ]
       }
+      profile_types: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
+          name: string | null
+          profile_type_id: number | null
           updated_at: string | null
           username: string | null
         }
         Insert: {
           id: string
+          name?: string | null
+          profile_type_id?: number | null
           updated_at?: string | null
           username?: string | null
         }
         Update: {
           id?: string
+          name?: string | null
+          profile_type_id?: number | null
           updated_at?: string | null
           username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_profile_type_id_fkey"
+            columns: ["profile_type_id"]
+            isOneToOne: false
+            referencedRelation: "profile_types"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       schedules: {
         Row: {
@@ -238,19 +273,24 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          name: string
         }
         Insert: {
           created_at?: string
           id?: string
-          name: string
         }
         Update: {
           created_at?: string
           id?: string
-          name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "teachers_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       time_slots: {
         Row: {
