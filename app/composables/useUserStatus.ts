@@ -10,7 +10,7 @@ const useUserStatus = (url: string | null = null) => {
       (user) => {
         if (user) {
           useCookie(`${cookieName}-redirect-path`).value = null
-          return navigateTo(redirectPath || '/')
+          return navigateTo(redirectPath || '/profile')
         }
       },
       { immediate: true },
