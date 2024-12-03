@@ -150,7 +150,6 @@ export const profileTypesRelationshipsSchema = z.tuple([]);
 export const profilesRowSchema = z.object({
   id: z.string(),
   name: z.string().nullable(),
-  profile_type_id: z.number().nullable(),
   updated_at: z.string().nullable(),
   username: z.string().nullable(),
 });
@@ -158,7 +157,6 @@ export const profilesRowSchema = z.object({
 export const profilesInsertSchema = z.object({
   id: z.string(),
   name: z.string().optional().nullable(),
-  profile_type_id: z.number().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   username: z.string().optional().nullable(),
 });
@@ -166,20 +164,11 @@ export const profilesInsertSchema = z.object({
 export const profilesUpdateSchema = z.object({
   id: z.string().optional(),
   name: z.string().optional().nullable(),
-  profile_type_id: z.number().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   username: z.string().optional().nullable(),
 });
 
-export const profilesRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("profiles_profile_type_id_fkey"),
-    columns: z.tuple([z.literal("profile_type_id")]),
-    isOneToOne: z.literal(false),
-    referencedRelation: z.literal("profile_types"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const profilesRelationshipsSchema = z.tuple([]);
 
 export const schedulesRowSchema = z.object({
   class_id: z.string().nullable(),
@@ -305,27 +294,22 @@ export const teacherAvailabilityRelationshipsSchema = z.tuple([
 export const teachersRowSchema = z.object({
   created_at: z.string(),
   id: z.string(),
+  name: z.string().nullable(),
 });
 
 export const teachersInsertSchema = z.object({
   created_at: z.string().optional(),
   id: z.string().optional(),
+  name: z.string().optional().nullable(),
 });
 
 export const teachersUpdateSchema = z.object({
   created_at: z.string().optional(),
   id: z.string().optional(),
+  name: z.string().optional().nullable(),
 });
 
-export const teachersRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("teachers_id_fkey"),
-    columns: z.tuple([z.literal("id")]),
-    isOneToOne: z.literal(true),
-    referencedRelation: z.literal("profiles"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const teachersRelationshipsSchema = z.tuple([]);
 
 export const timeSlotsRowSchema = z.object({
   created_at: z.string(),
