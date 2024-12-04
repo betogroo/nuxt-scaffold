@@ -2,7 +2,7 @@ import type { ZodError, ZodSchema } from 'zod'
 
 const schemaError = ref<ZodError | false>()
 const useSchema = () => {
-  const validateWithSchema = (data: unknown, schema: ZodSchema) => {
+  const validateWithSchema = <T>(data: T, schema: ZodSchema) => {
     try {
       schemaError.value = false
       return schema.parse(data)
