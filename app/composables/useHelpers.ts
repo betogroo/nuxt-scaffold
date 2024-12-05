@@ -6,6 +6,7 @@ import type {
   PendingState,
   PendingOptions,
   SelectOption,
+  PostgrestError,
 } from '~/types'
 
 const useHelpers = () => {
@@ -33,7 +34,22 @@ const useHelpers = () => {
     return Array.from({ length: fakeUsersAmount }, () => genFakeUser())
   }
 
+  const isPostgrestError = (error: unknown): error is PostgrestError => {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'message' in error &&
+      'details' in error &&
+      'hint' in error
+    )
+  }
   const handleError = (err: unknown): CustomError => {
+    // Mensagens padrão
+    const validationErrorMessage = 'Erro de validação nos dados fornecidos.'
+    const databaseErrorMessage = 'Erro de banco de dados.'
+    const unexpectedErrorMessage = 'Erro inesperado.'
+    const unknownErrorMessage = 'Um erro desconhecido ocorreu.'
+
     if (err instanceof ZodError) {
       // Erros de validação do Zod
       const messages = err.errors.map(
@@ -41,27 +57,28 @@ const useHelpers = () => {
       )
       return {
         type: 'validation',
-        message: 'Erro de validação nos dados fornecidos.',
+        message: validationErrorMessage,
         details: messages,
       }
-      /*  } else if (err instanceof PostgrestError) {
+    } else if (isPostgrestError(err)) {
       // Erros do Supabase
       return {
         type: 'database',
-        message: `Erro de banco de dados: ${err.message}`,
-        details: [err.hint || ''],
-      } */
+        message: `${databaseErrorMessage} ${err.message}`,
+        details: [err.hint || 'Sem detalhes adicionais.'],
+      }
     } else if (err instanceof Error) {
       // Outros erros que são instâncias de Error
       return {
         type: 'unknown',
-        message: `Erro inesperado: ${err.message}`,
+        message: `${unexpectedErrorMessage} ${err.message}`,
       }
     } else {
       // Erros não identificados
       return {
         type: 'unknown',
-        message: 'Um erro desconhecido ocorreu.',
+        message: unknownErrorMessage,
+        details: [JSON.stringify(err, null, 2) || 'Sem detalhes adicionais.'],
       }
     }
   }

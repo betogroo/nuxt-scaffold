@@ -101,19 +101,43 @@ export type Database = {
           },
         ]
       }
+      profile_types: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
+          name: string | null
           updated_at: string | null
           username: string | null
         }
         Insert: {
           id: string
+          name?: string | null
           updated_at?: string | null
           username?: string | null
         }
         Update: {
           id?: string
+          name?: string | null
           updated_at?: string | null
           username?: string | null
         }
@@ -238,17 +262,17 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          name: string
+          name: string | null
         }
         Insert: {
           created_at?: string
           id?: string
-          name: string
+          name?: string | null
         }
         Update: {
           created_at?: string
           id?: string
-          name?: string
+          name?: string | null
         }
         Relationships: []
       }
