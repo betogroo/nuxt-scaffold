@@ -5,6 +5,10 @@
   const error = ref('')
   const editMode = ref(false)
 
+  const toggleEditMode = () => {
+    editMode.value = !editMode.value
+  }
+
   try {
     await getProfile()
   } catch (err) {
@@ -17,37 +21,40 @@
   <div v-if="!profile || !user">
     <ErrorDataInvalid :message="error" />
   </div>
-  <div
+  <UContainer
     v-else
-    class="container mx-auto p-10"
+    class="container mx-auto p-10 w-80 justify-center"
   >
+    <div class="text-center">
+      <UAvatar
+        alt="Avatar"
+        size="3xl"
+        src="https://avatars.githubusercontent.com/u/739984?v=4"
+        :ui="{
+          size: {
+            '3xl': 'h-64 w-64 text-3xl',
+          },
+        }"
+      />
+    </div>
     <div v-if="!editMode">
-      <div class="text-center">
-        <UAvatar
-          alt="Avatar"
-          size="3xl"
-          src="https://avatars.githubusercontent.com/u/739984?v=4"
-          :ui="{
-            size: {
-              '3xl': 'h-44 w-44 text-3xl',
-            },
-          }"
-        />
-      </div>
       <div class="text-center text-2xl">
         {{ profile.name || 'Inserir Nome' }}
       </div>
+      <div class="text-center font-light">{{ profile.username }}</div>
       <div class="text-center font-light">{{ profile.email }}</div>
+      <div class="text-center">
+        <UButton @click="toggleEditMode">Editar Perfil</UButton>
+      </div>
     </div>
     <div
       v-else
       class="text-center"
     >
-      Fomrmulario
+      <FormProfile
+        :initial-values="profile"
+        @on-cancel="toggleEditMode"
+      />
     </div>
-
-    <div class="text-center">
-      <UButton @click="editMode = !editMode">Editar Perfil</UButton>
-    </div>
-  </div>
+  </UContainer>
 </template>
