@@ -1,5 +1,5 @@
 import { profileRowSchema } from '~/schemas'
-import type { Profile } from '~/types'
+import type { Profile, ProfileUpdate } from '~/types'
 const { validateWithSchema } = useSchema()
 
 const useProfile = () => {
@@ -23,7 +23,11 @@ const useProfile = () => {
     }
   }
 
-  return { profile, getProfile }
+  const updateProfile = async (data: ProfileUpdate) => {
+    console.log(data)
+  }
+
+  return { profile, getProfile, updateProfile }
 }
 
 export default useProfile

@@ -1,12 +1,18 @@
 <script setup lang="ts">
+  import type { ProfileUpdate } from '~/types'
+
   const { user } = useUserStatus()
   const { handleError } = useHelpers()
-  const { profile, getProfile } = useProfile()
+  const { profile, getProfile, updateProfile } = useProfile()
   const error = ref('')
-  const editMode = ref(false)
+  const editMode = ref(true)
 
   const toggleEditMode = () => {
     editMode.value = !editMode.value
+  }
+
+  const handleUpdate = async (data: ProfileUpdate) => {
+    await updateProfile(data)
   }
 
   try {
@@ -54,6 +60,7 @@
       <FormProfile
         :initial-values="profile"
         @on-cancel="toggleEditMode"
+        @on-submit="handleUpdate"
       />
     </div>
   </UContainer>

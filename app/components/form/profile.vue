@@ -14,22 +14,41 @@
     'on-submit': [values: ProfileUpdate]
     'on-cancel': []
   }>()
-  const { isPending } = toRefs(props)
 
-  const { values, handleSubmit, meta } = useForm<ProfileUpdate>({
+  const { isPending, initialValues } = toRefs(props)
+
+  const { values, handleSubmit, meta, isFieldDirty } = useForm<ProfileUpdate>({
     validationSchema: validateProfile,
-    initialValues: props.initialValues,
+    initialValues: initialValues.value,
   })
 
   const { value: name, errorMessage: nameError } =
     useField<ProfileUpdate['name']>('name')
-  const { value: username, errorMessage: usernameError } =
-    useField<ProfileUpdate['username']>('username')
   const { value: email, errorMessage: emailError } =
     useField<ProfileUpdate['email']>('email')
+  const { value: username, errorMessage: usernameError } =
+    useField<ProfileUpdate['username']>('username')
 
   const onSubmit = handleSubmit(async () => {
-    $emit('on-submit', values)
+    const dirtyFields: ProfileUpdate = {
+      id: values.id,
+    }
+    Object.entries(values).forEach(([key, value]) => {
+      if (key === 'id') return
+      //  ### opção 1 retorna o objeto onde os itens sujos são undefined
+      /* dirtyFields[key as keyof ProfileUpdate] = isFieldDirty(
+        key as keyof ProfileUpdate,
+      )
+        ? value ?? undefined
+        : undefined */
+
+      //  ### opção 2 retorna o objeto, eliminando os itens não sujos
+      if (isFieldDirty(key as keyof ProfileUpdate)) {
+        dirtyFields[key as keyof ProfileUpdate] = value ?? undefined
+      }
+    })
+
+    $emit('on-submit', dirtyFields)
   })
 </script>
 
@@ -61,14 +80,13 @@
 
       <div class="flex justify-start space-x-2 mt-2">
         <UButton
-          :disabled="!meta.valid"
+          :disabled="!meta.valid || !meta.dirty"
           :loading="isPending"
           type="submit"
           >Enviar</UButton
         >
         <UButton
           color="red"
-          :disabled="!meta.valid"
           :loading="isPending"
           variant="outline"
           @click="$emit('on-cancel')"
