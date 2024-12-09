@@ -4,16 +4,16 @@ import { z } from 'zod'
 export const profileRowSchema = z.object({
   id: uuidSchema,
   updated_at: z.string().nullable(),
-  name: z.string().optional(),
-  username: z.string().optional(),
+  name: nameSchema.optional(),
+  username: usernameSchema.optional(),
   email: z.string().email().optional(),
 })
 
 export const profileUpdateSchema = z.object({
   id: uuidSchema.optional(),
-  name: z.string().optional(),
+  name: nameSchema.optional(),
   updated_at: z.string().optional().nullable(),
-  username: z.string().optional(),
+  username: usernameSchema.optional(),
   email: z.string().email().optional(),
 })
 
