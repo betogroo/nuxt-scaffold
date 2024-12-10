@@ -3,7 +3,13 @@
 
   const { user } = useUserStatus()
   const { handleError } = useHelpers()
-  const { profile, getProfile, updateProfile } = useProfile()
+  const {
+    profile,
+    getProfile,
+    updateProfile,
+    updateEmailPending,
+    updateProfilePending,
+  } = useProfile()
   const error = ref('')
   const editMode = ref(true)
 
@@ -59,6 +65,9 @@
     >
       <FormProfile
         :initial-values="profile"
+        :is-pending="
+          updateEmailPending.isLoading || updateProfilePending.isLoading
+        "
         @on-cancel="toggleEditMode"
         @on-submit="handleUpdate"
       />
