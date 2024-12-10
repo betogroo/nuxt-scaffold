@@ -87,7 +87,6 @@
         >
         <UButton
           color="red"
-          :loading="isPending"
           variant="outline"
           @click="$emit('on-cancel')"
           >Cancelar</UButton
